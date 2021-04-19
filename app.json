@@ -1,0 +1,12 @@
+{
+  "name": "Padel",
+  "displayName": "Padel",
+  "expo": {
+    "name": "Padel",
+    "slug": "Padel",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
