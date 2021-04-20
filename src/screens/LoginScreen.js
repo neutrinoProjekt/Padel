@@ -1,30 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View, Dimensions} from 'react-native';
-import {Button} from 'react-native-elements';
-import {StatusBar} from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TextInput, View, Dimensions } from 'react-native';
+import { Button } from 'react-native-elements';
+import { StatusBar } from 'expo-status-bar';
 
-const {width: WIDTH} = Dimensions.get('window');
+const { width: WIDTH } = Dimensions.get('window');
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    //to be replaced with better firebase version
+    //this is spaghetti
     const logIn = () => {
         if (email == '') {
             setErrorMessage('Enter username or e-mail');
         } else if (password == '') {
             setErrorMessage('Enter password');
-        }
-
-        setEmail('this should trigger some login event');
-        const loginEventReturn = 2;
-        switch (loginEventReturn) {
-        case 1:
-            setErrorMessage('No matching user name');
-        case 2:
-            setErrorMessage('Wrong password!');
-        case 3:
-            setEmail('this should trigger sucessfull login');
+        } else {
+            setEmail('this should trigger some login event');
+            const loginEventReturn = 2;
+            switch (loginEventReturn) {
+            case 1:
+                setErrorMessage('No matching user name');
+            case 2:
+                setErrorMessage('Wrong password!');
+            case 3:
+                setEmail('this should trigger sucessfull login');
+            }
         }
     };
 
@@ -34,36 +36,34 @@ const LoginScreen = () => {
             <Text style={styles.logo}>
                 PaddlePal
             </Text>
-            <View>
-                <TextInput
-                    style={styles.input}
-                    placeholder={'Username or e-mail'}
-                    placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
-                    underlineColorAndroid='transparet'
-                    onChangeText={(text) => setEmail(text)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder={'Password'}
-                    placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
-                    underlineColorAndroid='transparet'
-                    onChangeText={(text) => setPassword(text)}
-                />
-                <StatusBar style="dark"/>
-                <Button titleStyle={styles.button}
-                    containerStyle={styles.button}
-                    type="clear"
-                    //onPress={logIn}
-                    title="Log in"/>            
+            <TextInput
+                style={styles.input}
+                placeholder={'Username or e-mail'}
+                placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
+                underlineColorAndroid='transparet'
+                onChangeText={(text) => setEmail(text)}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder={'Password'}
+                placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
+                underlineColorAndroid='transparet'
+                onChangeText={(text) => setPassword(text)}
+            />
+            <StatusBar style="dark" />
+            <Button titleStyle={styles.button}
+                containerStyle={styles.button}
+                type="clear"
+                onPress={logIn}
+                title="Log in" />
 
-                <Button titleStyle={{color: '#00CEB4', fontWeight: 'bold'}}
-                    type="clear"
-                    onPress={setPassword}
-                    title="New Password"/>
-                <Text>
-                    {errorMessage}
-                </Text>
-            </View>
+            <Button titleStyle={{ color: '#00CEB4', fontWeight: 'bold' }}
+                type="clear"
+                onPress={setPassword}
+                title="New Password" />
+            <Text>
+                {errorMessage}
+            </Text>
         </View>
     );
 };
@@ -74,7 +74,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#ff   ffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
