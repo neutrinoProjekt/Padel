@@ -1,29 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {LoginScreen} from './src/screens/LoginScreen.js';
+import {StyleSheet, Text, View} from 'react-native';
+// import {NavigatorContainer} from '@react-navigation/stack';
+// import {createStackNavigator} from '@react-navigation/stack';
+import LoginScreen from './src/screens/LoginScreen';
 
+// const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <LoginScreen />
-    </View>
-    
-  );
+    return (
+        <LoginScreen />
+    );
 }
-
-/*
-export default function App(){
-  return LoginScreen();
-}
-*/
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
