@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View, Dimensions} from 'react-native';
+import {Button} from 'react-native-elements';
 
 const {width: WIDTH} = Dimensions.get('window');
 const LoginScreen = () => {
@@ -26,6 +27,11 @@ const LoginScreen = () => {
                     underlineColorAndroid='transparet'
                 />
             </View>
+            <Button
+                containerStyle={styles.button}
+                type="outline" onPress={logIn}
+                title="Log in"
+            />
         </View>
     );
 };
@@ -42,7 +48,8 @@ const styles = StyleSheet.create({
     logo: {
         fontWeight: 'bold',
         fontSize: 50,
-        color: '#fb5b5a',
+        color: '#696969',
+        fontFamily: 'Cochin',
         marginBottom: 40,
     },
     input: {
@@ -51,8 +58,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 16,
         paddingLeft: 45,
+        margin: '2%',
         backgroundColor: 'rgba(0,0,0,0.35)',
         color: 'rgba(255,255,255,0.7)',
         marginHorizontal: 25,
+    },
+    button: {
+        height: 40,
+        width: 300,
     },
 });
