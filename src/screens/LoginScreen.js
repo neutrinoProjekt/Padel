@@ -6,10 +6,27 @@ const {width: WIDTH} = Dimensions.get('window');
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const logIn = () => {
+        if (email == '') {
+            setErrorMessage('Enter username or e-mail');
+        } else if (password == '') {
+            setErrorMessage('Enter password');
+        }
+
         setEmail('this should trigger some login event');
+        const loginEventReturn = 2;
+        switch (loginEventReturn) {
+        case 1:
+            setErrorMessage('No matching user name');
+        case 2:
+            setErrorMessage('Wrong password!');
+        case 3:
+            setEmail('this should trigger sucessfull login');
+        }
     };
+
 
     return (
         <View style={styles.container}>
@@ -24,8 +41,6 @@ const LoginScreen = () => {
                     underlineColorAndroid='transparet'
                     onChangeText={(text) => setEmail(text)}
                 />
-            </View>
-            <View>
                 <TextInput
                     style={styles.input}
                     placeholder={'Password'}
@@ -33,16 +48,20 @@ const LoginScreen = () => {
                     underlineColorAndroid='transparet'
                     onChangeText={(text) => setPassword(text)}
                 />
+                <Button
+                    containerStyle={styles.button}
+                    type="outline"
+                    //onPress={logIn()}
+                    title="Log in"
+                />
+                <Text>
+                    {errorMessage}
+                </Text>
             </View>
-            <Button
-                containerStyle={styles.button}
-                type="outline"
-                onPress={logIn}
-                title="Log in"
-            />
         </View>
     );
 };
+
 
 export default LoginScreen;
 
