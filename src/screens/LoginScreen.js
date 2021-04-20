@@ -30,7 +30,7 @@ const LoginScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titel}>
+            <Text style={styles.logo}>
                 PaddlePal
             </Text>
             <View>
@@ -54,6 +54,9 @@ const LoginScreen = () => {
                     //onPress={logIn()}
                     title="Log in"
                 />
+                <Text style={styles.text}>
+                    Forgot your password?
+                </Text>
                 <Text>
                     {errorMessage}
                 </Text>
@@ -68,30 +71,42 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#003f5c',
+        backgroundColor: '#ffffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    titel: {
+    logo: {
+        height: 100,
         fontWeight: 'bold',
         fontSize: 50,
-        color: '#696969',
+        color: '#707070',
         fontFamily: 'Cochin',
         marginBottom: 40,
     },
     input: {
-        width: WIDTH - 105,
+        maxWidth: 500,
+        minWidth: 500,
         height: 45,
         borderRadius: 10,
         fontSize: 16,
         paddingLeft: 45,
-        margin: '2%',
-        backgroundColor: 'rgba(0,0,0,0.35)',
-        color: 'rgba(255,255,255,0.7)',
+        marginBottom: '2%',
+        backgroundColor: '#f7f7f7',
+        color: '#f7f7f7',
         marginHorizontal: 25,
     },
     button: {
         height: 40,
         width: 300,
+        backgroundColor: '#00ceb4',
+        color: '#ffffff',
+    },
+    text: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: '#00ceb4',
+        minwidth: 200,
+        textAlign: 'center',
+        height: 150,
     },
 });
