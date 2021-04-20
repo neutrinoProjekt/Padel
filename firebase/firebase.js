@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import * as FirebaseConfig from "./firebaseConfig";
+import firebase from 'firebase';
+import {FirebaseConfig} from './firebaseConfig';
 
 const config = {
     apiKey: FirebaseConfig.apiKey,
@@ -9,8 +9,8 @@ const config = {
     storageBucket: FirebaseConfig.storageBucket,
     messagingSenderId: FirebaseConfig.messagingSenderId,
     appId: FirebaseConfig.appId,
-    measurementId: FirebaseConfig.measurementId
-  };
+    measurementId: FirebaseConfig.measurementId,
+};
 
 
 const Firebase = firebase.initializeApp(config);
