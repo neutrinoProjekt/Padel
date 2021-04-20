@@ -6,7 +6,7 @@ const {width: WIDTH} = Dimensions.get('window');
 const LoginScreen = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.logo}>
+            <Text style={styles.titel}>
                 PaddlePal
             </Text>
 
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    logo: {
+    titel: {
         fontWeight: 'bold',
         fontSize: 50,
         color: '#696969',
