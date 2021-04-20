@@ -4,32 +4,40 @@ import {Button} from 'react-native-elements';
 
 const {width: WIDTH} = Dimensions.get('window');
 const LoginScreen = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const logIn = () => {
+        setEmail('this should trigger some login event');
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.titel}>
                 PaddlePal
             </Text>
-
             <View>
                 <TextInput
                     style={styles.input}
-                    placeholder={'Username or e-mail...'}
+                    placeholder={'Username or e-mail'}
                     placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                     underlineColorAndroid='transparet'
+                    onChangeText={(text) => setEmail(text)}
                 />
             </View>
-
             <View>
                 <TextInput
                     style={styles.input}
-                    placeholder={'Password...'}
+                    placeholder={'Password'}
                     placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
                     underlineColorAndroid='transparet'
+                    onChangeText={(text) => setPassword(text)}
                 />
             </View>
             <Button
                 containerStyle={styles.button}
-                type="outline" onPress={logIn}
+                type="outline"
+                onPress={logIn}
                 title="Log in"
             />
         </View>
