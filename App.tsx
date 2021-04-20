@@ -4,6 +4,8 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import StartScreen from "./src/screens/StartScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -12,6 +14,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Home" component={StartScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
