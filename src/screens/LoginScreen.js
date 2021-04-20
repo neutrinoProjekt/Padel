@@ -57,13 +57,14 @@ const LoginScreen = () => {
                 onPress={logIn}
                 title="Log in" />
 
+            <Text>
+                {errorMessage}
+            </Text>
+
             <Button titleStyle={{ color: '#00CEB4', fontWeight: 'bold' }}
                 type="clear"
                 onPress={setPassword}
                 title="New Password" />
-            <Text>
-                {errorMessage}
-            </Text>
         </View>
     );
 };
@@ -74,7 +75,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ff   ffff',
+        backgroundColor: '#ffffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
