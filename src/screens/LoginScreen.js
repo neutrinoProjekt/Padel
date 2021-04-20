@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View, Dimensions} from 'react-native';
 import {Button} from 'react-native-elements';
+import {StatusBar} from 'expo-status-bar';
 
 const {width: WIDTH} = Dimensions.get('window');
 const LoginScreen = () => {
@@ -48,15 +49,17 @@ const LoginScreen = () => {
                     underlineColorAndroid='transparet'
                     onChangeText={(text) => setPassword(text)}
                 />
-                <Button
+                <StatusBar style="dark"/>
+                <Button titleStyle={styles.button}
                     containerStyle={styles.button}
-                    type="outline"
-                    //onPress={logIn()}
-                    title="Log in"
-                />
-                <Text style={styles.text}>
-                    Forgot your password?
-                </Text>
+                    type="clear"
+                    //onPress={logIn}
+                    title="Log in"/>            
+
+                <Button titleStyle={{color: '#00CEB4', fontWeight: 'bold'}}
+                    type="clear"
+                    onPress={setPassword}
+                    title="New Password"/>
                 <Text>
                     {errorMessage}
                 </Text>
@@ -96,10 +99,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 25,
     },
     button: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        backgroundColor: '#00CEB4',
         height: 40,
         width: 300,
-        backgroundColor: '#00ceb4',
-        color: '#ffffff',
     },
     text: {
         fontWeight: 'bold',
