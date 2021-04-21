@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Button} from 'react-native-elements';
-
+import {styles} from '../styling/Styles';
 const FullNameScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -17,7 +17,7 @@ const FullNameScreen = ({navigation}) => {
             <KeyboardAvoidingView behavior="padding">
                 <Text h3 style={styles.title}>Full Name</Text>
                 <Text style={styles.text}>
-                    Please register your full name below
+                    Please enter your full name below
                 </Text>
                 <View>
                     <TextInput placeholder="Firstname"
@@ -51,40 +51,3 @@ const FullNameScreen = ({navigation}) => {
 };
 
 export default FullNameScreen;
-
-const styles = StyleSheet.create({
-    input: {
-        marginTop: 30,
-        textAlign: 'center',
-        height: 50,
-        borderColor: '#BFBFBF',
-        borderRadius: 10,
-        backgroundColor: '#F7F7F7',
-        fontSize: 20,
-        paddingLeft: 15,
-        width: 305,
-    },
-    title: {
-        fontWeight: 'bold',
-        fontSize: 40,
-        color: '#696969',
-        marginTop: 60,
-        alignSelf: 'center',
-    },
-    text: {
-        fontWeight: 'bold',
-        fontSize: 14,
-        color: '#696969',
-        marginTop: 30,
-        alignSelf: 'center',
-        textAlign: 'center',
-    },
-    button: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-        backgroundColor: '#00CEB4',
-        height: 40,
-        width: 305,
-        borderRadius: 10,
-    },
-});
