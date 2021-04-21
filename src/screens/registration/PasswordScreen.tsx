@@ -12,6 +12,42 @@ const PasswordScreen = ({navigation}) => {
 
     };
 
+    // checks whether password meets conditions:
+    // length > 7, atleast one uppercase, atleast one lowercase and atleast one digit
+    const checkPassword = (ch) => {
+        if (pass1.length < 8) {
+            return 'Password is too short';
+        };
+        if (pass1 !== pass2) {
+            return 'Passwords do not match';
+        }
+        let upperCase = false;
+        let lowerCase = false;
+        let digit = false;
+
+        pass1.split('').forEach(((ch) => {
+            if (/^\d$/.test(ch)) {
+                digit=true;
+            } else if (ch === ch.toUpperCase()) {
+                upperCase = true;
+            } else {
+                lowerCase = true;
+            }
+        }));
+
+        let msg = '';
+        if (!upperCase) {
+            msg = 'Password needs an uppercase';
+        } else if (!lowerCase) {
+            msg = 'Password needs a lowercase';
+        } else if (!digit) {
+            msg = 'Password needs a digit';
+        } else {
+            msg = 'Valid password';
+        }
+        return msg;
+    };
+
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
@@ -47,7 +83,7 @@ const PasswordScreen = ({navigation}) => {
                     titleStyle={styles.button}
                     containerStyle={styles.button}
                     type="clear"
-                    onPress={next}
+                    onPress={checkPassword}
                     title="Next"/>
 
             </View>
