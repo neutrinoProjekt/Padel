@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
+import PropTypes from 'prop-types';
 import {auth} from '../modules/firebase/firebase';
 
 const AuthContext = React.createContext();
@@ -36,7 +37,7 @@ export function AuthProvider({children}) {
         currentUser,
         login,
         signup,
-        logout
+        logout,
     };
 
     return (
@@ -45,3 +46,7 @@ export function AuthProvider({children}) {
         </AuthContext.Provider>
     );
 }
+
+AuthProvider.propTypes = {
+    children: PropTypes.node,
+};
