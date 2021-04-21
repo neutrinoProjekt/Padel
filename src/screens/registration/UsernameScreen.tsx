@@ -7,7 +7,7 @@ const UsernameScreen = ({navigation}) => {
     const [lastName, setLastName] = useState('');
 
     const next = () => {
-        navigation.navigate('Password')
+        navigation.navigate('Password');
     };
 
     return (

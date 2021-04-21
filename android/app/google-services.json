@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501518002657",
+    "project_id": "padel-polare",
+    "storage_bucket": "padel-polare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501518002657:android:35d85129a4faa765bb4aa0",
+        "android_client_info": {
+          "package_name": "com.padel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501518002657-pu3g0sp0s4mft4osq01hnoi23rs4677a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDohg8kogyHAqyUKXFwm1hhjqIuOPuDRvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501518002657-pu3g0sp0s4mft4osq01hnoi23rs4677a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
