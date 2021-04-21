@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import {ImageBackground, StyleSheet, Text, TextInput, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 //import {Button} from 'react-native-elements';
@@ -7,20 +7,30 @@ import {FlatList} from 'react-native-gesture-handler';
 
 // <Image style = {styles.nImage} source={{uri: 'https://cdn.discordapp.com/attachments/833975086561886210/834355702821683230/unknown.png'}}/>
 const Item = ({header, description, image, time}) => (
-    <View style={styles.nBox}>
-        <View style={{flexDirection: 'row'}}>
-            <Image
-                style={styles.nPicture}
-                source = {{uri: image}}/>
+    <TouchableHighlight onPress={notificationSelected}>
+        <View style={styles.nBox}>
+            <View style={{flexDirection: 'row'}}>
+                <Image
+                    style={styles.nPicture}
+                    source = {{uri: image}}/>
+                <View style={{justifyContent: 'center'}}>
+                    <Text style={styles.nHeader}>{header}</Text>
+                    <Text style={styles.nDiscription}>{description}</Text>
+                </View>
+            </View>
             <View style={{justifyContent: 'center'}}>
-                <Text style={styles.nHeader}>{header}</Text>
-                <Text style={styles.nDiscription}>{description}</Text>
+                <Text style={styles.nTime}>{time}</Text>
             </View>
         </View>
-        <Text style={styles.nTime}>{time}</Text>
-    </View>
+    </TouchableHighlight>
 
 );
+
+const notificationSelected = () => {
+    return (
+        alert('Pew Pew')
+    );
+};
 
 // temp data
 const NOTIFICATIONS = [
@@ -101,6 +111,8 @@ const styles = StyleSheet.create({
     },
     nDiscription: {
         color: '#707070',
+        height: 40,
+        overflow: 'hidden',
     },
     nTime: {
         color: '#afafaf',
