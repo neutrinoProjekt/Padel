@@ -1,19 +1,26 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import StartScreen from './screens/home/StartScreen';
+import EmailScreen from './screens/registration/EmailScreen';
+import PasswordScreen from './screens/registration/PasswordScreen';
+import FullNameScreen from './screens/registration/FullNameScreen';
+import UsernameScreen from './screens/registration/UsernameScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    return (
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
+                <Stack.Screen name="Home" component={StartScreen} />
+                <Stack.Screen name="Register" component={EmailScreen} />
+                <Stack.Screen name="Password" component={PasswordScreen} />
+                <Stack.Screen name="FullName" component={FullNameScreen} />
+                <Stack.Screen name="UsernameScreen" component={UsernameScreen}/>
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+};
