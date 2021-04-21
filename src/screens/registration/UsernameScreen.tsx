@@ -2,27 +2,36 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Button} from 'react-native-elements';
-const EmailScreen = ({navigation}) => {
-    const [email, setEmail] = useState('');
+const UsernameScreen = ({navigation}) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
     const next = () => {
-        navigation.navigate('FullName');
+        navigation.navigate('Password')
     };
 
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text h3 style={styles.title}>Email</Text>
+                <Text h3 style={styles.title}>Full Name</Text>
                 <Text style={styles.text}>
-                    Please register your email address below
+                    Please register your full name below
                 </Text>
                 <View>
-                    <TextInput placeholder="Email"
+                    <TextInput placeholder="Firstname"
                         autoFocus
-                        value={email}
+                        value={firstName}
                         style={styles.input}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => setFirstName(text)}
+                        textAlign = 'side'
+                    />
+                </View>
+                <View>
+                    <TextInput placeholder="Lastname"
+                        value={lastName}
+                        style={styles.input}
+                        onChangeText={(text) => setLastName(text)}
                         textAlign = 'side'
                     />
                 </View>
@@ -35,13 +44,12 @@ const EmailScreen = ({navigation}) => {
                     type="clear"
                     onPress={next}
                     title="Next"/>
-
             </View>
         </View>
     );
 };
 
-export default EmailScreen;
+export default UsernameScreen;
 
 const styles = StyleSheet.create({
     input: {
@@ -67,6 +75,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#696969',
         marginTop: 30,
+        alignSelf: 'center',
+        textAlign: 'center',
     },
     button: {
         color: '#ffffff',
