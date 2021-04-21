@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
-import { StatusBar } from 'expo-status-bar';
+// eslint-disable-next-line no-unused-vars
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button} from 'react-native-elements';
+import {StatusBar} from 'expo-status-bar';
 
-const { width: WIDTH } = Dimensions.get('window');
+
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    //to be replaced with better firebase version
-    //this is spaghetti
+    // to be replaced with better firebase version
+    // this is spaghetti
     const logIn = () => {
         if (email == '') {
             setErrorMessage('Enter username or e-mail');
@@ -61,7 +62,7 @@ const LoginScreen = () => {
                 {errorMessage}
             </Text>
 
-            <Button titleStyle={{ color: '#00CEB4', fontWeight: 'bold' }}
+            <Button titleStyle={{color: '#00CEB4', fontWeight: 'bold'}}
                 type="clear"
                 onPress={setPassword}
                 title="New Password" />
