@@ -4,7 +4,8 @@ import Notifications from './components/notifications.tsx';
 
 export default function App() {
     return (
-        <View style={styles.container}>
+        <View>
+            <Text style={styles.container}>paddel app</Text>
             <Notifications/>
         </View>
     );
@@ -13,9 +14,14 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffa',
+        //backgroundColor: '#ffa',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 50,
+        padding: 50,
+        textAlign: 'center',
+        fontFamily: 'cursive',
+        fontSize: 50,
+        borderBottomWidth: 2,
+        borderColor: '#00CEB4',
     },
 });

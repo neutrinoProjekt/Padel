@@ -7,18 +7,19 @@ import {FlatList} from 'react-native-gesture-handler';
 
 // <Image style = {styles.nImage} source={{uri: 'https://cdn.discordapp.com/attachments/833975086561886210/834355702821683230/unknown.png'}}/>
 const Item = ({header, description, image, time}) => (
-    <View
-        //style={styles.nBox}
-        style={styles.nBox}>
-        <Image
-            style={styles.nPicture}
-            source = {{uri: image}}/>
-        <View>
-            <Text style={styles.nHeader}>{header}</Text>
-            <Text style={styles.nDiscription}>{description}</Text>
+    <View style={styles.nBox}>
+        <View style={{flexDirection: 'row'}}>
+            <Image
+                style={styles.nPicture}
+                source = {{uri: image}}/>
+            <View style={{justifyContent: 'center'}}>
+                <Text style={styles.nHeader}>{header}</Text>
+                <Text style={styles.nDiscription}>{description}</Text>
+            </View>
         </View>
         <Text style={styles.nTime}>{time}</Text>
     </View>
+
 );
 
 // temp data
@@ -58,11 +59,14 @@ const Notifications = () => {
     );
 
     return (
-        <FlatList
-            data={NOTIFICATIONS}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-        />
+        <View>
+            <FlatList
+                data={NOTIFICATIONS}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+            />
+            <Text style={styles.nEnd}>No more notifications</Text>
+        </View>
     );
 };
 
@@ -71,10 +75,13 @@ export default Notifications;
 // TODO make standard styles
 const styles = StyleSheet.create({
     nBox: {
-        backgroundColor: '#f0f0f0',
-        margin: 8,
+        backgroundColor: '#f7f7f7',
+        padding: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        borderBottomWidth: 2,
+        borderColor: '#BFBFBF',
+        minWidth: 320,
     },
     text: {
         color: '#000',
@@ -83,8 +90,8 @@ const styles = StyleSheet.create({
         height: 150,
     },
     nHeader: {
-        fontWeight: 'bold',
         fontSize: 20,
+        color: '#707070',
     },
     nPicture: {
         height: 80,
@@ -93,10 +100,15 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     nDiscription: {
-        color: '#fa0f0f',
+        color: '#707070',
     },
     nTime: {
         color: '#afafaf',
         textAlign: 'left',
+    },
+    nEnd: {
+        color: '#707070',
+        textAlign: 'center',
+        margin: 50,
     },
 });
