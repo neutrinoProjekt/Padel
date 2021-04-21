@@ -14,24 +14,16 @@ const UsernameScreen = ({navigation}) => {
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text h3 style={styles.title}>Full Name</Text>
+                <Text h3 style={styles.title}>Username</Text>
                 <Text style={styles.text}>
-                    Please register your full name below
+                    Please register your username below
                 </Text>
                 <View>
-                    <TextInput placeholder="Firstname"
+                    <TextInput placeholder="Username"
                         autoFocus
                         value={firstName}
                         style={styles.input}
                         onChangeText={(text) => setFirstName(text)}
-                        textAlign = 'side'
-                    />
-                </View>
-                <View>
-                    <TextInput placeholder="Lastname"
-                        value={lastName}
-                        style={styles.input}
-                        onChangeText={(text) => setLastName(text)}
                         textAlign = 'side'
                     />
                 </View>

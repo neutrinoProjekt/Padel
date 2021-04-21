@@ -5,10 +5,10 @@ import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from
 import {Button} from 'react-native-elements';
 const PasswordScreen = ({navigation}) => {
     const [pass1, setPass1] = useState('');
-    const[pass2, setPass2] = useState('');
+    const [pass2, setPass2] = useState('');
 
     const next = () => {
-        
+
     };
 
     return (

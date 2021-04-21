@@ -2,12 +2,13 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Button} from 'react-native-elements';
+
 const FullNameScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
     const next = () => {
-        navigation.navigate('Password')
+        navigation.navigate('UsernameScreen');
     };
 
     return (
