@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
+import BackButton from '../../components/BackButton';
 
 const FullNameScreen = ({navigation, route}) => {
     const [firstName, setFirstName] = useState('');
@@ -12,7 +13,7 @@ const FullNameScreen = ({navigation, route}) => {
     const next = () => {
         if (firstName.length > 0 && lastName.length > 0) {
             setErrorMessage('');
-            route.params.setFullname(firstName + lastName);
+            route.params.setFullname(firstName + ' ' + lastName);
             navigation.navigate('Username');
             return;
         }
@@ -22,6 +23,14 @@ const FullNameScreen = ({navigation, route}) => {
             setErrorMessage('Please enter your lastname');
         }
     };
+
+    const back = () => {
+        navigation.navigate('Email');
+    }
+
+    const clearErr = () => {
+        setErrorMessage('');
+    }
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -37,7 +46,7 @@ const FullNameScreen = ({navigation, route}) => {
                         autoFocus
                         value={firstName}
                         style={styles.input}
-                        onChangeText={(text) => setFirstName(text)}
+                        onChangeText={(text) => {setFirstName(text); clearErr();}}
                         textAlign = 'left'
                     />
                 </View>
@@ -45,13 +54,16 @@ const FullNameScreen = ({navigation, route}) => {
                     <TextInput placeholder="Lastname"
                         value={lastName}
                         style={styles.input}
-                        onChangeText={(text) => setLastName(text)}
+                        onChangeText={(text) => {setLastName(text); clearErr();}}
                         textAlign = 'left'
                     />
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={next} />
+            </View>
+            <View style={{marginTop: 20}}>
+                <BackButton title='Back' onPress={back} />
             </View>
         </View>
     );

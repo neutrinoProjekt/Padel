@@ -18,13 +18,14 @@ export const RegistrationContainer = ({navigation}) => {
     const [password, setPassword] = useState('');
     const {signup} = useAuth();
 
-    useEffect(() => {
+   /* useEffect(() => {
+        console.log(password);
         signup(email, password);
-    }, [password]);
+    }, [password]);*/
 
     return (
         <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
-            <Stack.Screen name="Email" component={EmailScreen} initialParams={{setMail: setEmail}}/>
+            <Stack.Screen name="Email" component={EmailScreen} initialParams={{setEmail: setEmail}}/>
             <Stack.Screen name="FullName" component={FullNameScreen} initialParams={{setFullname: setFullname}}/>
             <Stack.Screen name="Username" component={UsernameScreen} initialParams={{setUsername: setUsername}}/>
             <Stack.Screen name="Password" component={PasswordScreen} initialParams={{setPassword: setPassword}}/>

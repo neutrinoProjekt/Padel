@@ -4,15 +4,21 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
+import BackButton from '../../components/BackButton';
+
 const PasswordScreen = ({navigation, route}) => {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const back = () => {
+        navigation.navigate('Username');
+    };
 
     function handlePress() {
-        if (checkPassword()) 
+        if (checkPassword()) {
             route.params.setPassword(pass1);
+        }
     }
     // checks whether password meets conditions:
     // length > 7, atleast one uppercase, atleast one lowercase and atleast one digit
@@ -92,6 +98,9 @@ const PasswordScreen = ({navigation, route}) => {
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
                 <MainButton title='Finish registration' onPress={handlePress} />
+            </View>
+            <View style={{marginTop: 20}}>
+                <BackButton title='Back' onPress={back} />
             </View>
         </View>
     );

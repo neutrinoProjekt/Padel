@@ -3,14 +3,27 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
+import BackButton from '../../components/BackButton';
 
 
 const UsernameScreen = ({navigation, route}) => {
     const [username, setUsername] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const next = () => {
-        route.params.setUsername(username);
-        navigation.navigate('Password');
+        if (username.length > 0) {
+            route.params.setUsername(username);
+            navigation.navigate('Password');
+        } else if (username.length == 0) {
+            setErrorMessage('Please enter an username');
+        }
+    };
+
+    const back = () => {
+        navigation.navigate('FullName');
+    };
+    const clearErr = () => {
+        setErrorMessage('');
     };
 
     return (
@@ -22,17 +35,23 @@ const UsernameScreen = ({navigation, route}) => {
                     Please enter your username below
                 </Text>
                 <View>
+                    <Text style={styles.error}>{errorMessage}</Text>
                     <TextInput placeholder="Username"
                         autoFocus
                         value={username}
                         style={styles.input}
-                        onChangeText={(text) => setUsername(text)}
+                        onChangeText={(text) =>{
+                            setUsername(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={next} />
+            </View>
+            <View style={{marginTop: 20}}>
+                <BackButton title='Back' onPress={back} />
             </View>
         </View>
     );
