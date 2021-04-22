@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
+import BackButton from '../../components/BackButton';
 
 const FullNameScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
@@ -22,6 +23,14 @@ const FullNameScreen = ({navigation}) => {
         }
     };
 
+    const back = () => {
+        navigation.navigate('Register');
+    }
+
+    const clearErr = () => {
+        setErrorMessage('');
+    }
+
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
@@ -36,7 +45,7 @@ const FullNameScreen = ({navigation}) => {
                         autoFocus
                         value={firstName}
                         style={styles.input}
-                        onChangeText={(text) => setFirstName(text)}
+                        onChangeText={(text) => {setFirstName(text); clearErr();}}
                         textAlign = 'left'
                     />
                 </View>
@@ -44,13 +53,16 @@ const FullNameScreen = ({navigation}) => {
                     <TextInput placeholder="Lastname"
                         value={lastName}
                         style={styles.input}
-                        onChangeText={(text) => setLastName(text)}
+                        onChangeText={(text) => {setLastName(text); clearErr();}}
                         textAlign = 'left'
                     />
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={next} />
+            </View>
+            <View style={{marginTop: 20}}>
+                <BackButton title='Back' onPress={back} />
             </View>
         </View>
     );
