@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
+import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {StatusBar} from 'expo-status-bar';
 import {FacebookSocialButton, GoogleSocialButton} from 'react-native-social-buttons';
@@ -42,14 +42,15 @@ const LoginScreen = () => {
                     placeholder={'Username or e-mail'}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     underlineColorAndroid='transparet'
+                    textAlign ='left'
                     onChangeText={(text) => setEmail(text)}
                 />
                 <TextInput
                     style={styles.input}
                     secureTextEntry
+                    textAlign = 'left'
                     placeholder={'Password'}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    underlineColorAndroid='transparent'
                     onChangeText={(text) => setPassword(text)}
                 />
                 <StatusBar style='dark' />

@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
-import {Button} from 'react-native-elements';
 import {styles} from '../styling/Styles';
+import MainButton from '../../components/MainButton';
 const PasswordScreen = ({navigation}) => {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const next = () => {
 
@@ -14,26 +15,31 @@ const PasswordScreen = ({navigation}) => {
 
     // checks whether password meets conditions:
     // length > 7, atleast one uppercase, atleast one lowercase and atleast one digit
-    const checkPassword = (ch) => {
+    const checkPassword = () => {
         if (pass1.length < 8) {
-            return 'Password is too short';
+            setErrorMessage('Password is too short');
+            return;
         };
         if (pass1 !== pass2) {
-            return 'Passwords do not match';
+            setErrorMessage('Passwords do not match');
+            return;
         }
         let upperCase = false;
         let lowerCase = false;
         let digit = false;
 
-        pass1.split('').forEach(((ch) => {
-            if (/^\d$/.test(ch)) {
-                digit=true;
-            } else if (ch === ch.toUpperCase()) {
-                upperCase = true;
-            } else {
-                lowerCase = true;
-            }
-        }));
+        // check for upperCase, lowerCase and digit in entered password
+        pass1.split('').forEach(
+            (ch) => {
+                if (/^\d$/.test(ch)) {
+                    digit = true;
+                } else if (ch === ch.toUpperCase()) {
+                    upperCase = true;
+                } else {
+                    lowerCase = true;
+                }
+            },
+        );
 
         let msg = '';
         if (!upperCase) {
@@ -45,26 +51,28 @@ const PasswordScreen = ({navigation}) => {
         } else {
             msg = 'Valid password';
         }
-        return msg;
+        setErrorMessage(msg);
+        return;
     };
 
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text h3 style={styles.title}>Create password</Text>
-                <Text style={textStyle}>
+                <Text style={styles.title}>Create password</Text>
+                <Text style = {styles.paragraph}>
                     At least 8 characters whereof 1 lowercase,
                     1 capital and 1 number
                 </Text>
                 <View>
+                    <Text style={styles.error}>{errorMessage}</Text>
                     <TextInput placeholder="Password"
                         autoFocus
                         secureTextEntry
                         value={pass1}
                         style={styles.input}
                         onChangeText={(text) => setPass1(text)}
-                        textAlign = 'side'
+                        textAlign = 'left'
                     />
                 </View>
                 <View>
@@ -73,32 +81,15 @@ const PasswordScreen = ({navigation}) => {
                         secureTextEntry
                         style={styles.input}
                         onChangeText={(text) => setPass2(text)}
-                        textAlign = 'side'
+                        textAlign = 'left'
                     />
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
-                <Button
-                    raised
-                    titleStyle={styles.button}
-                    containerStyle={styles.button}
-                    type="clear"
-                    onPress={checkPassword}
-                    title="Next"/>
-
+                <MainButton title='Next' onPress={checkPassword} />
             </View>
         </View>
     );
 };
 
 export default PasswordScreen;
-
-const textStyle = {
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: '#696969',
-    marginTop: 30,
-    width: 300,
-    alignSelf: 'center',
-    textAlign: 'center',
-};

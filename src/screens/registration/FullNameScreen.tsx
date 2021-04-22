@@ -1,31 +1,43 @@
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
+import MainButton from '../../components/MainButton';
+
 const FullNameScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const next = () => {
-        navigation.navigate('UsernameScreen');
+        if (firstName.length > 0 && lastName.length > 0) {
+            setErrorMessage('');
+            navigation.navigate('UsernameScreen');
+            return;
+        }
+        if (firstName.length == 0) {
+            setErrorMessage('Please enter your firstname');
+        } else {
+            setErrorMessage('Please enter your lastname');
+        }
     };
 
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text h3 style={styles.title}>Full Name</Text>
+                <Text style={styles.title}>Full Name</Text>
                 <Text style={styles.text}>
                     Please enter your full name below
                 </Text>
                 <View>
+                    <Text style={styles.error}>{errorMessage}</Text>
                     <TextInput placeholder="Firstname"
                         autoFocus
                         value={firstName}
                         style={styles.input}
                         onChangeText={(text) => setFirstName(text)}
-                        textAlign = 'side'
+                        textAlign = 'left'
                     />
                 </View>
                 <View>
@@ -33,18 +45,12 @@ const FullNameScreen = ({navigation}) => {
                         value={lastName}
                         style={styles.input}
                         onChangeText={(text) => setLastName(text)}
-                        textAlign = 'side'
+                        textAlign = 'left'
                     />
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
-                <Button
-                    raised
-                    titleStyle={styles.button}
-                    containerStyle={styles.button}
-                    type="clear"
-                    onPress={next}
-                    title="Next"/>
+                <MainButton title='Next' onPress={next} />
             </View>
         </View>
     );
