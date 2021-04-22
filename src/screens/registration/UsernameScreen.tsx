@@ -2,13 +2,14 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
-import MainButton from '../../components/MainButton'
+import MainButton from '../../components/MainButton';
 
 
-const UsernameScreen = ({navigation}) => {
+const UsernameScreen = ({navigation, route}) => {
     const [username, setUsername] = useState('');
 
     const next = () => {
+        route.params.setUsername(username);
         navigation.navigate('Password');
     };
 

@@ -4,7 +4,7 @@ import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-nati
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 
-const FullNameScreen = ({navigation}) => {
+const FullNameScreen = ({navigation, route}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -12,7 +12,8 @@ const FullNameScreen = ({navigation}) => {
     const next = () => {
         if (firstName.length > 0 && lastName.length > 0) {
             setErrorMessage('');
-            navigation.navigate('UsernameScreen');
+            route.params.setFullname(firstName + lastName);
+            navigation.navigate('Username');
             return;
         }
         if (firstName.length == 0) {

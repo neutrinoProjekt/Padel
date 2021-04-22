@@ -1,15 +1,13 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 
-const EmailScreen = ({navigation}) => {
+const EmailScreen = ({navigation, route}) => {
     const [email, setEmail] = useState('');
 
-    const next = () => {
-        navigation.navigate('FullName');
-    };
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -30,7 +28,10 @@ const EmailScreen = ({navigation}) => {
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
-                <MainButton title='Next' onPress={next} />
+                <MainButton title='Next' onPress={() => {
+                    route.params.setMail(email);
+                    navigation.navigate('FullName');
+                }} />
             </View>
         </View>
     );

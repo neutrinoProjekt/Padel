@@ -52,4 +52,9 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         padding: 10,
     },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

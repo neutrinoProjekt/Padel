@@ -5,7 +5,7 @@ import {Button} from 'react-native-elements';
 const StartScreen = ({navigation}) => {
     // move to register page when pressing button
     const register = () => {
-        navigation.navigate('Register');
+        navigation.navigate('Registration');
     };
 
     // move to login page when pressing button
