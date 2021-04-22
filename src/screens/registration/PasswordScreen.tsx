@@ -4,13 +4,15 @@ import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
+import BackButton from '../../components/BackButton';
+
 const PasswordScreen = ({navigation}) => {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const next = () => {
-
+    const back = () => {
+        navigation.navigate('UsernameScreen');
     };
 
     // checks whether password meets conditions:
@@ -87,6 +89,9 @@ const PasswordScreen = ({navigation}) => {
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={checkPassword} />
+            </View>
+            <View style={{marginTop: 20}}>
+                <BackButton title='Back' onPress={back} />
             </View>
         </View>
     );
