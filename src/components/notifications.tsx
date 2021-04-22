@@ -6,7 +6,7 @@ import {FlatList} from 'react-native-gesture-handler';
 //import {StatusBar} from 'expo-status-bar';
 
 // <Image style = {styles.nImage} source={{uri: 'https://cdn.discordapp.com/attachments/833975086561886210/834355702821683230/unknown.png'}}/>
-const Item = ({header, description, image, time}) => (
+const Item = ({id, header, description, image, time}) => (
     <TouchableHighlight onPress={notificationSelected}>
         <View style={styles.nBox}>
             <View style={{flexDirection: 'row'}}>
@@ -28,7 +28,7 @@ const Item = ({header, description, image, time}) => (
 
 const notificationSelected = () => {
     return (
-        alert('Pew Pew')
+        alert(id)
     );
 };
 
@@ -61,6 +61,7 @@ const NOTIFICATIONS = [
 const Notifications = () => {
     const renderItem = ({item}) => (
         <Item
+            id={item.id}
             header={item.header}
             description={item.description}
             image={item.image}
