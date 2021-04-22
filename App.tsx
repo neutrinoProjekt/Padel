@@ -3,14 +3,14 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 // import {NavigatorContainer} from '@react-navigation/stack';
 // import {createStackNavigator} from '@react-navigation/stack';
-import PersonalAccount from './src/screens/PersonalAccount';
 import LoginScreen from './src/screens/LoginScreen';
+import PersonPageScreen from "./src/screens/PersonPageScreen";
 
 // const Stack = createStackNavigator();
 
 export default function App() {
     return (
-        <PersonalAccount />
+        <PersonPageScreen />
     );
 }
 
