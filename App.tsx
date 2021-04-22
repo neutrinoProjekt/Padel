@@ -3,9 +3,8 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 // import {NavigatorContainer} from '@react-navigation/stack';
 // import {createStackNavigator} from '@react-navigation/stack';
-// import LoginScreen from './src/screens/LoginScreen';
-import PersonalAccount from "./src/screens/PersonalAccount";
-import LoginScreen from "./src/screens/LoginScreen";
+import PersonalAccount from './src/screens/PersonalAccount';
+import LoginScreen from './src/screens/LoginScreen';
 
 // const Stack = createStackNavigator();
 

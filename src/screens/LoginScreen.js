@@ -41,14 +41,14 @@ const LoginScreen = () => {
                 style={styles.input}
                 placeholder={'Username or e-mail'}
                 placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
-                underlineColorAndroid='transparet'
+                underlineColorAndroid='transparent'
                 onChangeText={(text) => setEmail(text)}
             />
             <TextInput
                 style={styles.input}
                 placeholder={'Password'}
                 placeholderTextColor={'rgba(255, 255, 255, 0.7)'}
-                underlineColorAndroid='transparet'
+                underlineColorAndroid='transparent'
                 onChangeText={(text) => setPassword(text)}
             />
             <StatusBar style="dark" />
