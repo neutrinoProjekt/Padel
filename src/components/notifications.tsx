@@ -11,9 +11,9 @@ import { color } from 'react-native-reanimated';
 //make it possible to fetch notifications from fire base
 //make it so that new notifications are added when avalible
 //make it so new notifications are fetched even if not in app
+//add push notification functionality
 //
 //--non fire base--
-//add push notification functionality
 //add funtionality on click
 //add the standard CSS
 
