@@ -10,10 +10,16 @@ import FullNameScreen from './screens/registration/FullNameScreen';
 import UsernameScreen from './screens/registration/UsernameScreen';
 import LoginScreen from './screens/login/LoginScreen';
 
+import Notifications from './components/notifications';
+import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
+
 const Stack = createStackNavigator();
 
 export default function App() {
     return (
+        <Notifications/>
+
+        /*
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
                 <Stack.Screen name="Home" component={StartScreen} />
@@ -24,5 +30,6 @@ export default function App() {
                 <Stack.Screen name="Login" component={LoginScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
+        */
     );
 };

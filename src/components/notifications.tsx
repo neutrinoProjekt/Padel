@@ -7,7 +7,7 @@ import {FlatList} from 'react-native-gesture-handler';
 
 // <Image style = {styles.nImage} source={{uri: 'https://cdn.discordapp.com/attachments/833975086561886210/834355702821683230/unknown.png'}}/>
 const Item = ({id, header, description, image, time}) => (
-    <TouchableHighlight onPress={notificationSelected}>
+    <TouchableHighlight onPress={() => notificationSelected(id)}>
         <View style={styles.nBox}>
             <View style={{flexDirection: 'row'}}>
                 <Image
@@ -26,7 +26,7 @@ const Item = ({id, header, description, image, time}) => (
 
 );
 
-const notificationSelected = () => {
+const notificationSelected = (id) => {
     return (
         alert(id)
     );
@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
         color: '#707070',
     },
     nPicture: {
-        height: 80,
-        width: 80,
-        borderRadius: 40,
+        height: 60,
+        width: 60,
+        borderRadius: 30,
         margin: 10,
     },
     nDiscription: {
