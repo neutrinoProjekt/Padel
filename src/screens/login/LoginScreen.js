@@ -1,20 +1,17 @@
 /* eslint-disable max-len */
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {Button} from 'react-native-elements';
 import {StatusBar} from 'expo-status-bar';
 import {FacebookSocialButton, GoogleSocialButton} from 'react-native-social-buttons';
+import {useAuth} from '../../contexts/auth';
+import MainButton from '../../components/MainButton';
+
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
-    const logIn = () => {
-        // TODO
-        // add login event
-        setErrorMessage(email + password);
-    };
+    const {login} = useAuth();
 
     // todo: login with google
     const googleLogin = () => {
@@ -34,7 +31,7 @@ const LoginScreen = () => {
                 </Text>
             </View>
             <Text>
-                {errorMessage}
+                {''}
             </Text>
             <KeyboardAvoidingView behavior="padding" style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
                 <TextInput
@@ -54,19 +51,16 @@ const LoginScreen = () => {
                     onChangeText={(text) => setPassword(text)}
                 />
                 <StatusBar style='dark' />
-                <Button titleStyle={styles.button}
-                    containerStyle={styles.button}
-                    type='clear'
-                    onPress={logIn}
-                    title='Log in' />
-                <Button titleStyle={{color: '#00CEB4', fontWeight: 'bold', fontSize: 14}}
-                    type='clear'
-                    onPress={setPassword}
-                    title='Forgot your password?'/>
-                <View >
+                <View style={{padding: 5}}>
+                    <MainButton title='Log in' onPress={() => login(email, password)}/>
+                </View>
+                <View style={{padding: 5}}>
+                    <MainButton title='Forgot your password' onPress={() => setPassword}/>
+                </View>
+                <View style={{padding: 5}}>
                     <FacebookSocialButton onPress={fbLogin}/>
                 </View>
-                <View>
+                <View style={{padding: 5}}>
                     <GoogleSocialButton onPress={googleLogin}/>
                 </View>
             </KeyboardAvoidingView>

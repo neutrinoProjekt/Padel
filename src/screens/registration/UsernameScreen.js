@@ -2,29 +2,29 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
-import MainButton from '../../components/MainButton'
+import MainButton from '../../components/MainButton';
 import BackButton from '../../components/BackButton';
 
 
-const UsernameScreen = ({navigation}) => {
+const UsernameScreen = ({navigation, route}) => {
     const [username, setUsername] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const next = () => {
-
-        if(username.length > 0){
+        if (username.length > 0) {
+            route.params.setUsername(username);
             navigation.navigate('Password');
-        }else if (username.length == 0){
+        } else if (username.length == 0) {
             setErrorMessage('Please enter an username');
         }
     };
 
     const back = () => {
         navigation.navigate('FullName');
-    }
+    };
     const clearErr = () => {
         setErrorMessage('');
-    }
+    };
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -40,7 +40,9 @@ const UsernameScreen = ({navigation}) => {
                         autoFocus
                         value={username}
                         style={styles.input}
-                        onChangeText={(text) =>{setUsername(text); clearErr();}}
+                        onChangeText={(text) =>{
+                            setUsername(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>

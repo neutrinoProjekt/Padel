@@ -1,29 +1,31 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import BackButton from '../../components/BackButton';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 
-const EmailScreen = ({navigation}) => {
+const EmailScreen = ({navigation, route}) => {
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const next = () => {
-        if(email.length > 0){
+        if (email.length > 0) {
+            route.params.setEmail(email);
             navigation.navigate('FullName');
-        }else if (email.length == 0){
+        } else if (email.length == 0) {
             setErrorMessage('Please enter an email address to continue');
         }
     };
 
     const back = () => {
         navigation.navigate('Home');
-    }
+    };
 
     const clearErr = () => {
         setErrorMessage('');
-    }
+    };
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -39,7 +41,9 @@ const EmailScreen = ({navigation}) => {
                         autoFocus
                         value={email}
                         style={styles.input}
-                        onChangeText={(text) => {setEmail(text); clearErr();}}
+                        onChangeText={(text) => {
+                            setEmail(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>
@@ -48,7 +52,7 @@ const EmailScreen = ({navigation}) => {
                 <MainButton title='Next' onPress={next} />
             </View>
             <View style={{marginTop: 20}}>
-                <BackButton title='Back'  onPress={back} />
+                <BackButton title='Back' onPress={back} />
             </View>
         </View>
     );
