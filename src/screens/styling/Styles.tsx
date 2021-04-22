@@ -35,4 +35,21 @@ export const styles = StyleSheet.create({
         width: 305,
         borderRadius: 10,
     },
+    paragraph: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#696969',
+        marginTop: 30,
+        width: 300,
+        alignSelf: 'center',
+        textAlign: 'center',
+    },
+    error: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#ff0f0f',
+        width: 305,
+        position: 'absolute',
+        padding: 10,
+    },
 });
