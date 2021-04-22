@@ -8,11 +8,21 @@ import {
     TouchableOpacity, ImageBackground,
 } from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Avatar, Icon} from 'react-native-elements';
-// import {styles} from '../screens/Styles';
+import {Avatar, Button, Icon} from 'react-native-elements';
+import {createStackNavigator} from '@react-navigation/stack';
 
+// function that displays the Title of the whole page
+function LogoTitle() {
+    return (
+        <View style={styles.container}>
+            <Text>PaddelPal</Text>
+            <Text style={{color: '#707070', fontSize: 25, fontWeight: 'bold'}}>My Account</Text>
+        </View>
+    );
+}
 
-const PersonPageScreen = () => {
+// function that displays the whole screen under the header
+function Screen() {
     const [descript, setDescription] = useState('');
     const [email, setEmail] = useState('');
     const [phonenr, setPhonenr] = useState('');
@@ -20,76 +30,115 @@ const PersonPageScreen = () => {
     const image = {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'};
 
     // firebase
+    /**
     useEffect(() => {
         setPhonenr('0700340513');
-    });
+    });**/
+    return (
+        <ImageBackground source = {image} style = {styles.image}>
+            <View style={styles.container}>
+                <Avatar
+                    rounded
+                    size="xlarge"
+                    source={image}
+                    onPress={() => console.log('Works!')}
+                    activeOpacity={0.7}
+                />
+                <Text style={styles.text}>Albert Einstein</Text>
+                <Text style={{color: '#707070', fontSize: 10}}>
+                    alb_ein_2021
+                </Text>
+                <View>
+                    <Text style={{
+                        color: '#707070',
+                        fontSize: 17,
+                        fontWeight: 'bold'}}>
+                        Description:
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder={'Describe yourself...'}
+                        placeholderTextColor={'#707070'}
+                        underlineColorAndroid='transparent'
+                        value={descript}
+                        onChangeText={(text) => setDescription(text)}
+                    />
+                    <Text style={{
+                        color: '#707070',
+                        fontSize: 17,
+                        fontWeight: 'bold'}}>
+                        Contact info:
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder={'Mobile phone:'}
+                        placeholderTextColor={'#707070'}
+                        value = {phonenr}
+                        underlineColorAndroid='transparent'
+                        onChangeText={(text) => setPhonenr(text)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder={'e-mail:'}
+                        placeholderTextColor={'#707070'}
+                        underlineColorAndroid='transparent'
+                        value = {email}
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                </View>
+            </View>
+        </ImageBackground>
+    );
+}
 
+function PPageScreen({navigation}) {
+    const [info, setInfo] = React.useState(0); // inital state. firebase issue
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <View style={{color: 'white'}}>
+                    <TouchableOpacity style={styles.buttonright}>
+                        <Icon
+                            name={'menu'}
+                            color={'#707070'}
+                            // firebase issue
+                        />
+                    </TouchableOpacity>
+                </View>
+            ),
+            headerRight: () => (
+                <View style={{color: 'white'}}>
+                    <TouchableOpacity style={styles.buttonright}>
+                        <Icon
+                            name={'done'}
+                            color={'#707070'}
+                            // firebase issue
+                            onPress={setInfo}
+                        />
+                    </TouchableOpacity>
+                </View>
+            ),
+        });
+    }, [navigation, setInfo]);
+
+    return <Screen/>;
+}
+
+const Stack = createStackNavigator();
+
+const PersonPageScreen = () => {
     return (
         <SafeAreaProvider>
-
-            <View style={{color: 'white'}}>
-                <TouchableOpacity style={styles.buttonright}>
-                    <Icon
-                        name={'done'}
-                        color={'#707070'}
-                        // firebase issue
-                    />
-                </TouchableOpacity>
-            </View>
-
-            <ImageBackground source = {image} style = {styles.image}>
-                <View style={styles.container}>
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={image}
-                        onPress={() => console.log('Works!')}
-                        activeOpacity={0.7}
-                    />
-                    <Text style={styles.text}>Albert Einstein</Text>
-                    <Text style={{color: '#707070', fontSize: 10}}>
-                    alb_ein_2021
-                    </Text>
-                    <View>
-                        <Text style={{
-                            color: '#707070',
-                            fontSize: 17,
-                            fontWeight: 'bold'}}>
-                Description:
-                        </Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'Describe yourself...'}
-                            placeholderTextColor={'#707070'}
-                            underlineColorAndroid='transparent'
-                            value={descript}
-                            onChangeText={(text) => setDescription(text)}
-                        />
-                        <Text style={{
-                            color: '#707070',
-                            fontSize: 17,
-                            fontWeight: 'bold'}}>
-                Contact info:
-                        </Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'Mobile phone:'}
-                            placeholderTextColor={'#707070'}
-                            value = {phonenr}
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => setPhonenr(text)}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'e-mail:'}
-                            placeholderTextColor={'#707070'}
-                            underlineColorAndroid='transparent'
-                            value = {email}
-                            onChangeText={(text) => setEmail(text)}
-                        />
-                    </View>
-                </View>
-            </ImageBackground>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Home"
+                    component={PPageScreen}
+                    options={({navigation, route}) => ({
+                        headerTitle: (props) => <LogoTitle {...props} />,
+                    })}
+                />
+            </Stack.Navigator>
         </SafeAreaProvider>
     );
 };
