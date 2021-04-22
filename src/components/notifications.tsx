@@ -13,7 +13,6 @@ import { color } from 'react-native-reanimated';
 //make it so new notifications are fetched even if not in app
 //
 //--non fire base--
-//add element to show which notifications are new
 //add push notification functionality
 //add funtionality on click
 //add the standard CSS
@@ -23,18 +22,20 @@ import { color } from 'react-native-reanimated';
 //render a notification
 const Item = ({id, header, description, image, time, isnew}) => (
     <TouchableHighlight onPress={() => notificationSelected(id)}>
-        <View style={styles.nBox} >
-            <View style={{flexDirection: 'row'}}>
-                <Image
-                    style={styles.nPicture}
-                    source = {{uri: image}}/>
-                <View style={{justifyContent: 'center'}}>
-                    <Text style={styles.nHeader}>{header}</Text>
-                    <Text style={styles.nDiscription}>{description}</Text>
+        <View style={{borderRightWidth: 8, borderColor: isnew ? '#00CEB4':'#f7f7f7',}}>
+            <View style={styles.nBox} >
+                <View style={{flexDirection: 'row'}}>
+                    <Image
+                        style={styles.nPicture}
+                        source = {{uri: image}}/>
+                    <View style={{justifyContent: 'center'}}>
+                        <Text style={styles.nHeader}>{header}</Text>
+                        <Text style={styles.nDiscription}>{description}</Text>
+                    </View>
                 </View>
-            </View>
-            <View style={{justifyContent: 'center'}}>
-                <Text style={styles.nTime}>{time}</Text>
+                <View style={{justifyContent: 'center'}}>
+                    <Text style={styles.nTime}>{time}</Text>
+                </View>
             </View>
         </View>
     </TouchableHighlight>
