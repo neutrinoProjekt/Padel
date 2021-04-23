@@ -72,15 +72,22 @@ const PasswordScreen = ({navigation, route}) => {
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text style={styles.title}>Create password</Text>
-                <Text style = {styles.paragraph}>
-                    At least 8 characters whereof 1 lowercase,
-                    1 capital and 1 number
-                </Text>
-                <View>
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>Create password</Text>
+                </View>
+                <View style={{paddingTop: 5}}>
+                    <Text style = {styles.paragraph}>
+                        At least 8 characters whereof 1 lowercase,
+                        1 capital and 1 number
+                    </Text>
+                </View>
+                <View style={{alignSelf: 'left'}}>
                     <Text style={styles.error}>{errorMessage}</Text>
+                </View>
+                <View style={{marginTop: 30}}>
                     <TextInput placeholder="Password"
                         autoFocus
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         secureTextEntry
                         value={pass1}
                         style={styles.input}
@@ -88,9 +95,10 @@ const PasswordScreen = ({navigation, route}) => {
                         textAlign = 'left'
                     />
                 </View>
-                <View>
+                <View style={{marginTop: 10}}>
                     <TextInput placeholder="Re-enter password"
                         value={pass2}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         secureTextEntry
                         style={styles.input}
                         onChangeText={(text) => setPass2(text)}
@@ -101,7 +109,7 @@ const PasswordScreen = ({navigation, route}) => {
             <View style={{marginTop: 20}}>
                 <MainButton title='Finish registration' onPress={handlePress} />
             </View>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 10}}>
                 <BackButton title='Back' onPress={back} />
             </View>
         </View>
