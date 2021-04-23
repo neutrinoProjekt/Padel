@@ -10,6 +10,8 @@ const EmailScreen = ({navigation, route}) => {
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // route parameters and navigate to the next screen if an email
+    // address has been entered
     const next = () => {
         if (email.length > 0) {
             route.params.setEmail(email);

@@ -10,6 +10,8 @@ const FullNameScreen = ({navigation, route}) => {
     const [lastName, setLastName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // route parameters and navigate to the next screen if firstname
+    // and lastname has been entered
     const next = () => {
         if (firstName.length > 0 && lastName.length > 0) {
             setErrorMessage('');
@@ -26,11 +28,11 @@ const FullNameScreen = ({navigation, route}) => {
 
     const back = () => {
         navigation.navigate('Email');
-    }
+    };
 
     const clearErr = () => {
         setErrorMessage('');
-    }
+    };
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -46,7 +48,9 @@ const FullNameScreen = ({navigation, route}) => {
                         autoFocus
                         value={firstName}
                         style={styles.input}
-                        onChangeText={(text) => {setFirstName(text); clearErr();}}
+                        onChangeText={(text) => {
+                            setFirstName(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>
@@ -54,7 +58,9 @@ const FullNameScreen = ({navigation, route}) => {
                     <TextInput placeholder="Lastname"
                         value={lastName}
                         style={styles.input}
-                        onChangeText={(text) => {setLastName(text); clearErr();}}
+                        onChangeText={(text) => {
+                            setLastName(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>

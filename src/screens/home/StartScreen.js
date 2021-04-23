@@ -1,7 +1,8 @@
 import React from 'react';
 import {ImageBackground, StatusBar, StyleSheet, Text, View} from 'react-native';
-import {Button} from 'react-native-elements';
-
+import MainButton from '../../components/MainButton';
+import DynamicButton from '../../components/DynamicButton';
+// import {styles} from '../styling/Styles';
 const StartScreen = ({navigation}) => {
     // move to register page when pressing button
     const register = () => {
@@ -24,16 +25,13 @@ const StartScreen = ({navigation}) => {
                     Join our online paddle community
                 </Text>
             </View>
-            <Button
-                titleStyle={styles.button}
-                containerStyle={styles.button}
-                type="clear"
-                onPress={register}
-                title="Register"/>
-            <Button
-                titleStyle={{color: '#00CEB4', fontWeight: 'bold'}}
-                type="clear" onPress={logIn}
-                title="Log In"/>
+            <MainButton title="Register" onPress={register}/>
+            <DynamicButton
+                title='Log In'
+                textStyle={{color: '#00CEB4', fontWeight: 'bold'}}
+                boxColor='transparent'
+                onPress={logIn}
+            />
         </ImageBackground>
     );
 };

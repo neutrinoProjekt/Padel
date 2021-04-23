@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'react-native-elements';
 
-/* MainButton
+/* MainButton - has main styling applied
    custom props: {title, onPress}
    Example: <MainButton title='Next' onPress={some_function}/>
 */
