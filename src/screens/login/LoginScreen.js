@@ -38,7 +38,6 @@ const LoginScreen = () => {
                     style={styles.input}
                     placeholder={'Username or e-mail'}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    underlineColorAndroid='transparet'
                     textAlign ='left'
                     onChangeText={(text) => setEmail(text)}
                 />

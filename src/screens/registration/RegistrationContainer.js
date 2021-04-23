@@ -18,8 +18,8 @@ export const RegistrationContainer = ({navigation}) => {
     const [password, setPassword] = useState('');
     const {signup} = useAuth();
 
-   /* useEffect(() => {
-        console.log(password);
+    // todo
+    /* useEffect(() => {
         signup(email, password);
     }, [password]);*/
 

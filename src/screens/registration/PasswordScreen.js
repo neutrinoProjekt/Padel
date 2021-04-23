@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 
 /* eslint-disable max-len */
 import React, {useState} from 'react';
@@ -15,6 +16,7 @@ const PasswordScreen = ({navigation, route}) => {
         navigation.navigate('Username');
     };
 
+    // route password if password is valid
     function handlePress() {
         if (checkPassword()) {
             route.params.setPassword(pass1);

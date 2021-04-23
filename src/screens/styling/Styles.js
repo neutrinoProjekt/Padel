@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 
+// Main style-map
 export const styles = StyleSheet.create({
     input: {
         marginTop: 30,
@@ -48,7 +49,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#ff0f0f',
-        width: 305,
+        width: 320,
         position: 'absolute',
         padding: 10,
     },
@@ -56,5 +57,11 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
     },
 });

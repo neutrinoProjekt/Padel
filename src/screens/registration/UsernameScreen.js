@@ -10,6 +10,8 @@ const UsernameScreen = ({navigation, route}) => {
     const [username, setUsername] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // route parameters and navigate to the next
+    // screen if a username has been entered
     const next = () => {
         if (username.length > 0) {
             route.params.setUsername(username);
