@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     image: {
         flex: 1,
         alignItems: 'center',
-		justifyContent: 'center',
+        justifyContent: 'center',
     },
     container: {
         flex: 1,
@@ -58,8 +58,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
     },
-	titleAlignment: {
-		paddingTop: 100,
-		alignSelf: 'center',
-	}
+    titleAlignment: {
+        paddingTop: 100,
+        alignSelf: 'center',
+    },
 });
