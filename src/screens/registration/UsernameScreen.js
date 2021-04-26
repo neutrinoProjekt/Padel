@@ -32,14 +32,19 @@ const UsernameScreen = ({navigation, route}) => {
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text style={styles.title}>Username</Text>
-                <Text style={styles.text}>
-                    Please enter your username below
-                </Text>
-                <View>
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>Username</Text>
+                </View>
+                <View style={{paddingTop: 5}}>
+                    <Text style={styles.text}> Please enter your username below</Text>
+                </View>
+                <View style={{alignSelf: 'left'}}>
                     <Text style={styles.error}>{errorMessage}</Text>
+                </View>
+                <View style={{marginTop: 30}}>
                     <TextInput placeholder="Username"
                         autoFocus
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         value={username}
                         style={styles.input}
                         onChangeText={(text) =>{
@@ -52,7 +57,7 @@ const UsernameScreen = ({navigation, route}) => {
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={next} />
             </View>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 10}}>
                 <BackButton title='Back' onPress={back} />
             </View>
         </View>

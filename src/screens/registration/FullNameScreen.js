@@ -38,25 +38,33 @@ const FullNameScreen = ({navigation, route}) => {
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text style={styles.title}>Full Name</Text>
-                <Text style={styles.text}>
-                    Please enter your full name below
-                </Text>
-                <View>
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>Full Name</Text>
+                </View>
+                <View style={{paddingTop: 5}}>
+                    <Text style={styles.text}>
+                        Please enter your full name below
+                    </Text>
+                </View>
+                <View style={{alignSelf: 'left'}}>
                     <Text style={styles.error}>{errorMessage}</Text>
+                </View>
+                <View style={{marginTop: 30}}>
                     <TextInput placeholder="Firstname"
                         autoFocus
                         value={firstName}
                         style={styles.input}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         onChangeText={(text) => {
                             setFirstName(text); clearErr();
                         }}
                         textAlign = 'left'
                     />
                 </View>
-                <View>
+                <View style={{marginTop: 10}}>
                     <TextInput placeholder="Lastname"
                         value={lastName}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         style={styles.input}
                         onChangeText={(text) => {
                             setLastName(text); clearErr();
@@ -68,7 +76,7 @@ const FullNameScreen = ({navigation, route}) => {
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={next} />
             </View>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 10}}>
                 <BackButton title='Back' onPress={back} />
             </View>
         </View>
