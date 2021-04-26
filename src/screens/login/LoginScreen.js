@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import {FacebookSocialButton, GoogleSocialButton} from 'react-native-social-buttons';
@@ -11,8 +11,9 @@ import {styles} from '../styling/Styles';
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const {login} = useAuth();
+    const {login, error} = useAuth();
 
     // todo: login with google
     const googleLogin = () => {
@@ -24,12 +25,19 @@ const LoginScreen = () => {
 
     };
 
+    useEffect(() => {
+        setErrorMessage(error);
+    }, [error]);
+
     return (
         <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
             <View style={styles.titleAlignment}>
                 <Text style={customStyles.title}>PaddlePal</Text>
             </View>
             <KeyboardAvoidingView behavior="padding" style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+                <View style={{alignSelf: 'left'}}>
+                    <Text style={styles.error}>{errorMessage}</Text>
+                </View>
                 <View style={{marginTop: 30}}>
                     <TextInput
                         style={styles.input}
