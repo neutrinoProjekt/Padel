@@ -3,10 +3,7 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
-import Notifications from '../home/Notifications';
-import Tournament from '../home/Tournament';
 import HomeScreen from '../home/HomeScreen';
-import Profile from '../home/Profile';
 
 const Tab = createBottomTabNavigator();
 
