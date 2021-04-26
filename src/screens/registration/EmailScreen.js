@@ -14,8 +14,12 @@ const EmailScreen = ({navigation, route}) => {
     // address has been entered
     const next = () => {
         if (email.length > 0) {
-            route.params.setEmail(email);
-            navigation.navigate('FullName');
+            if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                route.params.setEmail(email);
+                navigation.navigate('FullName');
+            } else {
+                setErrorMessage('Badly formatted email');
+            }
         } else if (email.length == 0) {
             setErrorMessage('Please enter an email address to continue');
         }
