@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
 
+// Main style-map
 export const styles = StyleSheet.create({
     input: {
-        marginTop: 30,
         textAlign: 'center',
         height: 50,
         borderColor: '#BFBFBF',
@@ -16,14 +16,11 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 40,
         color: '#696969',
-        marginTop: 60,
-        alignSelf: 'center',
     },
     text: {
         fontWeight: 'bold',
         fontSize: 14,
         color: '#696969',
-        marginTop: 30,
         alignSelf: 'center',
         textAlign: 'center',
     },
@@ -31,8 +28,38 @@ export const styles = StyleSheet.create({
         color: '#ffffff',
         fontWeight: 'bold',
         backgroundColor: '#00CEB4',
-        height: 40,
         width: 305,
         borderRadius: 10,
+    },
+    paragraph: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#696969',
+        width: 300,
+        alignSelf: 'center',
+        textAlign: 'center',
+    },
+    error: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#ff0f0f',
+        width: 320,
+        position: 'absolute',
+        padding: 10,
+    },
+    image: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+    },
+    titleAlignment: {
+        paddingTop: 100,
+        alignSelf: 'center',
     },
 });
