@@ -11,21 +11,20 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Avatar, Button, Icon} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 
+
 // function that displays the Title of the whole page
 function LogoTitle() {
     return (
         <View style={styles.container}>
-            <Text>PaddelPal</Text>
+            <Text>PaddlePal</Text>
             <Text style={{color: '#707070', fontSize: 25, fontWeight: 'bold'}}>My Account</Text>
         </View>
     );
 }
 
 // function that displays the whole screen under the header
-function Screen() {
-    const [descript, setDescription] = useState('');
-    const [email, setEmail] = useState('');
-    const [phonenr, setPhonenr] = useState('');
+function Screen({setEmail, setDescription, setPhonenr}) {
+    
     // firebase
     const image = {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'};
 
@@ -45,7 +44,7 @@ function Screen() {
                     activeOpacity={0.7}
                 />
                 <Text style={styles.text}>Albert Einstein</Text>
-                <Text style={{color: '#707070', fontSize: 10}}>
+                <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>
                     alb_ein_2021
                 </Text>
                 <View>
@@ -60,7 +59,6 @@ function Screen() {
                         placeholder={'Describe yourself...'}
                         placeholderTextColor={'#707070'}
                         underlineColorAndroid='transparent'
-                        value={descript}
                         onChangeText={(text) => setDescription(text)}
                     />
                     <Text style={{
@@ -73,7 +71,6 @@ function Screen() {
                         style={styles.input}
                         placeholder={'Mobile phone:'}
                         placeholderTextColor={'#707070'}
-                        value = {phonenr}
                         underlineColorAndroid='transparent'
                         onChangeText={(text) => setPhonenr(text)}
                     />
@@ -82,7 +79,6 @@ function Screen() {
                         placeholder={'e-mail:'}
                         placeholderTextColor={'#707070'}
                         underlineColorAndroid='transparent'
-                        value = {email}
                         onChangeText={(text) => setEmail(text)}
                     />
                 </View>
@@ -92,7 +88,10 @@ function Screen() {
 }
 
 function PPageScreen({navigation}) {
-    const [info, setInfo] = React.useState(0); // inital state. firebase issue
+    const [descript, setDescription] = useState('');
+    const [email, setEmail] = useState('');
+    const [phonenr, setPhonenr] = useState('');
+   
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -114,15 +113,15 @@ function PPageScreen({navigation}) {
                             name={'done'}
                             color={'#707070'}
                             // firebase issue
-                            onPress={setInfo}
+                           onPress={()=> alert(phonenr)}
                         />
                     </TouchableOpacity>
                 </View>
             ),
         });
-    }, [navigation, setInfo]);
+    }, [navigation]);
 
-    return <Screen/>;
+   return <Screen setEmail={setEmail} setDescription={setDescription} setPhonenr={setPhonenr}/>;
 }
 
 const Stack = createStackNavigator();
