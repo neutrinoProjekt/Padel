@@ -1,8 +1,10 @@
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Image, View, Text} from 'react-native';
-import {Button} from 'react-native-elements';
+import React from 'react';
+import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View}
+    from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
+import {createMaterialTopTabNavigator}
+    from '@react-navigation/material-top-tabs';
 
 
 const getMatches = () => (
@@ -37,20 +39,11 @@ const getMatches = () => (
     ]
 );
 
+const TopNavigator = createMaterialTopTabNavigator();
 
-const MatchScreen = ({navigation}) => {
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'PaddlePal',
-            headerStyle: {backgroundColor: '#00CEB4'},
-            headerLeft: 'Hello',
-        });
-    }, [navigation]);
-
-
+const YourMatches = ({navigation}) => {
     return (
         <SafeAreaView>
-
             <ScrollView style={styles.container}>
                 {
                     getMatches().map((match) => (
@@ -62,9 +55,9 @@ const MatchScreen = ({navigation}) => {
                     ))
                 }
             </ScrollView>
-            <View style={styles.btnContainer}>
-                <TouchableOpacity>
-                    <Ionicons raised name='add-outline' size={42}/>
+            <View style={styles.actionButtonContainer}>
+                <TouchableOpacity style={styles.actionButton}>
+                    <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
 
@@ -74,24 +67,30 @@ const MatchScreen = ({navigation}) => {
     );
 };
 
-export default MatchScreen;
+export default YourMatches;
 
 const styles = StyleSheet.create({
     container: {
         height: '100%',
         backgroundColor: 'white',
     },
-    btnContainer: {
+    actionButtonContainer: {
+        flex: 1,
         position: 'absolute',
-        bottom: 30,
-        right: 30,
+        bottom: 20,
+        right: 20,
     },
     actionButton: {
-        width: 60,
-        height: 60,
-        color: '#fff',
-        borderRadius: 15,
-
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 50,
+        height: 50,
+        backgroundColor: 'white',
+        borderRadius: 100,
+        shadowRadius: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowOffset: {height: 10},
     },
 
 });
