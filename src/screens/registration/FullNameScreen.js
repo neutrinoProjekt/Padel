@@ -5,15 +5,18 @@ import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 import BackButton from '../../components/BackButton';
 
-const FullNameScreen = ({navigation}) => {
+const FullNameScreen = ({navigation, route}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // route parameters and navigate to the next screen if firstname
+    // and lastname has been entered
     const next = () => {
         if (firstName.length > 0 && lastName.length > 0) {
             setErrorMessage('');
-            navigation.navigate('UsernameScreen');
+            route.params.setFullname(firstName + ' ' + lastName);
+            navigation.navigate('Username');
             return;
         }
         if (firstName.length == 0) {
@@ -24,36 +27,48 @@ const FullNameScreen = ({navigation}) => {
     };
 
     const back = () => {
-        navigation.navigate('Register');
-    }
+        navigation.navigate('Email');
+    };
 
     const clearErr = () => {
         setErrorMessage('');
-    }
+    };
 
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text style={styles.title}>Full Name</Text>
-                <Text style={styles.text}>
-                    Please enter your full name below
-                </Text>
-                <View>
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>Full Name</Text>
+                </View>
+                <View style={{paddingTop: 5}}>
+                    <Text style={styles.text}>
+                        Please enter your full name below
+                    </Text>
+                </View>
+                <View style={{alignSelf: 'left'}}>
                     <Text style={styles.error}>{errorMessage}</Text>
+                </View>
+                <View style={{marginTop: 30}}>
                     <TextInput placeholder="Firstname"
                         autoFocus
                         value={firstName}
                         style={styles.input}
-                        onChangeText={(text) => {setFirstName(text); clearErr();}}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        onChangeText={(text) => {
+                            setFirstName(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>
-                <View>
+                <View style={{marginTop: 10}}>
                     <TextInput placeholder="Lastname"
                         value={lastName}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         style={styles.input}
-                        onChangeText={(text) => {setLastName(text); clearErr();}}
+                        onChangeText={(text) => {
+                            setLastName(text); clearErr();
+                        }}
                         textAlign = 'left'
                     />
                 </View>
@@ -61,7 +76,7 @@ const FullNameScreen = ({navigation}) => {
             <View style={{marginTop: 20}}>
                 <MainButton title='Next' onPress={next} />
             </View>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 10}}>
                 <BackButton title='Back' onPress={back} />
             </View>
         </View>

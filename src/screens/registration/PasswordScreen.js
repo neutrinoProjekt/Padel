@@ -1,30 +1,37 @@
+/* eslint-disable require-jsdoc */
 
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 import BackButton from '../../components/BackButton';
 
-const PasswordScreen = ({navigation}) => {
+const PasswordScreen = ({navigation, route}) => {
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const back = () => {
-        navigation.navigate('UsernameScreen');
+        navigation.navigate('Username');
     };
 
+    // route password if password is valid
+    function handlePress() {
+        if (checkPassword()) {
+            route.params.setPassword(pass1);
+        }
+    }
     // checks whether password meets conditions:
     // length > 7, atleast one uppercase, atleast one lowercase and atleast one digit
     const checkPassword = () => {
         if (pass1.length < 8) {
             setErrorMessage('Password is too short');
-            return;
+            return false;
         };
         if (pass1 !== pass2) {
             setErrorMessage('Passwords do not match');
-            return;
+            return false;
         }
         let upperCase = false;
         let lowerCase = false;
@@ -53,23 +60,34 @@ const PasswordScreen = ({navigation}) => {
         } else {
             msg = 'Valid password';
         }
-        setErrorMessage(msg);
-        return;
+        if (msg === 'Valid password') {
+            return true;
+        } else {
+            setErrorMessage(msg);
+            return false;
+        }
     };
 
     return (
         <View style={{alignItems: 'center'}}>
             <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
-                <Text style={styles.title}>Create password</Text>
-                <Text style = {styles.paragraph}>
-                    At least 8 characters whereof 1 lowercase,
-                    1 capital and 1 number
-                </Text>
-                <View>
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>Create password</Text>
+                </View>
+                <View style={{paddingTop: 5}}>
+                    <Text style = {styles.paragraph}>
+                        At least 8 characters whereof 1 lowercase,
+                        1 capital and 1 number
+                    </Text>
+                </View>
+                <View style={{alignSelf: 'left'}}>
                     <Text style={styles.error}>{errorMessage}</Text>
+                </View>
+                <View style={{marginTop: 30}}>
                     <TextInput placeholder="Password"
                         autoFocus
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         secureTextEntry
                         value={pass1}
                         style={styles.input}
@@ -77,9 +95,10 @@ const PasswordScreen = ({navigation}) => {
                         textAlign = 'left'
                     />
                 </View>
-                <View>
+                <View style={{marginTop: 10}}>
                     <TextInput placeholder="Re-enter password"
                         value={pass2}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         secureTextEntry
                         style={styles.input}
                         onChangeText={(text) => setPass2(text)}
@@ -88,9 +107,9 @@ const PasswordScreen = ({navigation}) => {
                 </View>
             </KeyboardAvoidingView>
             <View style={{marginTop: 20}}>
-                <MainButton title='Next' onPress={checkPassword} />
+                <MainButton title='Finish registration' onPress={handlePress} />
             </View>
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 10}}>
                 <BackButton title='Back' onPress={back} />
             </View>
         </View>
