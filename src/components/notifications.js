@@ -5,6 +5,8 @@ import {FlatList} from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 //import {Button} from 'react-native-elements';
 //import {StatusBar} from 'expo-status-bar';
+import {User} from '../models/notification';
+
 
 //TODO
 //--fire base--
@@ -33,25 +35,33 @@ import { color } from 'react-native-reanimated';
 const Item = ({id, header, description, image, time, isnew}) => (
     <TouchableHighlight onPress={() => notificationSelected(id)} >
         <View style={{borderRightWidth: 8, borderColor: isnew ? '#00CEB4':'#f7f7f7',}}>
-            <View style={styles.nBox} >
-                <View style={{flexDirection: 'row'}}>
-                    <Image
-                        style={styles.nPicture}
-                        source = {{uri: image}}/>
-                    <View style={{justifyContent: 'center'}}>
-                        <Text style={styles.nHeader}>{header}</Text>
-                        <Text style={styles.nDiscription}>{description}</Text>
-                    </View>
-                </View>
-                <View style={{justifyContent: 'center'}}>
-                    <Text style={styles.nTime}>{time}</Text>
-                </View>
-            </View>
-            
+            <NotificationContents image={image} header = {header} description = {description} time = {time}/>
         </View>
     </TouchableHighlight>
 
 );
+
+const NotificationContents = (props) => {  
+    
+    const [extend, setExtend] = useState(false);
+    
+    return(
+        <View style={styles.nBox} >
+            <View style={{flexDirection: 'row'}}>
+                <Image
+                    style={styles.nPicture}
+                    source = {{uri: props.image}}/>
+                <View style={{justifyContent: 'center'}}>
+                    <Text style={styles.nHeader}>{props.header}</Text>                            
+                    <Text style={styles.nDiscription}>{props.description}</Text>
+                </View>
+            </View>
+            <View style={{justifyContent: 'center'}}>
+                <Text style={styles.nTime}>{props.time}</Text>
+             </View>
+        </View>
+    ); 
+};
 
 //triggerd when an notification is pressed
 //TODO
@@ -112,12 +122,23 @@ const Notifications = () => {
     return (
         //
         <View>
+            
             <FlatList
                 data={NOTIFICATIONS}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
             />
             <Text style={styles.nEnd}>No more notifications</Text>
+            <TouchableHighlight onPress={() => {User.add({type: 'invite', title: 'lul'})}}>
+                <Text>
+                    wut
+                </Text>    
+            </TouchableHighlight> 
+            <TouchableHighlight onPress={() => User.test()}>
+                <Text>
+                    wut2
+                </Text>    
+            </TouchableHighlight> 
         </View>
     );
 };
