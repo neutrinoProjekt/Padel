@@ -1,3 +1,4 @@
+
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 import React from 'react';
@@ -10,10 +11,20 @@ import FullNameScreen from './screens/registration/FullNameScreen';
 import UsernameScreen from './screens/registration/UsernameScreen';
 import LoginScreen from './screens/login/LoginScreen';
 
+import Notifications from './components/notifications';
+import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
+
 const Stack = createStackNavigator();
 
 export default function App() {
     return (
+        <View style = {{}}>
+            <Text style = {{fontSize:30, textAlign:'center', padding:60}}>Paddel App</Text>
+            <Notifications/>
+        </View>
+        
+
+        /*
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
                 <Stack.Screen name="Home" component={StartScreen} />
@@ -24,5 +35,6 @@ export default function App() {
                 <Stack.Screen name="Login" component={LoginScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
+        */
     );
 };

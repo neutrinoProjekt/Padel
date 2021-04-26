@@ -21,7 +21,7 @@ import { color } from 'react-native-reanimated';
 
 //render a notification
 const Item = ({id, header, description, image, time, isnew}) => (
-    <TouchableHighlight onPress={() => notificationSelected(id)}>
+    <TouchableHighlight onPress={() => notificationSelected(id)} >
         <View style={{borderRightWidth: 8, borderColor: isnew ? '#00CEB4':'#f7f7f7',}}>
             <View style={styles.nBox} >
                 <View style={{flexDirection: 'row'}}>
@@ -37,6 +37,7 @@ const Item = ({id, header, description, image, time, isnew}) => (
                     <Text style={styles.nTime}>{time}</Text>
                 </View>
             </View>
+            
         </View>
     </TouchableHighlight>
 
@@ -45,6 +46,7 @@ const Item = ({id, header, description, image, time, isnew}) => (
 //triggerd when an notification is pressed
 //TODO
 //implement the functionality on press
+//this should send the user to the source of the notification, so this may have to be implemented first
 const notificationSelected = (id) => {
     return (
         alert(id)
