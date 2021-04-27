@@ -6,6 +6,7 @@ import { color } from 'react-native-reanimated';
 //import {Button} from 'react-native-elements';
 //import {StatusBar} from 'expo-status-bar';
 import {User} from '../models/notification';
+//import Collapsible from 'react-native-collapsible';
 
 
 //TODO
@@ -104,10 +105,11 @@ const NOTIFICATIONS = [
 ];
 
 //collect data from NOTIFICATION obdject to send to Item()
-const renderNotification = ({item}) => {
+const RenderNotification = ({item}) => {
 
-    const [extend, setExtend] = useState(false);
+    //const [extend, setExtend] = useState(false);
 
+    /*
     return(
         <TouchableHighlight onPress={() => notificationSelected(item.id)} >
             <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7',}}>
@@ -124,13 +126,22 @@ const renderNotification = ({item}) => {
                     <View style={{justifyContent: 'center'}}>
                         <Text style={styles.nTime}>{item.time}</Text>
                     </View>
-                    <Colapsable collapsed={extend}>
-
-                    </Colapsable>
                 </View>
+                <Collapsible collapsed={true} style={{borderWidth: 4}}>
+                    <Text>Hej</Text>
+                </Collapsible>
             </View>
         </TouchableHighlight>
     );
+    */
+
+    const [extend, setExtend] = useState('');
+
+   return(
+    <TouchableHighlight onPress={() =>alert('hej')}>
+        <Text>Hej</Text>
+    </TouchableHighlight>
+   );
 };
 
 
@@ -143,20 +154,11 @@ const Notifications = () => {
             
             <FlatList
                 data={NOTIFICATIONS}
-                renderItem={renderNotification}
+                renderItem={RenderNotification}
                 keyExtractor={(item) => item.id}
             />
             <Text style={styles.nEnd}>No more notifications</Text>
-            <TouchableHighlight onPress={() => {User.add({type: 'invite', title: 'lul'})}}>
-                <Text>
-                    wut
-                </Text>    
-            </TouchableHighlight> 
-            <TouchableHighlight onPress={() => User.test()}>
-                <Text>
-                    wut2
-                </Text>    
-            </TouchableHighlight> 
+            
         </View>
     );
 };

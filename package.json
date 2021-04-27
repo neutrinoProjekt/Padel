@@ -7,6 +7,10 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "peerDependencies": {    
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
   "dependencies": {
     "@expo/ngrok": "github:expo/ngrok",
     "@react-native-community/masked-view": "0.1.10",
@@ -22,10 +26,9 @@
     "expo-updates": "~0.5.4",
     "firebase": "8.2.3",
     "navigation": "^5.4.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
     "react-native": "~0.63.4",
     "react-native-action-button": "^2.8.5",
+    "react-native-collapsible": "^1.5.3",
     "react-native-elements": "^3.3.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-reanimated": "~2.1.0",

@@ -9,9 +9,6 @@ import PasswordScreen from './screens/registration/PasswordScreen';
 import FullNameScreen from './screens/registration/FullNameScreen';
 import UsernameScreen from './screens/registration/UsernameScreen';
 import LoginScreen from './screens/login/LoginScreen';
-import BottomNavigation from './screens/bottomNav/BottomNavigation';
-import {RegistrationContainer} from './screens/registration/RegistrationContainer';
-import {AuthProvider} from './contexts/auth';
 
 import Notifications from './components/notifications';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
@@ -20,15 +17,19 @@ const Stack = createStackNavigator();
 
 export default function App() {
     return (
-        <AuthProvider>
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
-                    <Stack.Screen name="Home" component={StartScreen} />
-                    <Stack.Screen name="Registration" component={RegistrationContainer} />
-                    <Stack.Screen name="Login" component={LoginScreen}/>
-                    <Stack.Screen name="PaddlePal" component={BottomNavigation}/>
-                </Stack.Navigator>
-            </NavigationContainer>
-        </AuthProvider>
+        <Notifications/>
+
+        /*
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
+                <Stack.Screen name="Home" component={StartScreen} />
+                <Stack.Screen name="Register" component={EmailScreen} />
+                <Stack.Screen name="Password" component={PasswordScreen} />
+                <Stack.Screen name="FullName" component={FullNameScreen} />
+                <Stack.Screen name="UsernameScreen" component={UsernameScreen}/>
+                <Stack.Screen name="Login" component={LoginScreen}/>
+            </Stack.Navigator>
+        </NavigationContainer>
+        */
     );
 };
