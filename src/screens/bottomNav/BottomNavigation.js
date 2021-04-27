@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
 import PersonPageScreen from '../PersonPageScreen';
+import Notifications from '../notifiactions/Notifications'
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +45,7 @@ const BottomNavigation = () => {
             initialRouteName="HomeScreen"
         >
 
-
+            <Tab.Screen name="Notifications" component={Notifications} />
             <Tab.Screen name="Profile" component={PersonPageScreen} />
             {/* Replace Tournament and Notifications with your screens */}
 
@@ -52,6 +53,8 @@ const BottomNavigation = () => {
             {/* <Tab.Screen name="Tournament" component={Tournament} />
             <Tab.Screen name="Notifications" component={Notifications} />
             <Tab.Screen name="Profile" component={Profile} /> */}
+
+            
 
 
         </Tab.Navigator>
