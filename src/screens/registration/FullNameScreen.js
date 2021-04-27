@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 import BackButton from '../../components/BackButton';
@@ -36,7 +36,6 @@ const FullNameScreen = ({navigation, route}) => {
 
     return (
         <View style={{alignItems: 'center'}}>
-            <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.titleAlignment}>
                     <Text style={styles.title}>Full Name</Text>
