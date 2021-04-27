@@ -46,7 +46,7 @@ const FullNameScreen = ({navigation, route}) => {
                         Please enter your full name below
                     </Text>
                 </View>
-                <View style={{alignSelf: 'left'}}>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>

@@ -88,7 +88,7 @@ const PasswordScreen = ({navigation, route}) => {
                         1 capital and 1 number
                     </Text>
                 </View>
-                <View style={{alignSelf: 'left'}}>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>

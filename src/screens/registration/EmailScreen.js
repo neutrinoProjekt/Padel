@@ -35,7 +35,7 @@ const EmailScreen = ({navigation, route}) => {
 
     return (
         <View style={{alignItems: 'center'}}>
-            <StatusBar barStyle = "dark-content"/>
+            <StatusBar barStyle="dark-content"/>
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.titleAlignment}>
                     <Text style={styles.title}>Email</Text>
@@ -43,7 +43,7 @@ const EmailScreen = ({navigation, route}) => {
                 <View style={{paddingTop: 5}}>
                     <Text style={styles.text}> Please register your email address below</Text>
                 </View>
-                <View style={{alignSelf: 'left'}}>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>

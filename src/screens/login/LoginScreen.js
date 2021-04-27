@@ -8,7 +8,7 @@ import MainButton from '../../components/MainButton';
 import {styles} from '../styling/Styles';
 
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -25,17 +25,23 @@ const LoginScreen = () => {
 
     };
 
+    function handleLogin() {
+        login(email, password);
+        navigation.navigate('PaddlePal');
+    };
     useEffect(() => {
         setErrorMessage(error);
     }, [error]);
 
+
     return (
-        <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-            <View style={styles.titleAlignment}>
-                <Text style={customStyles.title}>PaddlePal</Text>
-            </View>
-            <KeyboardAvoidingView behavior="padding" style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-                <View style={{alignSelf: 'left'}}>
+        <View style={{alignItems: 'center'}}>
+            <StatusBar barStyle="dark-content"/> 
+            <KeyboardAvoidingView behavior="padding">
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>PaddlePal</Text>
+                </View>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>
@@ -59,7 +65,7 @@ const LoginScreen = () => {
                 </View>
                 <StatusBar style='dark' />
                 <View style={{paddingTop: 20}}>
-                    <MainButton title='Log in' onPress={() => login(email, password)}/>
+                    <MainButton title='Log in' onPress={() => handleLogin()}/>
                 </View>
                 <View style={{paddingTop: 10}}>
                     <MainButton title='Forgot your password' onPress={() => setPassword}/>
@@ -76,10 +82,4 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-const customStyles = StyleSheet.create({
-    title: {
-        fontWeight: 'bold',
-        fontSize: 50,
-        color: '#696969',
-    },
-});
+
