@@ -10,15 +10,17 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState();
+    const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
-    async function signup(email, password) {
-        await auth.createUserWithEmailAndPassword(email, password);
-        await User.create({id: currentUser.uid});
+    function signup(email, password) {
+        return auth.createUserWithEmailAndPassword(email, password)
+            .catch((e) => setError(e.message));
     }
 
     function login(email, password) {
-        return auth.signInWithEmailAndPassword(email, password);
+        return auth.signInWithEmailAndPassword(email, password)
+            .catch((e) => setError(e.message));
     }
 
     function logout() {
@@ -35,10 +37,11 @@ export function AuthProvider({children}) {
     }, []);
 
     const value = {
+        error,
         currentUser,
         login,
         signup,
-        logout
+        logout,
     };
 
     return (

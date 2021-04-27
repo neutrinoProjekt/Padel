@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         paddingLeft: 15,
         width: 305,
+        alignSelf: 'center',
     },
     title: {
         fontWeight: 'bold',
@@ -43,8 +44,6 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#ff0f0f',
-        width: 320,
-        position: 'absolute',
         padding: 10,
     },
     image: {
