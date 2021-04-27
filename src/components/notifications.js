@@ -33,34 +33,34 @@ import {User} from '../models/notification';
 
 //render a notification
 const Item = ({id, header, description, image, time, isnew}) => (
-    <TouchableHighlight onPress={() => notificationSelected(id)} >
-        <View style={{borderRightWidth: 8, borderColor: isnew ? '#00CEB4':'#f7f7f7',}}>
-            <NotificationContents image={image} header = {header} description = {description} time = {time}/>
-        </View>
-    </TouchableHighlight>
-
+    <Text>Hej</Text>
 );
 
-const NotificationContents = (props) => {  
-    
+const NotificationContents = (item) => {  
+
     const [extend, setExtend] = useState(false);
-    
-    return(
-        <View style={styles.nBox} >
-            <View style={{flexDirection: 'row'}}>
-                <Image
-                    style={styles.nPicture}
-                    source = {{uri: props.image}}/>
-                <View style={{justifyContent: 'center'}}>
-                    <Text style={styles.nHeader}>{props.header}</Text>                            
-                    <Text style={styles.nDiscription}>{props.description}</Text>
+
+    switch(item.type){
+        default:
+            return(
+                <View style={styles.nBox} >
+                    <View style={{flexDirection: 'row'}}>
+                        <Image
+                            style={styles.nPicture}
+                            source = {{uri: item.image}}/>
+                        <View style={{justifyContent: 'center'}}>
+                            <Text style={styles.nHeader}>{item.header}</Text>                            
+                            <Text style={styles.nDiscription}>{item.description}</Text>
+                        </View>
+                    </View>
+                    <View style={{justifyContent: 'center'}}>
+                        <Text style={styles.nTime}>{item.time}</Text>
+                    </View>
                 </View>
-            </View>
-            <View style={{justifyContent: 'center'}}>
-                <Text style={styles.nTime}>{props.time}</Text>
-             </View>
-        </View>
-    ); 
+            ); 
+
+    }    
+    
 };
 
 //triggerd when an notification is pressed
@@ -104,16 +104,34 @@ const NOTIFICATIONS = [
 ];
 
 //collect data from NOTIFICATION obdject to send to Item()
-const renderItem = ({item}) => (
-    <Item
-        id={item.id}
-        header={item.header}
-        description={item.description}
-        image={item.image}
-        time={item.time}
-        isnew={item.isnew}
-    />
-);
+const renderNotification = ({item}) => {
+
+    const [extend, setExtend] = useState(false);
+
+    return(
+        <TouchableHighlight onPress={() => notificationSelected(item.id)} >
+            <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7',}}>
+                <View style={styles.nBox} >
+                    <View style={{flexDirection: 'row'}}>
+                        <Image
+                            style={styles.nPicture}
+                            source = {{uri: item.image}}/>
+                        <View style={{justifyContent: 'center'}}>
+                            <Text style={styles.nHeader}>{item.header}</Text>                            
+                            <Text style={styles.nDiscription}>{item.description}</Text>
+                        </View>
+                    </View>
+                    <View style={{justifyContent: 'center'}}>
+                        <Text style={styles.nTime}>{item.time}</Text>
+                    </View>
+                    <Colapsable collapsed={extend}>
+
+                    </Colapsable>
+                </View>
+            </View>
+        </TouchableHighlight>
+    );
+};
 
 
 const Notifications = () => {
@@ -125,7 +143,7 @@ const Notifications = () => {
             
             <FlatList
                 data={NOTIFICATIONS}
-                renderItem={renderItem}
+                renderItem={renderNotification}
                 keyExtractor={(item) => item.id}
             />
             <Text style={styles.nEnd}>No more notifications</Text>

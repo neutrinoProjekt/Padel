@@ -1,9 +1,6 @@
 import { db } from '../modules/firebase/firebase';
 
 export default class Notification {
-    static test() {
-        console.log('test');
-    }
     
     static async add({type, title}) {
         try {
