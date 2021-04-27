@@ -4,7 +4,8 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
-import PersonPageScreen from '../PersonPageScreen';
+import PersonPageScreen from '../personPage/PersonPageScreen';
+import Notifications from '../notifiactions/Notifications'
 
 const Tab = createBottomTabNavigator();
 
@@ -43,10 +44,11 @@ const BottomNavigation = () => {
 
             initialRouteName="HomeScreen"
         >
-
-
+            <Tab.Screen name="Notifications" component={Notifications} />
             <Tab.Screen name="Profile" component={PersonPageScreen} />
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
+
+
         </Tab.Navigator>
     );
 };

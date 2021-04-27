@@ -8,10 +8,9 @@ import LoginScreen from './screens/login/LoginScreen';
 import BottomNavigation from './screens/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import VictoryScreen from './screens/victory/VictoryScreen';
+import {StatusBar} from 'expo-status-bar';
 import {AuthProvider} from './contexts/auth';
-
-
-const Stack = createStackNavigator();
+import Routes from './Routes';
 
 export default function App() {
     return (
@@ -25,6 +24,8 @@ export default function App() {
                     <Stack.Screen name="Victory" component={VictoryScreen}/>
 
                 </Stack.Navigator>
+                <StatusBar barStyle="dark-content"/>
+                <Routes/>
             </NavigationContainer>
         </AuthProvider>
     );

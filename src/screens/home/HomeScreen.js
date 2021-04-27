@@ -22,6 +22,7 @@ const HomeScreen = () => {
                 },
                 tabStyle: {borderTopWidth: 0},
             }}
+
         >
             <TopNavigator.Screen name="Your Matches" component={YourMatches} />
             <TopNavigator.Screen
@@ -32,6 +33,6 @@ const HomeScreen = () => {
     );
 };
 
-export default HomeScreen
+export default HomeScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
