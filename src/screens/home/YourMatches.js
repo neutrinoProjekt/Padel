@@ -3,8 +3,6 @@ import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
-import {createMaterialTopTabNavigator}
-    from '@react-navigation/material-top-tabs';
 
 
 const getMatches = () => (
@@ -39,9 +37,7 @@ const getMatches = () => (
     ]
 );
 
-const TopNavigator = createMaterialTopTabNavigator();
-
-const YourMatches = ({navigation}) => {
+const YourMatches = () => {
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
