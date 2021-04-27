@@ -6,6 +6,7 @@ import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
 import PersonPageScreen from '../PersonPageScreen';
 
+
 const Tab = createBottomTabNavigator();
 
 const screenOptions = ({route}) => ({
