@@ -37,6 +37,7 @@
     "react-native-social-buttons": "^1.2.0",
     "react-native-tab-view": "^2.16.0",
     "react-native-unimodules": "~0.13.3",
+    "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
