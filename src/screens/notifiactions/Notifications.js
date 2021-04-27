@@ -3,21 +3,15 @@ import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
-//import {Button} from 'react-native-elements';
-//import {StatusBar} from 'expo-status-bar';
-import {User} from '../models/notification';
-//import Collapsible from 'react-native-collapsible';
-
 
 //TODO
 //--fire base--
 //make it possible to fetch notifications from fire base
 //make it so that new notifications are added when avalible
-//      make it so new notifications are fetched even if not in app
+//(make it so new notifications are fetched even if not in app)
 //add push notification functionality
 //
 //--non fire base--
-//add funtionality on click
 //add the standard CSS
 //
 
@@ -28,7 +22,8 @@ import {User} from '../models/notification';
 //     description,
 //     image,
 //     date,
-//     isNew
+//     isNew,
+//     other data
 // }
 
 
@@ -62,26 +57,29 @@ const NOTIFICATIONS = [
     },
 ];
 
-//renders base notification, same for all
+//renders base notification, same for all types
 const NotificationView = (inData) => {
     const item = inData.item;
     const [extend, setExtend] = useState('');
         return(
             <TouchableHighlight onPress={() => {setExtend(!extend)}} >
-                <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7',}}>
+                <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7'}}>
                     <View style={styles.nBox} >
-                        <View style={{flexDirection: 'row'}}>
-                            <Image
-                                style={styles.nPicture}
-                                source = {{uri: item.image}}/>
-                            <View style={{justifyContent: 'center'}}>
-                                <Text style={styles.nHeader}>{item.header}</Text>                            
-                                <DescriptionRender text={item.description} enabled={!extend}/>
-                                <NotificationDetails enabled={extend} item={item}/>
+                        <View style={{flexDirection: 'row', width:'100%', justifyContent:'space-evenly'}}>
+                            <View style={{width:90}}>
+                                <Image
+                                    style={styles.nPicture}
+                                    source = {{uri: item.image}}/>
                             </View>
-                        </View>
-                        <View style={{justifyContent: 'center'}}>
-                            <Text style={styles.nTime}>{item.time}</Text>
+                            <View style={{width:'60%'}}>
+                                <Text style={styles.nHeader}>{item.header}</Text>
+                                <View style={{marginTop:10}}>                       
+                                    <NotificationDetails enabled={extend} item={item}/>
+                                </View>
+                            </View>
+                            <View style={{margin:10,width:'10%', minWidth:60}}>
+                                <Text style={styles.nText}>{item.time}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -89,40 +87,42 @@ const NotificationView = (inData) => {
         );
 }
 
-const DescriptionRender = (props) => {
-    if (props.enabled){
-        return(
-            <Text style={styles.nDiscription}>{props.text}</Text>
-        )
-    }
-    return(<Text></Text>)
-}
 
-//this shoud be changed depending on the type
+//this shoud be added to depending on the type
 const NotificationDetails = (props) => {
     const item = props.item;
+
+    //when notification is expanded 
     if(props.enabled){
         switch(item.type){
+            case('match invite'):
+                //to be added to when the relevant page has been made
+            case('tournament resaults'):
+                //to be added to when the relevant page has been made
+            case('friend request'):
+                //to be added to when the relevant page has been made
+
+                //more to be added
+
+
             default:
                 return(
                     <View>
                         <Text style={styles.nText}>
-                            this is a placeholder, the type of notification has not been implemented
-                            this is a placeholder, the type of notification has not been implemented
-                            this is a placeholder, the type of notification has not been implemented
-                            this is a placeholder, the type of notification has not been implemented
-                            this is a placeholder, the type of notification has not been implemented
-                            this is a placeholder, the type of notification has not been implemented
+                            If you see this an no specific details were added for this notification
                         </Text>
                     </View>
                 );
-        }
-        
+        } 
     }
-    return(<Text></Text>)
+
+    //when notification is not expanded
+    return(
+        <Text style={styles.nText}>{item.description}</Text>
+    )
 }
 
-//collect data from NOTIFICATION obdject to send to Item()
+//collect data from item obdject to send to NotificationView
 const RenderNotification = ({item}) => {    
     return(
         <NotificationView  item={item}/>
@@ -133,19 +133,14 @@ const RenderNotification = ({item}) => {
 
 
 const Notifications = () => {
-    //TODO
-    //get data notifications from fire base and save in NOTIFICATIONS
     return (
-        //
-        <View>
-            
+        <View> 
             <FlatList
                 data={NOTIFICATIONS}
                 renderItem={RenderNotification}
                 keyExtractor={(item) => item.id}
             />
             <Text style={styles.nEnd}>No more notifications</Text>
-            
         </View>
     );
 };
@@ -156,18 +151,12 @@ export default Notifications;
 const styles = StyleSheet.create({
     nBox: {
         backgroundColor: '#f7f7f7',
-        padding: 8,
+        padding: '1%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderBottomWidth: 2,
         borderColor: '#BFBFBF',
         minWidth: 320,
-    },
-    text: {
-        color: '#000',
-        //width: 200,
-        textAlign: 'center',
-        height: 150,
     },
     nText: {
         color: '#707070',
@@ -182,15 +171,6 @@ const styles = StyleSheet.create({
         width: 60,
         borderRadius: 30,
         margin: 10,
-    },
-    nDiscription: {
-        color: '#707070',
-        height: 30,
-        overflow: 'hidden',
-    },
-    nTime: {
-        color: '#afafaf',
-        textAlign: 'left',
     },
     nEnd: {
         color: '#707070',

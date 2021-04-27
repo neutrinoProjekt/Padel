@@ -10,7 +10,7 @@ import FullNameScreen from './screens/registration/FullNameScreen';
 import UsernameScreen from './screens/registration/UsernameScreen';
 import LoginScreen from './screens/login/LoginScreen';
 
-import Notifications from './components/notifications';
+import Notifications from './screens/notifiactions/Notifications';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 
 const Stack = createStackNavigator();
