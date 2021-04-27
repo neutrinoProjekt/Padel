@@ -3,11 +3,9 @@ import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {
     StyleSheet,
     Text,
-    TextInput,
-    View,
-    TouchableOpacity} from 'react-native';
+    View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Avatar, Icon} from 'react-native-elements';
+import {Avatar} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainButton from '../components/MainButton';
 import GreyBoxToWrite from '../components/GreyBoxToWrite';
