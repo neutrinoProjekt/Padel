@@ -28,8 +28,3 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-<<<<<<< HEAD
-=======
-
-const styles = StyleSheet.create({});
->>>>>>> origin/main
