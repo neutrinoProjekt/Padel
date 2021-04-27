@@ -32,48 +32,6 @@ import {User} from '../models/notification';
 // }
 
 
-//render a notification
-const Item = ({id, header, description, image, time, isnew}) => (
-    <Text>Hej</Text>
-);
-
-const NotificationContents = (item) => {  
-
-    const [extend, setExtend] = useState(false);
-
-    switch(item.type){
-        default:
-            return(
-                <View style={styles.nBox} >
-                    <View style={{flexDirection: 'row'}}>
-                        <Image
-                            style={styles.nPicture}
-                            source = {{uri: item.image}}/>
-                        <View style={{justifyContent: 'center'}}>
-                            <Text style={styles.nHeader}>{item.header}</Text>                            
-                            <Text style={styles.nDiscription}>{item.description}</Text>
-                        </View>
-                    </View>
-                    <View style={{justifyContent: 'center'}}>
-                        <Text style={styles.nTime}>{item.time}</Text>
-                    </View>
-                </View>
-            ); 
-
-    }    
-    
-};
-
-//triggerd when an notification is pressed
-//TODO
-//implement the functionality on press
-//this should send the user to the source of the notification, so this may have to be implemented first
-const notificationSelected = (id) => {
-    return (
-        alert(id)
-    );
-};
-
 // temp data
 //TODO
 //remove once data can be fetched from fire base
@@ -104,44 +62,73 @@ const NOTIFICATIONS = [
     },
 ];
 
-//collect data from NOTIFICATION obdject to send to Item()
-const RenderNotification = ({item}) => {
-
-    //const [extend, setExtend] = useState(false);
-
-    /*
-    return(
-        <TouchableHighlight onPress={() => notificationSelected(item.id)} >
-            <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7',}}>
-                <View style={styles.nBox} >
-                    <View style={{flexDirection: 'row'}}>
-                        <Image
-                            style={styles.nPicture}
-                            source = {{uri: item.image}}/>
+//renders base notification, same for all
+const NotificationView = (inData) => {
+    const item = inData.item;
+    const [extend, setExtend] = useState('');
+        return(
+            <TouchableHighlight onPress={() => {setExtend(!extend)}} >
+                <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7',}}>
+                    <View style={styles.nBox} >
+                        <View style={{flexDirection: 'row'}}>
+                            <Image
+                                style={styles.nPicture}
+                                source = {{uri: item.image}}/>
+                            <View style={{justifyContent: 'center'}}>
+                                <Text style={styles.nHeader}>{item.header}</Text>                            
+                                <DescriptionRender text={item.description} enabled={!extend}/>
+                                <NotificationDetails enabled={extend} item={item}/>
+                            </View>
+                        </View>
                         <View style={{justifyContent: 'center'}}>
-                            <Text style={styles.nHeader}>{item.header}</Text>                            
-                            <Text style={styles.nDiscription}>{item.description}</Text>
+                            <Text style={styles.nTime}>{item.time}</Text>
                         </View>
                     </View>
-                    <View style={{justifyContent: 'center'}}>
-                        <Text style={styles.nTime}>{item.time}</Text>
-                    </View>
                 </View>
-                <Collapsible collapsed={true} style={{borderWidth: 4}}>
-                    <Text>Hej</Text>
-                </Collapsible>
-            </View>
-        </TouchableHighlight>
-    );
-    */
+            </TouchableHighlight>
+        );
+}
 
-    const [extend, setExtend] = useState('');
+const DescriptionRender = (props) => {
+    if (props.enabled){
+        return(
+            <Text style={styles.nDiscription}>{props.text}</Text>
+        )
+    }
+    return(<Text></Text>)
+}
 
-   return(
-    <TouchableHighlight onPress={() =>alert('hej')}>
-        <Text>Hej</Text>
-    </TouchableHighlight>
-   );
+//this shoud be changed depending on the type
+const NotificationDetails = (props) => {
+    const item = props.item;
+    if(props.enabled){
+        switch(item.type){
+            default:
+                return(
+                    <View>
+                        <Text style={styles.nText}>
+                            this is a placeholder, the type of notification has not been implemented
+                            this is a placeholder, the type of notification has not been implemented
+                            this is a placeholder, the type of notification has not been implemented
+                            this is a placeholder, the type of notification has not been implemented
+                            this is a placeholder, the type of notification has not been implemented
+                            this is a placeholder, the type of notification has not been implemented
+                        </Text>
+                    </View>
+                );
+        }
+        
+    }
+    return(<Text></Text>)
+}
+
+//collect data from NOTIFICATION obdject to send to Item()
+const RenderNotification = ({item}) => {    
+    return(
+        <NotificationView  item={item}/>
+       
+       );
+   
 };
 
 
@@ -182,7 +169,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 150,
     },
+    nText: {
+        color: '#707070',
+    },
     nHeader: {
+        marginTop:10,
         fontSize: 20,
         color: '#707070',
     },
@@ -194,7 +185,7 @@ const styles = StyleSheet.create({
     },
     nDiscription: {
         color: '#707070',
-        height: 40,
+        height: 30,
         overflow: 'hidden',
     },
     nTime: {
