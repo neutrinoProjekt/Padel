@@ -7,6 +7,7 @@ import HomeScreen from '../home/HomeScreen';
 import PersonPageScreen from '../PersonPageScreen';
 import Notifications from '../notifiactions/Notifications'
 
+
 const Tab = createBottomTabNavigator();
 
 const screenOptions = ({route}) => ({

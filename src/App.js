@@ -21,11 +21,27 @@ export default function App() {
         <AuthProvider>
             <NavigationContainer>
                 <StatusBar barStyle="dark-content"/>
-                <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
-                    <Stack.Screen name="Home" component={StartScreen} />
-                    <Stack.Screen name="Registration" component={RegistrationContainer} />
-                    <Stack.Screen name="Login" component={LoginScreen}/>
-                    <Stack.Screen name="PaddlePal" component={BottomNavigation}/>
+                <Stack.Navigator screenOptions={{cardStyle: {backgroundColor: '#ffffff'}}}>
+                    <Stack.Screen
+                        name="Home"
+                        component={StartScreen}
+                        options = {{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Registration"
+                        component={RegistrationContainer}
+                        options = {{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options = {{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="PaddlePal"
+                        component={BottomNavigation}
+                        options = {{headerTintColor: '#707070'}}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthProvider>
