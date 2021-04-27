@@ -33,6 +33,6 @@ const HomeScreen = () => {
     );
 };
 
-export default HomeScreen
+export default HomeScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
