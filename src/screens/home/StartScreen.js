@@ -14,6 +14,11 @@ const StartScreen = ({navigation}) => {
         navigation.navigate('Login');
     };
 
+    // used for testing, tournament screen
+    const createTrnmnt = () => {
+        navigation.navigate('CreateTournament');
+    };
+
     return (
         <ImageBackground source = {{uri: 'https://i.pinimg.com/originals/50/2c/a3/502ca33a6bcd3eafa97d50957c63dcb9.png'}} style = {styles.image}>
             <StatusBar barStyle = "dark-content"/>
@@ -32,6 +37,9 @@ const StartScreen = ({navigation}) => {
                 boxColor='transparent'
                 onPress={logIn}
             />
+            <View style={{marginTop: 10}}>
+                <MainButton title="Create Tournament" onPress={createTrnmnt}/>
+            </View>
         </ImageBackground>
     );
 };

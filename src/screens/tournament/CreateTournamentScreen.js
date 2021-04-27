@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Image, Text, View, StyleSheet} from 'react-native';
+import {Image, Text, View, StyleSheet, TextInput} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import {Slider} from 'react-native-elements/dist/slider/Slider';
+import MainButton from '../../components/MainButton';
 
 const CreateTournamentScreen = () => {
     const imageUrl = {uri: 'https://image.freepik.com/free-photo/golden-trophy-cup-white-background-with-clipping-path_35913-551.jpg'};
@@ -23,12 +24,18 @@ const CreateTournamentScreen = () => {
         return rank1 <= rank2;
     };
 
+    // Set rank slider color
     const setRankSliderColor = () => {
         if (rank1 <= rank2) {
             setRankColor('rgb(252, 228, 149)');
         } else {
             setRankColor('red');
         };
+    };
+
+    // Create tournament
+    const createTrnmnt = () => {
+
     };
 
 
@@ -43,6 +50,8 @@ const CreateTournamentScreen = () => {
                     size='xlarge'
                 />
             </View>
+
+            {/* Minimum Rank Slider */}
             <View style={{marginTop: 10}}>
                 <View>
                     <Text style={{alignSelf: 'center'}}>Minimum rank</Text>
@@ -69,6 +78,8 @@ const CreateTournamentScreen = () => {
                     <Text style={styling.colorGrey}>{maxRank}</Text>
                 </View>
             </View>
+
+            {/* Maximum Rank Slider */}
             <View style={{paddingTop: 10}}>
                 <View>
                     <Text style={{alignSelf: 'center'}}>Maximum rank</Text>
@@ -95,6 +106,8 @@ const CreateTournamentScreen = () => {
                     <Text style={styling.colorGrey}>{maxRank}</Text>
                 </View>
             </View>
+
+            {/* Minimum Players Slider */}
             <View style={{paddingTop: 10}}>
                 <View>
                     <Text style={{alignSelf: 'center'}}>Minimum players</Text>
@@ -117,6 +130,20 @@ const CreateTournamentScreen = () => {
                     </Text>
                     <Text style={styling.colorGrey}>{maxPlayers}</Text>
                 </View>
+            </View>
+            {/* Date picker*/}
+            <View>
+
+            </View>
+
+            {/* Additional information*/}
+            <View>
+                <TextInput
+                    placeholder = "Additional information"
+                />
+            </View>
+            <View paddingTop = {20}>
+                <MainButton title="Create tournament" onPress={createTrnmnt}/>
             </View>
         </View>
     );

@@ -8,6 +8,7 @@ import LoginScreen from './screens/login/LoginScreen';
 import BottomNavigation from './screens/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import {AuthProvider} from './contexts/auth';
+import CreateTournamentScreen from './screens/tournament/CreateTournamentScreen';
 
 
 const Stack = createStackNavigator();
@@ -21,6 +22,7 @@ export default function App() {
                     <Stack.Screen name="Registration" component={RegistrationContainer} />
                     <Stack.Screen name="Login" component={LoginScreen}/>
                     <Stack.Screen name="PaddlePal" component={BottomNavigation}/>
+                    <Stack.Screen name="CreateTournament" component={CreateTournamentScreen}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthProvider>
