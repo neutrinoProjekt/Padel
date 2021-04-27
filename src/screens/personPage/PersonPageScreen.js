@@ -1,45 +1,25 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState, useLayoutEffect} from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    TouchableOpacity} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Avatar, Icon} from 'react-native-elements';
-import {createStackNavigator} from '@react-navigation/stack';
-import MainButton from '../components/MainButton';
-import GreyBoxToWrite from '../components/GreyBoxToWrite';
-import {useAuth} from '../contexts/auth';
-
-
-// function that displays the Title of the whole page
-// eslint-disable-next-line require-jsdoc
-function LogoTitle() {
-    return (
-        <View style={styles.container}>
-            <Text>PaddlePal</Text>
-            <Text style={{color: '#707070', fontSize: 20, fontWeight: 'bold'}}>My Account</Text>
-        </View>
-    );
-}
+import React, {useState} from 'react';
+import {Text, View, StyleSheet} from 'react-native';
+import {Avatar} from 'react-native-elements';
+import MainButton from '../../components/MainButton';
+import GreyBoxToWrite from '../../components/GreyBoxToWrite';
+import {useAuth} from '../../contexts/auth';
 
 // function that displays screen under the header
-function Screen() {
-    const [descript, setDescription] = useState('');
-    const [email, setEmail] = useState('');
+export default function PersonPageScreen() {
     const [phonenr, setPhonenr] = useState('');
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
     const image = {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'};
 
-     const {currentUser} = useAuth();
+    const {currentUser, logout} = useAuth();
 
     return (
         // source should be equal with a function that have an image
         <View style={styles.container}>
+            <Text style={{color: '#707070', fontSize: 20, fontWeight: 'bold'}}>My Account</Text>
             <Avatar
                 rounded
                 size="xlarge"
@@ -50,8 +30,7 @@ function Screen() {
 
             {/* Firebase issue. Get the user' peofile pic from the database*/}
             <Text style={styles.text}>{currentUser.displayName}</Text>
-            <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>
-                {currentUser.email} </Text>
+            <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
 
             {/* 3 grey boxes to put user's personal info*/}
             <View>
@@ -59,34 +38,16 @@ function Screen() {
                 <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
                 <Text style={styles.subtitle}> Contact info: </Text>
                 <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
-                <GreyBoxToWrite placeholder={'e-mail:'} onChangeText={(text) => setEmail(text)}/>
             </View>
 
             {/* Button to save the changes*/}
-            <MainButton title='Save' onPress={()=> alert(phonenr)}/>
+            <MainButton title='Save' onPress={() => alert(phonenr)}/>
+            <View style={{marginTop: 10}}>
+                <MainButton title='Sign Out' onPress={() => logout()}/>
+            </View>
         </View>
     );
 }
-
-const Stack = createStackNavigator();
-
-const PersonPageScreen = () => {
-    return (
-        <SafeAreaProvider>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Home"
-                    component={Screen}
-                    options={({navigation, route}) => ({
-                        headerTitle: (props) => <LogoTitle {...props} />,
-                    })}
-                />
-            </Stack.Navigator>
-        </SafeAreaProvider>
-    );
-};
-
-export default PersonPageScreen;
 
 const styles = StyleSheet.create({
     container: {
