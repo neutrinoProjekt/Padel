@@ -7,6 +7,7 @@ import {StatusBar} from 'expo-status-bar';
 import StartScreen from './screens/home/StartScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import BottomNavigation from './screens/bottomNav/BottomNavigation';
+import AddMatchScreen from './screens/home/AddMatchScreen';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import {AuthProvider} from './contexts/auth';
 
@@ -37,6 +38,11 @@ export default function App() {
                     <Stack.Screen
                         name="PaddlePal"
                         component={BottomNavigation}
+                        options = {{headerTintColor: '#707070'}}
+                    />
+                    <Stack.Screen
+                        name="Add Match"
+                        component={AddMatchScreen}
                         options = {{headerTintColor: '#707070'}}
                     />
                 </Stack.Navigator>

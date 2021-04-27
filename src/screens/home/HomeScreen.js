@@ -1,38 +1,30 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import YourMatches from './YourMatches';
-import Matches from './Matches';
-import {createMaterialTopTabNavigator}
-    from '@react-navigation/material-top-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+import TopNavigator from './../topNav/TopNavigator';
+import AddMatchScreen from './AddMatchScreen';
 
 
-const TopNavigator = createMaterialTopTabNavigator();
+const ModalNavigator = createStackNavigator();
 
 const HomeScreen = () => {
     return (
-        <TopNavigator.Navigator
-            tabBarOptions={{
-                activeTintColor: '#707070',
-                inactiveTintColor: '#707070',
-                indicatorStyle: {backgroundColor: '#00CEB4'},
-                labelStyle: {
-                    textTransform: 'none',
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                },
-                tabStyle: {borderTopWidth: 0},
-            }}
-
+        <ModalNavigator.Navigator
+            screenOptions={{headerShown: false}}
+            mode='modal'
+            transparent={true}
         >
-            <TopNavigator.Screen name="Your Matches" component={YourMatches} />
-            <TopNavigator.Screen
-                name="Matches"
-                component={Matches}
-            />
-        </TopNavigator.Navigator>
+            <ModalNavigator.Screen
+                name='TopNavigator'
+                component={TopNavigator}
+            >
+            </ModalNavigator.Screen>
+            <ModalNavigator.Screen
+                name='Add Match'
+                component={AddMatchScreen}
+            >
+            </ModalNavigator.Screen>
+        </ModalNavigator.Navigator>
     );
 };
 
-export default HomeScreen
-
-const styles = StyleSheet.create({})
+export default HomeScreen;

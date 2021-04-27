@@ -46,7 +46,7 @@ const BottomNavigation = () => {
         >
 
 
-            <Tab.Screen name="Profile" component={PersonPageScreen} />
+            {/* <Tab.Screen name="Profile" component={PersonPageScreen} /> */}
             {/* Replace Tournament and Notifications with your screens */}
 
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
