@@ -38,7 +38,7 @@ const UsernameScreen = ({navigation, route}) => {
                 <View style={{paddingTop: 5}}>
                     <Text style={styles.text}> Please enter your username below</Text>
                 </View>
-                <View style={{alignSelf: 'left'}}>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>
