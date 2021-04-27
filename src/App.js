@@ -17,9 +17,9 @@ export default function App() {
         <AuthProvider>
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
-                    {/* <Stack.Screen name="Home" component={StartScreen} />
+                    <Stack.Screen name="Home" component={StartScreen} />
                     <Stack.Screen name="Registration" component={RegistrationContainer} />
-                    <Stack.Screen name="Login" component={LoginScreen}/> */}
+                    <Stack.Screen name="Login" component={LoginScreen}/>
                     <Stack.Screen name="PaddlePal" component={BottomNavigation}/>
                 </Stack.Navigator>
             </NavigationContainer>

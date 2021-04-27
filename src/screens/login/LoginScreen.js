@@ -8,7 +8,7 @@ import MainButton from '../../components/MainButton';
 import {styles} from '../styling/Styles';
 
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -22,6 +22,11 @@ const LoginScreen = () => {
     // todo: login with facebook
     const fbLogin = () => {
 
+    };
+
+    function handleLogin(){
+        login(email, password);
+        navigation.navigate("PaddlePal");
     };
 
     return (
@@ -51,7 +56,7 @@ const LoginScreen = () => {
                 </View>
                 <StatusBar style='dark' />
                 <View style={{paddingTop: 20}}>
-                    <MainButton title='Log in' onPress={() => login(email, password)}/>
+                    <MainButton title='Log in' onPress={() => handleLogin()}/>
                 </View>
                 <View style={{paddingTop: 10}}>
                     <MainButton title='Forgot your password' onPress={() => setPassword}/>
