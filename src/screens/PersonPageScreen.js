@@ -35,7 +35,7 @@ function Screen() {
     // firebase
     const image = {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'};
 
-     const {currentUser} = useAuth();
+    const {currentUser} = useAuth();
 
     return (
         // source should be equal with a function that have an image
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         color: '#00ceb4',
-        minWidth: 200,
         textAlign: 'center',
     },
     subtitle: {
