@@ -3,8 +3,6 @@ import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
-import {createMaterialTopTabNavigator}
-    from '@react-navigation/material-top-tabs';
 
 
 const getMatches = () => (
@@ -39,9 +37,12 @@ const getMatches = () => (
     ]
 );
 
-const TopNavigator = createMaterialTopTabNavigator();
-
 const YourMatches = ({navigation}) => {
+
+    const addMatch = () => {
+        navigation.navigate('Add Match');
+    };
+
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
@@ -56,7 +57,10 @@ const YourMatches = ({navigation}) => {
                 }
             </ScrollView>
             <View style={styles.actionButtonContainer}>
-                <TouchableOpacity style={styles.actionButton}>
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={addMatch}
+                >
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
