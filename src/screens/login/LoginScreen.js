@@ -26,8 +26,8 @@ const LoginScreen = ({navigation}) => {
 
     function handleLogin() {
         login(email, password);
-        navigation.navigate('PaddlePal');
     };
+
     useEffect(() => {
         setErrorMessage(error);
     }, [error]);
