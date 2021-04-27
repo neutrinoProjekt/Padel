@@ -30,12 +30,13 @@ const LoginScreen = () => {
     }, [error]);
 
     return (
-        <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-            <View style={styles.titleAlignment}>
-                <Text style={customStyles.title}>PaddlePal</Text>
-            </View>
-            <KeyboardAvoidingView behavior="padding" style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-                <View style={{alignSelf: 'left'}}>
+        <View style={{alignItems: 'center'}}>
+            <StatusBar barStyle="dark-content"/> 
+            <KeyboardAvoidingView behavior="padding">
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>PaddlePal</Text>
+                </View>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>
@@ -76,10 +77,4 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-const customStyles = StyleSheet.create({
-    title: {
-        fontWeight: 'bold',
-        fontSize: 50,
-        color: '#696969',
-    },
-});
+
