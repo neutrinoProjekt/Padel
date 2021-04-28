@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, TextInput, KeyboardAvoidingView} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Pressable} from 'react-native';
 import {Switch} from 'react-native-switch';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
@@ -8,7 +8,6 @@ import {Slider} from 'react-native-elements/dist/slider/Slider';
 import MainButton from '../../components/MainButton';
 import {LogBox} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import DynamicButton from '../../components/DynamicButton';
 
 
 const CreateTournamentScreen = () => {
@@ -23,6 +22,14 @@ const CreateTournamentScreen = () => {
     const [toggle2, setToggle2] = useState(false);
     const [toggle3, setToggle3] = useState(false);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isTimePickerVisible1, setTimePickerVisibility1] = useState(false);
+    const [isTimePickerVisible2, setTimePickerVisibility2] = useState(false);
+
+
+    // States for date and time
+    const [date, setDate] = useState('dd-mm-yyyy');
+    const [timeFrom, setTimeFrom] = useState('00:00');
+    const [timeTo, setTimeTo] = useState('00:00');
 
     // Relevant constants
     const minPlayers = 1;
@@ -41,10 +48,54 @@ const CreateTournamentScreen = () => {
         setDatePickerVisibility(false);
     };
 
-    const handleConfirm = (datetime) => {
-        console.log('A date has been picked: ', datetime);
+    const handleDateConfirm = (date) => {
+        date = getDate(date);
+        setDate(date);
         hideDatePicker();
     };
+
+    // time picker functions
+    const showTimePicker1 = () => {
+        setTimePickerVisibility1(true);
+    };
+
+    const showTimePicker2 = () => {
+        setTimePickerVisibility2(true);
+    };
+
+    const hideTimePicker1 = () => {
+        setTimePickerVisibility1(false);
+    };
+
+    const hideTimePicker2 = () => {
+        setTimePickerVisibility2(false);
+    };
+
+    // 0 <-> from, 1 <-> to
+    const handleTimeFrom = (str) => {
+        const time = getTime(str);
+        setTimeFrom(time);
+        hideTimePicker1();
+    };
+
+    const handleTimeTo = (str) => {
+        const time = getTime(str);
+        setTimeTo(time);
+        hideTimePicker2();
+    };
+
+    // Returns time formatted as xx:xx, given a random string containing xx:xx
+    const getTime = (time) => {
+        console.log(time.toString().match(/\d\d:\d\d/[0]));
+        return time.toString().match(/\d\d\:\d\d/)[0];
+    };
+
+    // Returns date
+    const getDate = (date) => {
+        date = date.toString().substring(0, 15).split(' ');
+        return date[3] + '-' + date[1] + '-' + date[2];
+    };
+
 
     // Ignore native driver message for now...
     useEffect(() => {
@@ -203,25 +254,68 @@ const CreateTournamentScreen = () => {
                 </View>
             </View>
             {/* Date picker*/}
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingTop: 40}}>
-                <DynamicButton title="Pick date" onPress={showDatePicker} textStyle={{fontWeight: 'bold'}} boxColor={styles.colorYellow}/>
-                <DynamicButton title="Pick date" onPress={showDatePicker} textStyle={{fontWeight: 'bold'}} boxColor={styles.colorYellow}/>
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="datetime"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                    isDarkModeEnabled={true}
-                    locale='sv_SE'
-                />
+            <Pressable onPress={showDatePicker}>
+                <View style={{marginTop: 20}} pointerEvents="none">
+                    <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>Date</Text>
+                    <TextInput
+                        placeholder={date}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        style={styles.input}
+                        textAlign = 'center'
+                    />
+                </View>
+            </Pressable>
+
+            {/* Time picker*/}
+            <View style={{flexDirection: 'row', paddingTop: 10, justifyContent: 'center'}}>
+                <Pressable onPress={showTimePicker1}>
+                    <View pointerEvents='none' style={{paddingRight: 10}}>
+                        <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>From</Text>
+                        <TextInput
+                            placeholder={timeFrom}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            style={styling.textInput}
+                            textAlign = 'center'
+                        />
+                        <DateTimePickerModal
+                            isVisible={isTimePickerVisible1}
+                            mode="time"
+                            onConfirm={handleTimeFrom}
+                            onCancel={hideTimePicker1}
+                            isDarkModeEnabled={true}
+                            locale='sv_SE'
+                        />
+                    </View>
+                </Pressable>
+                <Pressable onPress={showTimePicker2}>
+                    <View pointerEvents='none'>
+                        <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>To</Text>
+                        <TextInput
+                            placeholder={timeTo}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            style={styling.textInput}
+                            textAlign = 'center'
+                        />
+                        <DateTimePickerModal
+                            isVisible={isTimePickerVisible2}
+                            mode="time"
+                            onConfirm={handleTimeTo}
+                            onCancel={hideTimePicker2}
+                            isDarkModeEnabled={true}
+                            locale='sv_SE'
+                        />
+                    </View>
+                </Pressable>
             </View>
-            {/* Additional information*/}
-            <View style={{paddingTop: 40}}>
-                <TextInput
-                    placeholder = "Additional information"
-                />
-            </View>
-            <View paddingTop = {100}>
+            <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleDateConfirm}
+                onCancel={hideDatePicker}
+                isDarkModeEnabled={true}
+                locale='sv_SE'
+            />
+            <View paddingTop = {30}>
                 <MainButton title="Create tournament" onPress={createTrnmnt}/>
             </View>
         </View>
@@ -251,5 +345,13 @@ const styling = StyleSheet.create({
     },
     colorLightGrey: {
         color: '#d3d3d3',
+    },
+    textInput: {
+        height: 50,
+        borderColor: '#BFBFBF',
+        borderRadius: 10,
+        backgroundColor: '#F7F7F7',
+        fontSize: 20,
+        width: 145,
     },
 });
