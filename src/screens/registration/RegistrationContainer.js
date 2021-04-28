@@ -20,7 +20,7 @@ export const RegistrationContainer = ({navigation}) => {
 
     useEffect(() => {
         if (password != '') {
-            signup(email, password);
+            signup(email, password, username, fullname);
         }
     }, [password]);
 

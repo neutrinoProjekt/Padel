@@ -1,8 +1,9 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View}
+import {SafeAreaView, StyleSheet, TouchableOpacity, View}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
+import {ScrollView} from 'react-native-gesture-handler';
 
 
 const getMatches = () => (
@@ -37,7 +38,12 @@ const getMatches = () => (
     ]
 );
 
-const YourMatches = () => {
+const YourMatches = ({navigation}) => {
+
+    const addMatch = () => {
+        navigation.navigate('Add Match');
+    };
+
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
@@ -52,7 +58,10 @@ const YourMatches = () => {
                 }
             </ScrollView>
             <View style={styles.actionButtonContainer}>
-                <TouchableOpacity style={styles.actionButton}>
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={addMatch}
+                >
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>

@@ -16,9 +16,11 @@ export default function PersonPageScreen() {
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const image = {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'};
-
     const {currentUser, logout} = useAuth();
+
+    let image = currentUser.photoURL === null ? 
+        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+        {uri: currentUser.photoURL};
 
     return (
         // source should be equal with a function that have an image
