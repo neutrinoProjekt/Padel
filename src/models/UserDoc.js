@@ -24,7 +24,7 @@ export default class UserDoc {
                 .doc(id);
 
             // create user if not already existent
-            if (!(await documentReference.get()).exists) {
+            if (await documentReference.get().exists == false) {
                 return await this.createByID(id);
             }
 
@@ -51,10 +51,42 @@ export default class UserDoc {
             await documentReference
                 .set({});
 
+            console.log(3);
+
             return new this(documentReference);
         } catch (error) {
             console.error(error);
             throw new Error('could not create user in database');
+        }
+    }
+
+    // TODO deprecated
+    // static async updateUserByID(id, data) {
+    //     try {
+    //         await db
+    //             .collection('users')
+    //             .doc(id)
+    //             .update(data);
+    //     } catch (error) {
+    //         console.error(error);
+    //         throw new Error('could not add ' + data + ' to user ' + id);
+    //     }
+    // }
+
+    /**
+     * TODO reconstruct parameter list
+     * @param {array} data - parameters to update
+     */
+    async update(data) {
+        try {
+            console.log('updating user');
+            console.dir(data);
+
+            await this.documentReference
+                .update(data);
+        } catch (error) {
+            console.error(error);
+            throw new Error('could not add ' + data + ' to user ' + this.id);
         }
     }
 
