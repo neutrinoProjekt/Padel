@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet,TouchableOpacity,View} from 'react-native';
 import FindTournaments from './FindTournaments';
-import YourTournaments from './YourTournaments';
+import TournamentList from './YourTournaments';
 import {Ionicons} from '@expo/vector-icons';
 import {createMaterialTopTabNavigator}
     from '@react-navigation/material-top-tabs';
@@ -27,7 +27,7 @@ const TournamentScreen = () => {
             >
                 <TopNavigator.Screen 
                     name="Your Tournaments" 
-                    component={YourTournaments} />
+                    component={TournamentList} />
                 <TopNavigator.Screen
                     name="Find Tournament"
                     component={FindTournaments}

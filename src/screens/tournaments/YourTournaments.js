@@ -9,7 +9,9 @@ import {Ionicons} from '@expo/vector-icons';
 //temporary data until fetching from firebase
 const DATA = [
     {
-        id: 'ma1',
+        id: 'PRT1',
+        TourName: 'Tournament with no name',
+        TourType: 'Private Knockout Tournament',
         owner: {
             id: 'us1',
             name: 'Karl-Bertil Johansson',
@@ -18,7 +20,9 @@ const DATA = [
         participants: [],
     },
     {
-        id: 'ma2',
+        id: 'PUT1',
+        TourName: 'Sunday League',
+        TourType: 'Public League Tournament',
         owner: {
             id: 'us1',
             name: 'Anna-Karin Johansson',
@@ -27,73 +31,25 @@ const DATA = [
         participants: [],
     },
     {
-        id: 'ma3',
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'ma4',
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },    
-    {
-        id: 'ma5',
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },    
-    {
-        id: 'ma6',
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },    
-    {
-        id: 'ma7',
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'ma8',
-        owner: {
-            id: 'us1',
-            name: 'Bre Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    
-    
-];
+        id: 'PUT2',
+        TourName: 'Hunger Games',
+        TourType: 'Public Knockout Tournament',
 
-//const TopNavigator = createMaterialTopTabNavigator();
+        owner: {
+            id: 'us1',
+            name: 'Britt-Marie Johansson',
+            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+        },
+        participants: [],
+    },      
+];
 
 
 const TournamentItem = ({item , onPress}) => {
-
-    const [extend, setExtend] = useState('');
-
+    const [isExpanded, setExpanded] = useState(false);
     return (
-        <TouchableHighlight onPress={() => {setExtend(!extend)}} >      
-            <View>
+        <View>
+            <TouchableHighlight onPress={() => {setExpanded(!isExpanded)}} >      
             <ListItem containerStyle={styles.listItemOne}>
                 <Avatar
                     size={50}
@@ -109,81 +65,97 @@ const TournamentItem = ({item , onPress}) => {
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
-                        Created By: {item.owner.name}
+                        {item.TourName}
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles.subTitle1}>
-                        0735623578
+                        {item.TourType}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Ranking: 1438
+                        Extra info if needed
                     </ListItem.Subtitle>
                 </ListItem.Content>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
                     <Ionicons
-                        size={10}
+                        size={20}
                         name='ellipsis-horizontal'
                         color='#707070'
                         padding={2}
                     />
                 </TouchableOpacity>
             </ListItem>
-            <Divider/>
+
+            </TouchableHighlight>
             <ListItem containerStyle={styles.listItemTwo}>
-                <ListItem.Content>
-                    <View style={styles.rowContainer}>
-                        <Ionicons
-                            size={15}
-                            name='time-outline'
-                            color='#707070'
-                        />
-                        <ListItem.Subtitle style={styles.subTitle1}>
-                            2021-06-11, 17:00-20:00
-                        </ListItem.Subtitle>
-                    </View>
-                    <View style={styles.rowContainer}>
-                        <View marginLeft={-1}>
+                    <ListItem.Content>
+                        <View style={styles.rowContainer}>
                             <Ionicons
-                                size={14}
-                                name='location-outline'
+                                size={15}
+                                name='time-outline'
                                 color='#707070'
                             />
-                        </View>
-                        <ListItem.Subtitle style={styles.subTitle1}>
-                            Södertälje Padelhall, Stockholm
-                        </ListItem.Subtitle>
-                    </View>
-                    <ListItem.Subtitle style={styles.subTitle3}>
-                        Players attending so far:
-                    </ListItem.Subtitle>
-                    <View style={styles.rowContainer}>
-                        <View style={styles.columnContainer}>
-                            <ListItem.Subtitle style={styles.name}>
-                                Johan Petersson
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle style={styles.name}>
-                                Johan Persson
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle style={styles.name}>
-                                Johan Persson
+                            <ListItem.Subtitle style={styles.subTitle1}>
+                                2021-06-11, 17:00-20:00
                             </ListItem.Subtitle>
                         </View>
-                        <View style={styles.columnContainer}>
-                            <ListItem.Subtitle style={styles.ranking}>
-                                Ranking: 1048
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle style={styles.ranking}>
-                                Ranking: 2034
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle style={styles.ranking}>
-                                Ranking: 1567
-                            </ListItem.Subtitle>
-                        </View>
-                    </View>
-                </ListItem.Content>
+                    </ListItem.Content>
             </ListItem>
-            <Divider/>
+            { isExpanded ?
+                <View>
+                <ListItem containerStyle={styles.listItemTwo}>
+                    <ListItem.Content>
+                        <View style={styles.rowContainer}>
+                            <Ionicons
+                                size={15}
+                                name='time-outline'
+                                color='#707070'
+                            />
+                            <ListItem.Subtitle style={styles.subTitle1}>
+                                2021-06-11, 17:00-20:00
+                            </ListItem.Subtitle>
+                        </View>
+                        <View style={styles.rowContainer}>
+                            <View marginLeft={-1}>
+                                <Ionicons
+                                    size={14}
+                                    name='location-outline'
+                                    color='#707070'
+                                />
+                            </View>
+                            <ListItem.Subtitle style={styles.subTitle1}>
+                                Södertälje Padelhall, Stockholm
+                            </ListItem.Subtitle>
+                        </View>
+                        <ListItem.Subtitle style={styles.subTitle3}>
+                            Players attending so far:
+                        </ListItem.Subtitle>
+                        <View style={styles.rowContainer}>
+                            <View style={styles.columnContainer}>
+                                <ListItem.Subtitle style={styles.name}>
+                                    Johan Petersson
+                                </ListItem.Subtitle>
+                                <ListItem.Subtitle style={styles.name}>
+                                    Johan Persson
+                                </ListItem.Subtitle>
+
+                            </View>
+                            <View style={styles.columnContainer}>
+                                <ListItem.Subtitle style={styles.ranking}>
+                                    Ranking: 1048
+                                </ListItem.Subtitle>
+                                <ListItem.Subtitle style={styles.ranking}>
+                                    Ranking: 2034
+                                </ListItem.Subtitle>
+
+                            </View>
+                        </View>
+                    </ListItem.Content>
+                </ListItem>
+                </View>
+                : null
+            }
+        <Divider/>
         </View>
-        </TouchableHighlight>
+
     );
 };
 
