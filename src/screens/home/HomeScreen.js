@@ -1,8 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import TopNavigator from './../topNav/TopNavigator';
-import AddMatchScreen from './AddMatchScreen';
-
+import Matches from './Matches';
 
 const ModalNavigator = createStackNavigator();
 
@@ -13,6 +11,8 @@ const HomeScreen = () => {
             mode='modal'
             transparent={true}
         >
+            <ModalNavigator.Screen name='matches' component={Matches}/>
+        {/*
             <ModalNavigator.Screen
                 name='TopNavigator'
                 component={TopNavigator}
@@ -23,6 +23,7 @@ const HomeScreen = () => {
                 component={AddMatchScreen}
             >
             </ModalNavigator.Screen>
+        */}
         </ModalNavigator.Navigator>
     );
 };

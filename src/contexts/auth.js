@@ -14,13 +14,10 @@ export function AuthProvider({children}) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
-    function signup(email, password) {
+    function signup(email, password, username) {
         return auth.createUserWithEmailAndPassword(email, password)
             .then(({user}) => {
-                console.log('user: ');
-                console.dir(user);
-                console.log('currentUser: ');
-                console.dir(currentUser);
+                user.updateProfile({displayName: username});
                 UserDoc.createUserByID(user.uid);
             })
             .catch((e) => setError(e.message));
