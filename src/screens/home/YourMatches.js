@@ -37,7 +37,12 @@ const getMatches = () => (
     ]
 );
 
-const YourMatches = () => {
+const YourMatches = ({navigation}) => {
+
+    const addMatch = () => {
+        navigation.navigate('Add Match');
+    };
+
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
@@ -52,7 +57,10 @@ const YourMatches = () => {
                 }
             </ScrollView>
             <View style={styles.actionButtonContainer}>
-                <TouchableOpacity style={styles.actionButton}>
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={addMatch}
+                >
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
