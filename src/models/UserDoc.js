@@ -1,6 +1,4 @@
 import {db} from '../modules/firebase/firebase';
-import firebase from 'firebase';
-
 
 /**
  * Represents a document in the users collection
