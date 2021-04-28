@@ -32,7 +32,7 @@ export default class UserDoc {
         } catch (error) {
             console.error(error);
             return null;
-            //throw new Error('failed to fetch user data');
+            // throw new Error('failed to fetch user data');
             // TODO let crash on fail, or load without user?
         }
     }
@@ -47,10 +47,10 @@ export default class UserDoc {
             const documentReference = await db
                 .collection(collectionName)
                 .doc(id);
-            
+
             await documentReference
                 .set({});
-            
+
             return new this(documentReference);
         } catch (error) {
             console.error(error);
@@ -64,28 +64,40 @@ export default class UserDoc {
      */
     async addNotification(notficationOptions) {
         try {
-            const notification = await Notification.create({...notficationOptions, owner: this.id})
-            
+            // create notification doc
+            const notification = await Notification.create({...notficationOptions, owner: this.reference});
+
+            // add notificaiton reference to user doc
             await this.documentReference
                 .update({
-                    notifications: firebase.firestore.FieldValue.arrayUnion(notification.id),
+                    notifications: firebase.firestore.FieldValue.arrayUnion(notification.reference),
                 });
-
-            console.log('added notification (UserDoc)');
         } catch (error) {
             console.error(error);
-            throw new Exception('could not add notification (UserDoc)');
+            throw new Error('could not add notification (UserDoc)');
         }
     }
 
+    /**
+     * Add hooks to handle updates of notifications for a user
+     * @param {callable} onResult - handler for updates, will be passed array of notification data
+     * @param {callable} onError - will be called on errors
+     */
     async onNotificationUpdate(onResult, onError) {
         await Notification.onUpdate({userReference: this.reference, onResult, onError});
     }
 
+
+    /**
+     * @return document id
+     */
     get id() {
         return this.documentReference.id;
     }
 
+    /**
+     * @return document reference
+     */
     get reference() {
         return `${collectionName}/${this.id}`;
     }

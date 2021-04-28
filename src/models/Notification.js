@@ -23,7 +23,7 @@ export default class Notification {
 
             // return null if document does not exist
             if (!(await documentReference.get()).exists) {
-                return null
+                return null;
             }
 
             return new this(documentReference);
@@ -39,20 +39,25 @@ export default class Notification {
      * @param {string} title
      * @param {string} owner - reference to owner (user)
      */
-    static async create({type, title, owner = null}) {
+    static async create({type = 'default', header = null, owner = null, description = null, image = null, date = null, isnew = null}) {
         try {
             // save empty user document to db
             const documentReference = await db
                 .collection(collectionName)
-                .doc(id);
-
-            await documentReference
-                .set({
+                .add({
                     type,
-                    title,
-                    owner
+                    title: header,
+                    owner,
+                    header,
+                    description,
+                    image,
+                    date,
+                    isnew,
                 });
-            
+
+            console.log('creating noti');
+            console.dir(documentReference);
+
             return new this(documentReference);
         } catch (error) {
             console.error(error);
@@ -71,13 +76,13 @@ export default class Notification {
             .collection(collectionName)
             .where('owner', '==', userReference)
             .onSnapshot((querySnapshot) => {
-                onResult(querySnapshot.map(documentSnapshot => documentSnapshot.data()));
+                onResult(querySnapshot.docs.map((documentSnapshot) => ({...documentSnapshot.data(), id: documentSnapshot.id})));
             }, onError);
     }
 
     // async update({title}) {
     //     try {
-            
+
     //         const notifications = await this.documentReference
     //             .update({
     //                 notifications: title,
@@ -88,8 +93,17 @@ export default class Notification {
     //     }
     // }
 
+    /**
+     * @return document id
+     */
     get id() {
-        // can this fail?
         return this.documentReference.id;
+    }
+
+    /**
+     * @return document reference
+     */
+    get reference() {
+        return `${collectionName}/${this.id}`;
     }
 }
