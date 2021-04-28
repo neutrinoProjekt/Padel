@@ -1,8 +1,9 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View}
+import {SafeAreaView, StyleSheet, TouchableOpacity, View}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
+import {ScrollView} from 'react-native-gesture-handler';
 
 
 const getMatches = () => (
