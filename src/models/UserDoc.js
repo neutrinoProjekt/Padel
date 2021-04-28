@@ -20,11 +20,11 @@ export default class UserDoc {
                 .doc(id);
 
             // create user if not already existent
-            if (!(await userDocument.get()).exists); {
+            if (await userDocument.get().exists == false) {
                 await this.createUserByID(id);
             }
 
-            return new this(userDocument);
+            return userDocument;
         } catch (error) {
             console.error(error);
             return null;
@@ -46,6 +46,18 @@ export default class UserDoc {
         } catch (error) {
             console.error(error);
             throw new Error('could not create user in database');
+        }
+    }
+
+    static async updateUserByID(id, data) {
+        try {
+            await db
+                .collection('users')
+                .doc(id)
+                .update(data);
+        } catch (error) {
+            console.error(error);
+            throw new Error('could not add ' + data + ' to user ' + id);
         }
     }
 
