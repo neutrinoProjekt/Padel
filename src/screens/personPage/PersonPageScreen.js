@@ -5,9 +5,9 @@ import {
     Text,
     View} from 'react-native';
 import {Avatar} from 'react-native-elements';
-import MainButton from '../components/MainButton';
-import GreyBoxToWrite from '../components/GreyBoxToWrite';
-import {useAuth} from '../contexts/auth';
+import MainButton from '../../components/MainButton';
+import GreyBoxToWrite from '../../components/GreyBoxToWrite';
+import {useAuth} from '../../contexts/auth';
 
 
 // function that displays screen under the header
