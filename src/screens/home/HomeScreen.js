@@ -23,7 +23,9 @@ const HomeScreen = () => {
                 tabStyle: {borderTopWidth: 0},
             }}
         >
-            <TopNavigator.Screen name="Your Matches" component={YourMatches} />
+            <TopNavigator.Screen 
+                name="Your Matches" 
+                component={YourMatches} />
             <TopNavigator.Screen
                 name="Matches"
                 component={Matches}

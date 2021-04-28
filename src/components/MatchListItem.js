@@ -9,6 +9,7 @@ const MatchListItem = ({owner, participants}) => {
                 <ListItem.Content style={styles.listItemOne}>
                     <ListItem.Title style={{fontWeight: "800"}}>
                         Match Created By: {owner.name}
+                        Participants are: {participants}
                     </ListItem.Title>
                 </ListItem.Content>
             </ListItem>
