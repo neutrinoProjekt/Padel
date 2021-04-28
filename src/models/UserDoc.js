@@ -31,7 +31,8 @@ export default class UserDoc {
             return new this(documentReference);
         } catch (error) {
             console.error(error);
-            throw new Exception('failed to fetch user data');
+            return null;
+            //throw new Error('failed to fetch user data');
             // TODO let crash on fail, or load without user?
         }
     }
@@ -53,7 +54,7 @@ export default class UserDoc {
             return new this(documentReference);
         } catch (error) {
             console.error(error);
-            throw new Exception('could not create user in database');
+            throw new Error('could not create user in database');
         }
     }
 
