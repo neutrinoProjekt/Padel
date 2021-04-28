@@ -81,13 +81,13 @@ const MatchListItem = ({owner, participants}) => {
                         </View>
                         <View style={styles.columnContainer}>
                             <ListItem.Subtitle style={styles.ranking}>
-                                Ranking: 1048
+                                Rating: 1048
                             </ListItem.Subtitle>
                             <ListItem.Subtitle style={styles.ranking}>
-                                Ranking: 2034
+                                Rating: 2034
                             </ListItem.Subtitle>
                             <ListItem.Subtitle style={styles.ranking}>
-                                Ranking: 1567
+                                Rating: 1567
                             </ListItem.Subtitle>
                         </View>
                     </View>
