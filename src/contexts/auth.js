@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {auth} from '../modules/firebase/firebase';
+import UserDoc from '../models/UserDoc';
 
 const AuthContext = React.createContext();
 
@@ -9,11 +10,19 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState();
+    const [currentUserDoc, setCurrentUserDoc] = useState();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
+            .then(({user}) => {
+                console.log('user: ');
+                console.dir(user);
+                console.log('currentUser: ');
+                console.dir(currentUser);
+                UserDoc.createUserByID(user.uid);
+            })
             .catch((e) => setError(e.message));
     }
 
@@ -27,8 +36,9 @@ export function AuthProvider({children}) {
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
             setCurrentUser(user);
+            if (user != null) setCurrentUserDoc(await UserDoc.getUserByID(user.uid));
             setLoading(false);
         });
 
@@ -38,6 +48,7 @@ export function AuthProvider({children}) {
     const value = {
         error,
         currentUser,
+        currentUserDoc,
         login,
         signup,
         logout,
