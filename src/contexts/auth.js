@@ -17,9 +17,16 @@ export function AuthProvider({children}) {
     function signup(email, password, username, fullname) {
         return auth.createUserWithEmailAndPassword(email, password)
             .then(({user}) => {
-                user.updateProfile({displayName: username});
+                user.updateProfile({
+                    displayName: username,
+                    photoURL: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullname
+                });
                 UserDoc.createUserByID(user.uid);
-                UserDoc.updateUserByID(user.uid, {fullname: fullname, notifications: {}, matches: {}});
+                UserDoc.updateUserByID(user.uid, {
+                    fullname: fullname,
+                    notifications: {},
+                    matches: {}
+                });
             })
             .catch((e) => setError(e.message));
     }
