@@ -18,7 +18,7 @@ export function AuthProvider({children}) {
         return auth.createUserWithEmailAndPassword(email, password)
             .then(({user}) => {
                 user.updateProfile({displayName: username});
-                UserDoc.createUserByID(user.uid);
+                UserDoc.createByID(user.uid);
             })
             .catch((e) => setError(e.message));
     }
@@ -35,7 +35,7 @@ export function AuthProvider({children}) {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             setCurrentUser(user);
-            if (user != null) setCurrentUserDoc(await UserDoc.getUserByID(user.uid));
+            if (user != null) setCurrentUserDoc(await UserDoc.getByID(user.uid));
             setLoading(false);
         });
 
