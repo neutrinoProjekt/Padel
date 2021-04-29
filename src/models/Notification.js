@@ -69,7 +69,7 @@ export default class Notification {
      * @param {callable} onError - will be called on errors
      */
     static async onUpdate({userReference, onResult, onError}) {
-        await db
+        return await db
             .collection(collectionName)
             .where('owner', '==', userReference)
             .onSnapshot((querySnapshot) => {
@@ -100,6 +100,6 @@ export default class Notification {
      * @return document reference
      */
     get reference() {
-        return `${collectionName}/${this.id}`;
+        return db.doc(`${collectionName}/${this.id}`);
     }
 }
