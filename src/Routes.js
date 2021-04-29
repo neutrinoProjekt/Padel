@@ -6,15 +6,20 @@ import Error from './screens/error/ErrorScreen';
 import BottomNavigation from './screens/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import {useAuth} from './contexts/auth';
+import CreateTournamentScreen from './screens/tournament/CreateTournamentScreen';
 
 const Stack = createStackNavigator();
 
 export default function Routes() {
-    
     const {currentUser, currentUserDoc} = useAuth();
 
     return currentUser === null ? (
         <Stack.Navigator screenOptions={{cardStyle: {backgroundColor: '#ffffff'}}}>
+            <Stack.Screen
+                name="CreateTournamentScreen"
+                component={CreateTournamentScreen}
+                options={{headerShown: false}}
+             />
             <Stack.Screen
                 name="Home"
                 component={StartScreen}
