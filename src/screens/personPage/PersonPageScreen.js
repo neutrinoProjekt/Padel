@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
@@ -9,14 +9,20 @@ import {useAuth} from '../../contexts/auth';
 // function that displays screen under the header
 export default function PersonPageScreen() {
     const [phonenr, setPhonenr] = useState('');
+    const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
+    const [description, setDescription] = useState('');
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const {currentUser, logout} = useAuth();
+    const {currentUser, logout, currentUserDoc} = useAuth();
 
-    let image = currentUser.photoURL === null ? 
-        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-        {uri: currentUser.photoURL};
+    // let image = currentUserDoc.photoURL === null ? 
+    //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+    //     {uri: currentUserDoc.photoURL};
+    
+    useEffect(() => {
+        (async () => setImage({uri: await currentUserDoc.photoURL}))();
+    }, [])
 
     return (
         // source should be equal with a function that have an image
@@ -26,7 +32,6 @@ export default function PersonPageScreen() {
                 rounded
                 size="xlarge"
                 source={image}
-                onPress={() => console.log('Works!')}
                 activeOpacity={0.7}
             />
 
@@ -36,7 +41,7 @@ export default function PersonPageScreen() {
 
             {/* 3 grey boxes to put user's personal info*/}
             <View>
-                <Text style={styles.subtitle}>Description:</Text>
+                <Text style={styles.subtitle}>{description}</Text>
                 <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
                 <Text style={styles.subtitle}> Contact info: </Text>
                 <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
@@ -64,7 +69,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         color: '#00ceb4',
-        minWidth: 200,
         textAlign: 'center',
     },
     subtitle: {

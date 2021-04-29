@@ -55,9 +55,6 @@ export default class Notification {
                     isnew,
                 });
 
-            console.log('creating noti');
-            console.dir(documentReference);
-
             return new this(documentReference);
         } catch (error) {
             console.error(error);
@@ -72,7 +69,7 @@ export default class Notification {
      * @param {callable} onError - will be called on errors
      */
     static async onUpdate({userReference, onResult, onError}) {
-        await db
+        return await db
             .collection(collectionName)
             .where('owner', '==', userReference)
             .onSnapshot((querySnapshot) => {
@@ -87,7 +84,6 @@ export default class Notification {
     //             .update({
     //                 notifications: title,
     //             });
-    //         console.log('woop wooop test2');
     //     } catch (error) {
     //         console.error('oh noes' + err);
     //     }
@@ -104,6 +100,6 @@ export default class Notification {
      * @return document reference
      */
     get reference() {
-        return `${collectionName}/${this.id}`;
+        return db.doc(`${collectionName}/${this.id}`);
     }
 }
