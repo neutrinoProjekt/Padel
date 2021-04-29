@@ -24,7 +24,7 @@ export default function PersonPageScreen() {
         (async () => setImage({uri: await currentUserDoc.photoURL}))();
     }, [])
 
-    return (
+    return currentUser != null ? (
         // source should be equal with a function that have an image
         <View style={styles.container}>
             <Text style={{color: '#707070', fontSize: 20, fontWeight: 'bold'}}>My Account</Text>
@@ -53,7 +53,7 @@ export default function PersonPageScreen() {
                 <MainButton title='Sign Out' onPress={() => logout()}/>
             </View>
         </View>
-    );
+    ) : (<Text></Text>);
 }
 
 const styles = StyleSheet.create({
