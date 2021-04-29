@@ -42,10 +42,10 @@ const EmailScreen = ({navigation, route}) => {
                 <View style={{paddingTop: 5}}>
                     <Text style={styles.text}> Please register your email address below</Text>
                 </View>
-                <View>
+                <View style={{paddingTop: 10}}>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
-                <View style={{marginTop: 30}}>
+                <View style={{marginTop: 20}}>
                     <TextInput placeholder="Email"
                         autoFocus
                         placeholderTextColor={'rgba(0, 0, 0, 0.5)'}

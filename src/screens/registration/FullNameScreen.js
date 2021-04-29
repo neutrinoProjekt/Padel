@@ -45,10 +45,10 @@ const FullNameScreen = ({navigation, route}) => {
                         Please enter your full name below
                     </Text>
                 </View>
-                <View>
+                <View style={{paddingTop: 10}}>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
-                <View style={{marginTop: 30}}>
+                <View style={{marginTop: 20}}>
                     <TextInput placeholder="Firstname"
                         autoFocus
                         value={firstName}
