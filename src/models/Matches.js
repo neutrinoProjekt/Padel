@@ -1,4 +1,3 @@
-import React from 'react'
 import {db} from '../modules/firebase/firebase';
 
 const createMatch = async ({city}) => {

@@ -141,7 +141,6 @@ const Notifications = () => {
 
     useEffect(() => {
         currentUserDoc.onNotificationUpdate((updatedNotifications) => {
-            console.dir(updatedNotifications);
             setNotificationData(updatedNotifications);
         }, () => {
             console.error('failed with ze notifications');
