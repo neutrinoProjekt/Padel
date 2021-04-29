@@ -47,8 +47,6 @@ const YourMatches = ({navigation}) => {
     useEffect(() => {
         if (currentUserDoc != null) {
             const unsubscribe = currentUserDoc.onMatchUpdate((updatedMatches) => {
-                console.log('updating matches');
-                console.dir(updatedMatches);
                 setMatchData(updatedMatches);
             }, () => {
                 console.error('aw shit here we go again');
