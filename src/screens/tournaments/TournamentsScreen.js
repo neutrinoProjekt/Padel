@@ -14,7 +14,7 @@ const TournamentScreen = () => {
         <view>
             <TopNavigator.Navigator
                 tabBarOptions={{
-                    activeTintColor: '#0064B4',
+                    activeTintColor: '#00CEB4',
                     inactiveTintColor: '#707070',
                     indicatorStyle: {backgroundColor: '#00CEB4'},
                     labelStyle: {
@@ -34,7 +34,7 @@ const TournamentScreen = () => {
                 />
             </TopNavigator.Navigator>
             <View style={styles.actionButtonContainer}>
-                <TouchableOpacity style={styles.actionButton}>
+                <TouchableOpacity style={styles.actionButton} onPress={() =>{AddTournament}} >
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>

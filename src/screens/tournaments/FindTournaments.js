@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 const FindTournaments = () => {
     return (
         <View>
-            <Text>This is the tournaments Screen!</Text>
+            <Text>This is the find tournament Screen!</Text>
         </View>
     )
 }

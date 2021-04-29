@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {FlatList, Text, SafeAreaView, ScrollView, StyleSheet,TouchableOpacity, TouchableHighlight, View}
     from 'react-native';
-import {ListItem, Divider, Avatar} from 'react-native-elements';
+import {ListItem, Divider, Avatar,Overlay} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
-
+import OverlayMenu from './OverlayMenu';
 
 
 //temporary data until fetching from firebase
@@ -41,12 +41,58 @@ const DATA = [
             imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
         },
         participants: [],
-    },      
+    },
+    {
+        id: 'PUT3',
+        TourName: 'Hunger Games',
+        TourType: 'Public Knockout Tournament',
+
+        owner: {
+            id: 'us1',
+            name: 'Britt-Marie Johansson',
+            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+        },
+        participants: [],
+    },      {
+        id: 'PUT4',
+        TourName: 'Hunger Games',
+        TourType: 'Public Knockout Tournament',
+
+        owner: {
+            id: 'us1',
+            name: 'Britt-Marie Johansson',
+            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+        },
+        participants: [],
+    },      {
+        id: 'PUT5',
+        TourName: 'Hunger Games',
+        TourType: 'Public Knockout Tournament',
+
+        owner: {
+            id: 'us1',
+            name: 'Britt-Marie Johansson',
+            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+        },
+        participants: [],
+    },      {
+        id: 'PUT6',
+        TourName: 'Hunger Games',
+        TourType: 'Public Knockout Tournament',
+
+        owner: {
+            id: 'us1',
+            name: 'Britt-Marie Johansson',
+            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+        },
+        participants: [],
+    },        
 ];
 
 
-const TournamentItem = ({item , onPress}) => {
+const TournamentItem = ({item}) => {
     const [isExpanded, setExpanded] = useState(false);
+    
     return (
         <View>
             <TouchableHighlight onPress={() => {setExpanded(!isExpanded)}} >      
@@ -74,7 +120,7 @@ const TournamentItem = ({item , onPress}) => {
                         Extra info if needed
                     </ListItem.Subtitle>
                 </ListItem.Content>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={{}}>
                     <Ionicons
                         size={20}
                         name='ellipsis-horizontal'
@@ -90,11 +136,11 @@ const TournamentItem = ({item , onPress}) => {
                         <View style={styles.rowContainer}>
                             <Ionicons
                                 size={15}
-                                name='time-outline'
-                                color='#707070'
+                                name='people'
+                                color='#00CEB4'
                             />
                             <ListItem.Subtitle style={styles.subTitle1}>
-                                2021-06-11, 17:00-20:00
+                                You, Jonas, Silvia and 10 others
                             </ListItem.Subtitle>
                         </View>
                     </ListItem.Content>
