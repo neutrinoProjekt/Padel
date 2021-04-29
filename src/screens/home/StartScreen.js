@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import MainButton from '../../components/MainButton';
 import DynamicButton from '../../components/DynamicButton';
 import {styles} from '../styling/Styles';
@@ -21,7 +21,6 @@ const StartScreen = ({navigation}) => {
 
     return (
         <ImageBackground source = {{uri: 'https://i.pinimg.com/originals/50/2c/a3/502ca33a6bcd3eafa97d50957c63dcb9.png'}} style = {styles.image}>
-            <StatusBar barStyle = "dark-content"/>
             <View style={{height: 400}}>
                 <Text style={customStyles.title}>PaddelPal</Text>
             </View>

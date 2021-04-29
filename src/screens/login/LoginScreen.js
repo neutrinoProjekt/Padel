@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
+import {KeyboardAvoidingView, Text, TextInput, View} from 'react-native';
 import {FacebookSocialButton, GoogleSocialButton} from 'react-native-social-buttons';
 import {useAuth} from '../../contexts/auth';
 import MainButton from '../../components/MainButton';
@@ -27,8 +26,8 @@ const LoginScreen = ({navigation}) => {
 
     function handleLogin() {
         login(email, password);
-        navigation.navigate('PaddlePal');
     };
+
     useEffect(() => {
         setErrorMessage(error);
     }, [error]);
@@ -36,7 +35,6 @@ const LoginScreen = ({navigation}) => {
 
     return (
         <View style={{alignItems: 'center'}}>
-            <StatusBar barStyle="dark-content"/> 
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.titleAlignment}>
                     <Text style={styles.title}>PaddlePal</Text>
@@ -63,7 +61,6 @@ const LoginScreen = ({navigation}) => {
                         onChangeText={(text) => setPassword(text)}
                     />
                 </View>
-                <StatusBar style='dark' />
                 <View style={{paddingTop: 20}}>
                     <MainButton title='Log in' onPress={() => handleLogin()}/>
                 </View>

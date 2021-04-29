@@ -23,7 +23,6 @@ const GreyBoxToWrite = (props) => {
 const styles = StyleSheet.create({
     input: {
         maxWidth: 500,
-        minWidth: 500,
         height: 45,
         borderRadius: 10,
         fontSize: 16,
