@@ -90,7 +90,6 @@ const CreateTournamentScreen = () => {
 
     // Returns date
     const getDate = (date) => {
-        console.log(date);
         date = date.toString().substring(0, 15).split(' ');
         return date[3] + '-' + date[1] + '-' + date[2];
     };
