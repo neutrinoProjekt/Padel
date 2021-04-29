@@ -23,7 +23,7 @@ export default function PersonPageScreen() {
     return (
         // source should be equal with a function that have an image
         <View style={styles.container}>
-            <Text style={{color: '#707070', fontSize: 20, fontWeight: 'bold'}}>My Account</Text>
+            <Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>
             <Avatar
                 rounded
                 size="xlarge"
@@ -33,11 +33,12 @@ export default function PersonPageScreen() {
 
             {/* Firebase issue. Get the user' peofile pic from the database*/}
             <Text style={styles.text}>{currentUser.displayName}</Text>
-            <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
-
+            <View style={{marginBottom: 20}}>
+                <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
+            </View>
             {/* 3 grey boxes to put user's personal info*/}
             <View>
-                <Text style={styles.subtitle}>{description}</Text>
+                <Text style={[styles.subtitle]}>Description:</Text>
                 <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
                 <Text style={styles.subtitle}> Contact info: </Text>
                 <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         color: '#707070',
-        fontSize: 17,
+        fontSize: 12,
         fontWeight: 'bold',
     },
 });

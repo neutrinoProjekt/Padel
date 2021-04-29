@@ -6,7 +6,7 @@ import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
 import PersonPageScreen from '../personPage/PersonPageScreen';
 import Notifications from '../notifiactions/Notifications';
-import TournamentNavigator from '../tournaments/TournamentNavigator';
+import TournamentNavigator from '../tournaments/TournamentTopNavigator';
 
 const Tab = createBottomTabNavigator();
 

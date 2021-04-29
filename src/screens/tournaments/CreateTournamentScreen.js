@@ -134,6 +134,7 @@ const CreateTournamentScreen = () => {
             setErrorMsg('Please suggest a date');
             return;
         };
+        // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
 
     return (
