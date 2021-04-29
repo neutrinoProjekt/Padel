@@ -17,7 +17,7 @@ const screenOptions = ({route}) => ({
         if (route.name === 'HomeScreen') {
             iconName = 'home-outline';
             color = focused ? '#00CEB4' : '#707070';
-        } else if (route.name === 'Tournament') {
+        } else if (route.name === 'Tournaments') {
             iconName = 'trophy-outline';
             color = focused ? '#00CEB4' : '#707070';
         } else if (route.name === 'Notifications') {
@@ -39,7 +39,7 @@ const BottomNavigation = () => {
             screenOptions={screenOptions}
             tabBarOptions={{
                 showLabel: false,
-                style: {height: 100},
+                style: {height: 80},
             }}
             initialRouteName="HomeScreen"
         >
