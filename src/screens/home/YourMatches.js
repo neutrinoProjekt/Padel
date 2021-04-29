@@ -69,9 +69,6 @@ const YourMatches = ({navigation}) => {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={addMatch}>
-                <Text>
-                    Press to add match
-                </Text>
             </TouchableOpacity>
             <ScrollView style={styles.container}>
                 {

@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {ListItem, Divider, Avatar, Text} from 'react-native-elements';
+import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
 
 const MatchListItem = ({owner, participants}) => {
-    let image = owner.photoURL === null ? 
+    let image = owner.photoURL === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
     
@@ -30,12 +30,12 @@ const MatchListItem = ({owner, participants}) => {
                         0735623578
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Ranking: 1438
+                        Rating: 1438
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity>
                     <Ionicons
-                        size={10}
+                        size={14}
                         name='ellipsis-horizontal'
                         color='#707070'
                         padding={2}

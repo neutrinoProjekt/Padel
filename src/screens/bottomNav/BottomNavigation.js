@@ -43,10 +43,10 @@ const BottomNavigation = () => {
             }}
             initialRouteName="HomeScreen"
         >
-            <Tab.Screen name="Notifications" component={Notifications} />
-            <Tab.Screen name="Victory" component={VictoryScreen} />
-            <Tab.Screen name="Profile" component={PersonPageScreen} />
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
+            <Tab.Screen name="Victory" component={VictoryScreen} />
+            <Tab.Screen name="Notifications" component={Notifications} />
+            <Tab.Screen name="Profile" component={PersonPageScreen} />
         </Tab.Navigator>
     );
 };
