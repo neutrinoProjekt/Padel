@@ -9,7 +9,6 @@ import MainButton from '../../components/MainButton';
 import {LogBox} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-
 const CreateTournamentScreen = () => {
     // States interacting with slider
     const [rank1, setRank1] = useState(10); // used for Minimum rank slider
@@ -54,28 +53,27 @@ const CreateTournamentScreen = () => {
         hideDatePicker();
     };
 
-    // time picker functions
+    // Time picker functions (from)
     const showTimePicker1 = () => {
         setTimePickerVisibility1(true);
-    };
-
-    const showTimePicker2 = () => {
-        setTimePickerVisibility2(true);
     };
 
     const hideTimePicker1 = () => {
         setTimePickerVisibility1(false);
     };
 
-    const hideTimePicker2 = () => {
-        setTimePickerVisibility2(false);
-    };
-
-    // 0 <-> from, 1 <-> to
     const handleTimeFrom = (str) => {
         const time = getTime(str);
         setTimeFrom(time);
         hideTimePicker1();
+    };
+
+    // Time picker functions (to)
+    const hideTimePicker2 = () => {
+        setTimePickerVisibility2(false);
+    };
+    const showTimePicker2 = () => {
+        setTimePickerVisibility2(true);
     };
 
     const handleTimeTo = (str) => {
@@ -86,7 +84,6 @@ const CreateTournamentScreen = () => {
 
     // Returns time formatted as xx:xx, given a random string containing xx:xx
     const getTime = (time) => {
-        console.log(time.toString().match(/\d\d:\d\d/[0]));
         return time.toString().match(/\d\d\:\d\d/)[0];
     };
 
@@ -116,11 +113,11 @@ const CreateTournamentScreen = () => {
         };
     };
 
+    const [errorMsg, setErrorMsg] = useState('');
     // Create tournament
     const createTrnmnt = () => {
-
+    
     };
-
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -179,7 +176,7 @@ const CreateTournamentScreen = () => {
             <View style={{paddingTop: 10}}>
                 <View style={{flexDirection: 'row'}}>
                     <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                        <Text>Minimum rank</Text>
+                        <Text>Maximum rank</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end'}}>
                         <Switch
@@ -341,7 +338,6 @@ const styling = StyleSheet.create({
     },
     colorYellow: {
         color: 'rgb(252, 228, 149)',
-        fontWeight: 'bold',
     },
     colorLightGrey: {
         color: '#d3d3d3',
