@@ -7,7 +7,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
 
 
-
 const getMatches = () => (
     [
         {
@@ -48,24 +47,24 @@ const YourMatches = ({navigation}) => {
     useEffect(() => {
         if (currentUserDoc != null) {
             const unsubscribe = currentUserDoc.onMatchUpdate((updatedMatches) => {
-                console.log('updating matches')
+                console.log('updating matches');
                 console.dir(updatedMatches);
                 setMatchData(updatedMatches);
             }, () => {
-                console.error('aw shit here we go again')
-            })
+                console.error('aw shit here we go again');
+            });
 
             // cleanup
             return async () => {
                 await (await unsubscribe)();
-            }
+            };
         }
     }, [currentUserDoc]);
 
     const addMatch = () => {
         navigation.navigate('Add Match');
-    }
-    
+    };
+
 
     return (
         <SafeAreaView>

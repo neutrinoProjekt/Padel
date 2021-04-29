@@ -150,7 +150,7 @@ const Notifications = () => {
         // cleanup
         return async () => {
             await (await unsubscribe)();
-        }
+        };
     }, []);
 
     return (
