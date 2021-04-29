@@ -1,6 +1,5 @@
 import React from 'react';
-import {TextInput} from 'react-native';
-import {StyleSheet} from 'react-native';
+import {TextInput, StyleSheet} from 'react-native';
 
 /* A grey input box to put some text in, for example
 * decription, contactinfo, email
@@ -25,8 +24,8 @@ const styles = StyleSheet.create({
         maxWidth: 500,
         height: 45,
         borderRadius: 10,
-        fontSize: 16,
-        paddingLeft: 15,
+        fontSize: 12,
+        paddingLeft: 5,
         margin: '2%',
         backgroundColor: '#f7f7f7',
     },

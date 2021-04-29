@@ -34,7 +34,7 @@ const LoginScreen = ({navigation}) => {
 
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', flex: 1}}>
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.titleAlignment}>
                     <Text style={styles.title}>PaddlePal</Text>
@@ -42,7 +42,7 @@ const LoginScreen = ({navigation}) => {
                 <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
-                <View style={{marginTop: 30}}>
+                <View style={{marginTop: 20}}>
                     <TextInput
                         style={styles.input}
                         placeholder={'Username or e-mail'}
@@ -67,10 +67,10 @@ const LoginScreen = ({navigation}) => {
                 <View style={{paddingTop: 10}}>
                     <MainButton title='Forgot your password' onPress={() => setPassword}/>
                 </View>
-                <View style={{paddingTop: 5}}>
+                <View style={{paddingTop: 5, alignSelf: 'center'}}>
                     <FacebookSocialButton onPress={fbLogin}/>
                 </View>
-                <View style={{paddingTop: 5}}>
+                <View style={{paddingTop: 5, alignSelf: 'center'}}>
                     <GoogleSocialButton onPress={googleLogin}/>
                 </View>
             </KeyboardAvoidingView>

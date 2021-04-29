@@ -8,6 +8,7 @@ import {Slider} from 'react-native-elements/dist/slider/Slider';
 import MainButton from '../../components/MainButton';
 import {LogBox} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {colors} from '../styling/Colors';
 
 const CreateTournamentScreen = () => {
     // States interacting with slider
@@ -89,10 +90,10 @@ const CreateTournamentScreen = () => {
 
     // Returns date
     const getDate = (date) => {
+        console.log(date);
         date = date.toString().substring(0, 15).split(' ');
         return date[3] + '-' + date[1] + '-' + date[2];
     };
-
 
     // Ignore native driver message for now...
     useEffect(() => {
@@ -104,19 +105,35 @@ const CreateTournamentScreen = () => {
         return rank1 <= rank2;
     };
 
+    // Hook for clearing error message
+    useEffect(() => {
+        setErrorMsg('');
+    }, [rank1, rank2, date]);
+
     // Set rank slider color
     const setRankSliderColor = () => {
         if (validRankInterval()) {
-            setRankColor('rgb(252, 228, 149)');
+            setRankColor(colors.colorYellow);
         } else {
             setRankColor('red');
         };
     };
 
     const [errorMsg, setErrorMsg] = useState('');
+
     // Create tournament
     const createTrnmnt = () => {
-    
+        // Validate rank interval
+        if (toggle1 && toggle2 && !validRankInterval()) {
+            setErrorMsg('Invalid rank interval');
+            return;
+        };
+
+        // Validate date
+        if (date == 'dd-mm-yyyy') {
+            setErrorMsg('Please suggest a date');
+            return;
+        };
     };
 
     return (
@@ -143,8 +160,8 @@ const CreateTournamentScreen = () => {
                             onValueChange={(val) => setToggle1(val)}
                             activeText={'On'}
                             inActiveText={'Off'}
-                            circleActiveColor={'rgb(252, 228, 149)'}
-                            circleInctiveColor={'#d3d3d3'}
+                            circleActiveColor={colors.colorYellow}
+                            circleInctiveColor={colors.colorLightGrey}
                         />
                     </View>
                 </View>
@@ -158,9 +175,9 @@ const CreateTournamentScreen = () => {
                         setRank1(val);
                         setRankSliderColor();
                     }}
-                    thumbTintColor={toggle1 ? 'rgb(252, 228, 149)' : 'grey'}
-                    maximumTrackTintColor= {toggle1 ? '#d3d3d3' : 'grey'}
-                    minimumTrackTintColor={toggle1 ? rankColor : 'grey'}
+                    thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
+                    maximumTrackTintColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
+                    minimumTrackTintColor={toggle1 ? rankColor : colors.colorDisabled}
                     disabled={!toggle1}
                 />
                 <View style={styling.textCon}>
@@ -184,8 +201,8 @@ const CreateTournamentScreen = () => {
                             onValueChange={(val) => setToggle2(val)}
                             activeText={'On'}
                             inActiveText={'Off'}
-                            circleActiveColor={'rgb(252, 228, 149)'}
-                            circleInctiveColor={'#d3d3d3'}
+                            circleActiveColor={colors.colorYellow}
+                            circleInctiveColor={colors.colorLightGrey}
                         />
                     </View>
                 </View>
@@ -199,17 +216,17 @@ const CreateTournamentScreen = () => {
                         setRank2(val);
                         setRankSliderColor();
                     }}
-                    thumbTintColor={toggle2 ? 'rgb(252, 228, 149)' : 'grey'}
-                    maximumTrackTintColor={toggle2 ? '#d3d3d3' : 'grey'}
-                    minimumTrackTintColor={toggle2 ? 'rgb(252, 228, 149)' : 'grey'}
+                    thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                    maximumTrackTintColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
+                    minimumTrackTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
                     disabled={!toggle2}
                 />
                 <View style={styling.textCon}>
-                    <Text style={styling.colorGrey}>{minRank}</Text>
-                    <Text style={styling.colorYellow}>
+                    <Text style={colors.colorDisabled}>{minRank}</Text>
+                    <Text style={colors.colorYellow}>
                         {toggle2 ? rank2 : ''}
                     </Text>
-                    <Text style={styling.colorGrey}>{maxRank}</Text>
+                    <Text style={colors.colorDisabled}>{maxRank}</Text>
                 </View>
             </View>
 
@@ -225,8 +242,8 @@ const CreateTournamentScreen = () => {
                             onValueChange={(val) => setToggle3(val)}
                             activeText={'On'}
                             inActiveText={'Off'}
-                            circleActiveColor={'rgb(252, 228, 149)'}
-                            circleInctiveColor={'#d3d3d3'}
+                            circleActiveColor={colors.colorYellow}
+                            circleInctiveColor={colors.colorLightGrey}
                         />
                     </View>
                 </View>
@@ -237,14 +254,14 @@ const CreateTournamentScreen = () => {
                     maximumValue={maxPlayers}
                     value={players}
                     onValueChange={(val) => setPlayers(val)}
-                    thumbTintColor={toggle3 ? 'rgb(252, 228, 149)' : 'grey'}
-                    maximumTrackTintColor={toggle3 ? '#d3d3d3' : 'grey'}
-                    minimumTrackTintColor={toggle3 ? 'rgb(252, 228, 149)' : 'grey'}
+                    thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
+                    maximumTrackTintColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
+                    minimumTrackTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
                     disabled={!toggle3}
                 />
                 <View style={styling.textCon}>
-                    <Text style={styling.colorGrey}>{minPlayers}</Text>
-                    <Text style={styling.colorYellow}>
+                    <Text style={colors.colorDisabled}>{minPlayers}</Text>
+                    <Text style={colors.colorYellow}>
                         {toggle3 ? players : ''}
                     </Text>
                     <Text style={styling.colorGrey}>{maxPlayers}</Text>
@@ -252,19 +269,19 @@ const CreateTournamentScreen = () => {
             </View>
             {/* Date picker*/}
             <Pressable onPress={showDatePicker}>
-                <View style={{marginTop: 20}} pointerEvents="none">
+                <View style={{marginTop: 10}} pointerEvents="none">
                     <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>Date</Text>
                     <TextInput
                         placeholder={date}
                         placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                        style={styles.input}
+                        style={[styles.input, {paddingRight: 15}, {fontSize: 20}]}
                         textAlign = 'center'
                     />
                 </View>
             </Pressable>
 
             {/* Time picker*/}
-            <View style={{flexDirection: 'row', paddingTop: 10, justifyContent: 'center'}}>
+            <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
                 <Pressable onPress={showTimePicker1}>
                     <View pointerEvents='none' style={{paddingRight: 10}}>
                         <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>From</Text>
@@ -312,7 +329,10 @@ const CreateTournamentScreen = () => {
                 isDarkModeEnabled={true}
                 locale='sv_SE'
             />
-            <View paddingTop = {30}>
+            <View style={{marginBottom: -10}}>
+                <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
+            </View>
+            <View style={{marginTop: -15}}>
                 <MainButton title="Create tournament" onPress={createTrnmnt}/>
             </View>
         </View>
@@ -332,15 +352,6 @@ const styling = StyleSheet.create({
         width: 320,
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    colorDisabled: {
-        color: 'grey',
-    },
-    colorYellow: {
-        color: 'rgb(252, 228, 149)',
-    },
-    colorLightGrey: {
-        color: '#d3d3d3',
     },
     textInput: {
         height: 50,
