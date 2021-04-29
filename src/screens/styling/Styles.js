@@ -8,9 +8,21 @@ export const styles = StyleSheet.create({
         borderColor: '#BFBFBF',
         borderRadius: 10,
         backgroundColor: '#F7F7F7',
-        fontSize: 20,
+        fontSize: 14,
         paddingLeft: 15,
         width: 305,
+        alignSelf: 'center',
+    },
+    narrowInput: {
+        textAlign: 'center',
+        height: 50,
+        borderColor: '#BFBFBF',
+        borderRadius: 10,
+        backgroundColor: '#F7F7F7',
+        fontSize: 14,
+        paddingLeft: 15,
+        width: 145,
+        alignSelf: 'center',
     },
     title: {
         fontWeight: 'bold',
@@ -23,6 +35,9 @@ export const styles = StyleSheet.create({
         color: '#696969',
         alignSelf: 'center',
         textAlign: 'center',
+    },
+    absolute: {
+        position: 'absolute',
     },
     button: {
         color: '#ffffff',
@@ -43,8 +58,6 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#ff0f0f',
-        width: 320,
-        position: 'absolute',
         padding: 10,
     },
     image: {
@@ -61,5 +74,15 @@ export const styles = StyleSheet.create({
     titleAlignment: {
         paddingTop: 100,
         alignSelf: 'center',
+    },
+    progressbar: {
+        alignSelf: 'center',
+        height: 15,
+        width: '15%',
+        backgroundColor: '#f7f7f7',
+        borderColor: '#707070',
+        borderWidth: 2,
+        borderRadius: 5,
+        marginTop: '3%',
     },
 });

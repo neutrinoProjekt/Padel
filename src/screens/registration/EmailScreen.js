@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, Text, TextInput, View} from 'react-native';
 import BackButton from '../../components/BackButton';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
@@ -14,8 +14,12 @@ const EmailScreen = ({navigation, route}) => {
     // address has been entered
     const next = () => {
         if (email.length > 0) {
-            route.params.setEmail(email);
-            navigation.navigate('FullName');
+            if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                route.params.setEmail(email);
+                navigation.navigate('FullName');
+            } else {
+                setErrorMessage('Badly formatted email');
+            }
         } else if (email.length == 0) {
             setErrorMessage('Please enter an email address to continue');
         }
@@ -31,7 +35,6 @@ const EmailScreen = ({navigation, route}) => {
 
     return (
         <View style={{alignItems: 'center'}}>
-            <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.titleAlignment}>
                     <Text style={styles.title}>Email</Text>
@@ -39,7 +42,7 @@ const EmailScreen = ({navigation, route}) => {
                 <View style={{paddingTop: 5}}>
                     <Text style={styles.text}> Please register your email address below</Text>
                 </View>
-                <View style={{alignSelf: 'left'}}>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>

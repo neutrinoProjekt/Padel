@@ -1,18 +1,18 @@
 /* eslint-disable max-len */
-import React, {useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
+import React, {useState, useEffect} from 'react';
+import {KeyboardAvoidingView, Text, TextInput, View} from 'react-native';
 import {FacebookSocialButton, GoogleSocialButton} from 'react-native-social-buttons';
 import {useAuth} from '../../contexts/auth';
 import MainButton from '../../components/MainButton';
 import {styles} from '../styling/Styles';
 
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const {login} = useAuth();
+    const {login, error} = useAuth();
 
     // todo: login with google
     const googleLogin = () => {
@@ -24,12 +24,24 @@ const LoginScreen = () => {
 
     };
 
+    function handleLogin() {
+        login(email, password);
+    };
+
+    useEffect(() => {
+        setErrorMessage(error);
+    }, [error]);
+
+
     return (
-        <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-            <View style={styles.titleAlignment}>
-                <Text style={customStyles.title}>PaddlePal</Text>
-            </View>
-            <KeyboardAvoidingView behavior="padding" style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <View style={{alignItems: 'center'}}>
+            <KeyboardAvoidingView behavior="padding">
+                <View style={styles.titleAlignment}>
+                    <Text style={styles.title}>PaddlePal</Text>
+                </View>
+                <View>
+                    <Text style={styles.error}>{errorMessage}</Text>
+                </View>
                 <View style={{marginTop: 30}}>
                     <TextInput
                         style={styles.input}
@@ -49,9 +61,8 @@ const LoginScreen = () => {
                         onChangeText={(text) => setPassword(text)}
                     />
                 </View>
-                <StatusBar style='dark' />
                 <View style={{paddingTop: 20}}>
-                    <MainButton title='Log in' onPress={() => login(email, password)}/>
+                    <MainButton title='Log in' onPress={() => handleLogin()}/>
                 </View>
                 <View style={{paddingTop: 10}}>
                     <MainButton title='Forgot your password' onPress={() => setPassword}/>
@@ -68,10 +79,4 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-const customStyles = StyleSheet.create({
-    title: {
-        fontWeight: 'bold',
-        fontSize: 50,
-        color: '#696969',
-    },
-});
+

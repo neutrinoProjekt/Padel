@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, Text, TextInput, View} from 'react-native';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
 import BackButton from '../../components/BackButton';
@@ -30,7 +30,6 @@ const UsernameScreen = ({navigation, route}) => {
 
     return (
         <View style={{alignItems: 'center'}}>
-            <StatusBar barStyle = "dark-content"/>
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.titleAlignment}>
                     <Text style={styles.title}>Username</Text>
@@ -38,7 +37,7 @@ const UsernameScreen = ({navigation, route}) => {
                 <View style={{paddingTop: 5}}>
                     <Text style={styles.text}> Please enter your username below</Text>
                 </View>
-                <View style={{alignSelf: 'left'}}>
+                <View>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
                 <View style={{marginTop: 30}}>

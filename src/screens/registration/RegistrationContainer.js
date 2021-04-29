@@ -18,10 +18,11 @@ export const RegistrationContainer = ({navigation}) => {
     const [password, setPassword] = useState('');
     const {signup} = useAuth();
 
-    // todo
-    /* useEffect(() => {
-        signup(email, password);
-    }, [password]);*/
+    useEffect(() => {
+        if (password != '') {
+            signup(email, password, username, fullname);
+        }
+    }, [password]);
 
     return (
         <Stack.Navigator screenOptions={{headerShown: false, cardStyle: {backgroundColor: '#ffffff'}}}>
