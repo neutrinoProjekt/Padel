@@ -57,7 +57,7 @@ const YourMatches = ({navigation}) => {
 
             // cleanup
             return async () => {
-                await unsubscribe();
+                await (await unsubscribe)();
             }
         }
     }, [currentUserDoc]);
