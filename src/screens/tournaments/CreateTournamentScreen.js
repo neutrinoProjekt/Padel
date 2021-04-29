@@ -125,6 +125,7 @@ const CreateTournamentScreen = () => {
         // Validate rank interval
         if (toggle1 && toggle2 && !validRankInterval()) {
             setErrorMsg('Invalid rank interval');
+            return;
         };
 
         // Validate date

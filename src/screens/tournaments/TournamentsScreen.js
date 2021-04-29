@@ -1,45 +1,16 @@
 import React from 'react';
-import {StyleSheet,TouchableOpacity,View} from 'react-native';
-import FindTournaments from './FindTournaments';
-import TournamentList from './YourTournaments';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
-import {createMaterialTopTabNavigator}
-    from '@react-navigation/material-top-tabs';
-
-
-const TopNavigator = createMaterialTopTabNavigator();
 
 const TournamentScreen = () => {
     return (
-        <view>
-            <TopNavigator.Navigator
-                tabBarOptions={{
-                    activeTintColor: '#00CEB4',
-                    inactiveTintColor: '#707070',
-                    indicatorStyle: {backgroundColor: '#00CEB4'},
-                    labelStyle: {
-                        textTransform: 'none',
-                        fontSize: 14,
-                        fontWeight: 'bold',
-                    },
-                    tabStyle: {borderTopWidth: 0},
-                }}
-            >
-                <TopNavigator.Screen 
-                    name="Your Tournaments" 
-                    component={TournamentList} />
-                <TopNavigator.Screen
-                    name="Find Tournament"
-                    component={FindTournaments}
-                />
-            </TopNavigator.Navigator>
-            <View style={styles.actionButtonContainer}>
-                <TouchableOpacity style={styles.actionButton} onPress={() =>{AddTournament}} >
-                    <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
-                </TouchableOpacity>
-            </View>
-        </view>
-        
+        <View style={styles.actionButtonContainer}>
+            <TouchableOpacity style={styles.actionButton} onPress={() =>{
+                AddTournament;
+            }} >
+                <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
+            </TouchableOpacity>
+        </View>
     );
 };
 
