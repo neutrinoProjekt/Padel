@@ -17,12 +17,10 @@ export function AuthProvider({children}) {
     function signup(email, password, username, fullname) {
         return auth.createUserWithEmailAndPassword(email, password)
             .then(({user}) => {
-                console.log('1');
                 user.updateProfile({
                     displayName: username,
                     photoURL: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullname
                 });
-                console.log('2');
                 UserDoc.createByID(user.uid)
                     .then(userDoc => userDoc.update({
                         fullname: fullname,

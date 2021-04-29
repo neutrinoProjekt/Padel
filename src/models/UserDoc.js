@@ -52,8 +52,6 @@ export default class UserDoc {
             await documentReference
                 .set({});
 
-            console.log(3);
-
             return new this(documentReference);
         } catch (error) {
             console.error(error);
@@ -67,9 +65,6 @@ export default class UserDoc {
      */
     async update(data) {
         try {
-            console.log('updating user');
-            console.dir(data);
-
             await this.documentReference
                 .update(data);
         } catch (error) {

@@ -45,7 +45,6 @@ const AddMatchScreen = ({navigation}) => {
     };
 
     const handleConfirm = (time) => {
-        console.log('A time has been picked: ', time);
         hideDatePicker();
     };
 

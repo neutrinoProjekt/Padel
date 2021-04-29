@@ -55,9 +55,6 @@ export default class Notification {
                     isnew,
                 });
 
-            console.log('creating noti');
-            console.dir(documentReference);
-
             return new this(documentReference);
         } catch (error) {
             console.error(error);
@@ -87,7 +84,6 @@ export default class Notification {
     //             .update({
     //                 notifications: title,
     //             });
-    //         console.log('woop wooop test2');
     //     } catch (error) {
     //         console.error('oh noes' + err);
     //     }

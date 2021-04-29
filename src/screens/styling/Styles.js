@@ -36,6 +36,9 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
     },
+    absolute: {
+        position: 'absolute',
+    },
     button: {
         color: '#ffffff',
         fontWeight: 'bold',
@@ -71,5 +74,15 @@ export const styles = StyleSheet.create({
     titleAlignment: {
         paddingTop: 100,
         alignSelf: 'center',
+    },
+    progressbar: {
+        alignSelf: 'center',
+        height: 15,
+        width: '15%',
+        backgroundColor: '#f7f7f7',
+        borderColor: '#707070',
+        borderWidth: 2,
+        borderRadius: 5,
+        marginTop: '3%',
     },
 });

@@ -31,7 +31,6 @@ export default function PersonPageScreen() {
                 rounded
                 size="xlarge"
                 source={image}
-                onPress={() => console.log('Works!')}
                 activeOpacity={0.7}
             />
 
