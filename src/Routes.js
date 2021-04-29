@@ -16,11 +16,6 @@ export default function Routes() {
     return currentUser === null ? (
         <Stack.Navigator screenOptions={{cardStyle: {backgroundColor: '#ffffff'}}}>
             <Stack.Screen
-                name="CreateTournamentScreen"
-                component={CreateTournamentScreen}
-                options={{headerShown: false}}
-             />
-            <Stack.Screen
                 name="Home"
                 component={StartScreen}
                 options={{headerShown: false}}
