@@ -24,6 +24,7 @@ export function AuthProvider({children}) {
                 UserDoc.createByID(user.uid)
                     .then(userDoc => userDoc.update({
                         fullname: fullname,
+                        photoURL: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullname,
                         notifications: {},
                         matches: {},
                     }));
