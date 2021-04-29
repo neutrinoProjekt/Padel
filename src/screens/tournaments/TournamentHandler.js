@@ -1,7 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import CreateTournamentScreen from './CreateTournamentScreen';
-import TournamentTopNavigator from './TournamentTopNavigator';
+import TournamentNavigator from './TournamentNavigator';
 
 const ModalNavigator = createStackNavigator();
 
@@ -13,8 +13,8 @@ const TournamentHandler = () => {
             transparent={true}
         >
             <ModalNavigator.Screen
-                name='TournamentTopNavigator'
-                component={TournamentTopNavigator}
+                name='TournamentNavigator'
+                component={TournamentNavigator}
             />
 
             <ModalNavigator.Screen

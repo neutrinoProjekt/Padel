@@ -5,7 +5,7 @@ import TournamentsList from './YourTournaments';
 
 const TopNavigator = createMaterialTopTabNavigator();
 
-const TournamentTopNavigator = () => {
+const TournamentNavigator = () => {
     return (
         <TopNavigator.Navigator
             tabBarOptions={{
@@ -31,5 +31,5 @@ const TournamentTopNavigator = () => {
     );
 };
 
-export default TournamentTopNavigator;
+export default TournamentNavigator;
 

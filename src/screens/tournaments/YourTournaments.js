@@ -208,7 +208,11 @@ const TournamentItem = ({item}) => {
 };
 
 
-const TournamentsList = () => {
+const TournamentsList = ({navigation}) => {
+    const addTournament = () => {
+        navigation.navigate('AddTournament');
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
@@ -221,9 +225,9 @@ const TournamentsList = () => {
                 keyExtractor={(item) => item.id}
             />
             <View style={styles.actionButtonContainer}>
-                <TouchableOpacity style={styles.actionButton} onPress={() =>{
-                    AddTournament;
-                }} >
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={() => addTournament()} >
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
