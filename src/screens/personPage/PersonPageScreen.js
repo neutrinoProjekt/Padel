@@ -1,14 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState, useLayoutEffect} from 'react';
-import {
-    StyleSheet,
-    Text,
-    View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
-
 
 // function that displays screen under the header
 export default function PersonPageScreen() {

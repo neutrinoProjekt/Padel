@@ -37,19 +37,16 @@ const BottomNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={screenOptions}
-
             tabBarOptions={{
                 showLabel: false,
                 style: {height: 100},
             }}
-
             initialRouteName="HomeScreen"
         >
-            <Tab.Screen name="Notifications" component={VictoryScreen} />
+            <Tab.Screen name="Notifications" component={Notifications} />
+            <Tab.Screen name="Victory" component={VictoryScreen} />
             <Tab.Screen name="Profile" component={PersonPageScreen} />
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
-
-
         </Tab.Navigator>
     );
 };
