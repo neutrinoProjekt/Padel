@@ -6,7 +6,6 @@ import Error from './screens/error/ErrorScreen';
 import BottomNavigation from './screens/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import {useAuth} from './contexts/auth';
-import CreateTournamentScreen from './screens/tournament/CreateTournamentScreen';
 
 const Stack = createStackNavigator();
 
