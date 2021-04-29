@@ -96,6 +96,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F7F7F7',
         fontSize: 20,
         width: 145,
+    },
     progressbar: {
         alignSelf: 'center',
         height: 15,

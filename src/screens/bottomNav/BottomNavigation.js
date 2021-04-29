@@ -6,7 +6,7 @@ import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
 import PersonPageScreen from '../personPage/PersonPageScreen';
 import Notifications from '../notifiactions/Notifications';
-import VictoryScreen from '../victory/VictoryScreen';
+import TournamentNavigator from '../tournaments/TournamentNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +44,7 @@ const BottomNavigation = () => {
             initialRouteName="HomeScreen"
         >
             <Tab.Screen name="Notifications" component={Notifications} />
-            <Tab.Screen name="Victory" component={VictoryScreen} />
+            <Tab.Screen name="Tournaments" component={TournamentNavigator} />
             <Tab.Screen name="Profile" component={PersonPageScreen} />
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
         </Tab.Navigator>
