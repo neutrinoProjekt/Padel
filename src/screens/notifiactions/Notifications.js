@@ -140,12 +140,17 @@ const Notifications = () => {
     const [notificationData, setNotificationData] = useState();
 
     useEffect(() => {
-        currentUserDoc.onNotificationUpdate((updatedNotifications) => {
+        const unsubscribe = currentUserDoc.onNotificationUpdate((updatedNotifications) => {
             console.dir(updatedNotifications);
             setNotificationData(updatedNotifications);
         }, () => {
             console.error('failed with ze notifications');
         });
+
+        // cleanup
+        return async () => {
+            await unsubscribe();
+        }
     }, []);
 
     return (

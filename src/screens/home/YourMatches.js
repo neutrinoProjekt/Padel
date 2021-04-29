@@ -1,9 +1,11 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, TouchableOpacity, View}
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, StyleSheet, TouchableOpacity, View, Text}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useAuth} from '../../contexts/auth';
+
 
 
 const getMatches = () => (
@@ -39,16 +41,42 @@ const getMatches = () => (
 );
 
 const YourMatches = ({navigation}) => {
+    const [matchData, setMatchData] = useState([]);
+
+    const {currentUserDoc} = useAuth();
+
+    useEffect(() => {
+        if (currentUserDoc != null) {
+            const unsubscribe = currentUserDoc.onMatchUpdate((updatedMatches) => {
+                console.log('updating matches')
+                console.dir(updatedMatches);
+                setMatchData(updatedMatches);
+            }, () => {
+                console.error('aw shit here we go again')
+            })
+
+            // cleanup
+            return async () => {
+                await unsubscribe();
+            }
+        }
+    }, [currentUserDoc]);
 
     const addMatch = () => {
         navigation.navigate('Add Match');
-    };
+    }
+    
 
     return (
         <SafeAreaView>
+            <TouchableOpacity onPress={addMatch}>
+                <Text>
+                    Press to add match
+                </Text>
+            </TouchableOpacity>
             <ScrollView style={styles.container}>
                 {
-                    getMatches().map((match) => (
+                    matchData.map((match) => (
                         <MatchListItem
                             key={match.id}
                             owner={match.owner}

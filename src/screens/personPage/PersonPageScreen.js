@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
@@ -9,14 +9,19 @@ import {useAuth} from '../../contexts/auth';
 // function that displays screen under the header
 export default function PersonPageScreen() {
     const [phonenr, setPhonenr] = useState('');
+    const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const {currentUser, logout} = useAuth();
+    const {currentUser, logout, currentUserDoc} = useAuth();
 
-    let image = currentUser.photoURL === null ? 
-        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-        {uri: currentUser.photoURL};
+    // let image = currentUserDoc.photoURL === null ? 
+    //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+    //     {uri: currentUserDoc.photoURL};
+    
+    useEffect(() => {
+        (async () => setImage({uri: await currentUserDoc.photoURL}))();
+    }, [])
 
     return (
         // source should be equal with a function that have an image
