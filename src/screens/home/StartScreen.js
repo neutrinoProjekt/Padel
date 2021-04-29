@@ -36,9 +36,6 @@ const StartScreen = ({navigation}) => {
                 boxColor='transparent'
                 onPress={logIn}
             />
-            <View style={{marginTop: 10}}>
-                <MainButton title="Create Tournament" onPress={createTrnmnt}/>
-            </View>
         </ImageBackground>
     );
 };
