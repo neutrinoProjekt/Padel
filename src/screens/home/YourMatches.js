@@ -66,11 +66,9 @@ const YourMatches = ({navigation}) => {
 
     return (
         <SafeAreaView>
-<<<<<<< HEAD
             <TouchableOpacity onPress={addMatch}>
             </TouchableOpacity>
-=======
->>>>>>> origin/main
+
             <ScrollView style={styles.container}>
                 {
                     matchData.map((match) => (

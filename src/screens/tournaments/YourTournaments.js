@@ -1,12 +1,12 @@
+/* eslint-disable max-len */
 import React, {useState} from 'react';
-import {FlatList, Text, SafeAreaView, ScrollView, StyleSheet,TouchableOpacity, TouchableHighlight, View}
+import {FlatList, Text, SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
     from 'react-native';
-import {ListItem, Divider, Avatar,Overlay} from 'react-native-elements';
+import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
-import OverlayMenu from './OverlayMenu';
 
 
-//temporary data until fetching from firebase
+// temporary data until fetching from firebase
 const DATA = [
     {
         id: 'PRT1',
@@ -53,7 +53,7 @@ const DATA = [
             imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
         },
         participants: [],
-    },      {
+    }, {
         id: 'PUT4',
         TourName: 'Hunger Games',
         TourType: 'Public Knockout Tournament',
@@ -64,7 +64,7 @@ const DATA = [
             imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
         },
         participants: [],
-    },      {
+    }, {
         id: 'PUT5',
         TourName: 'Hunger Games',
         TourType: 'Public Knockout Tournament',
@@ -75,7 +75,7 @@ const DATA = [
             imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
         },
         participants: [],
-    },      {
+    }, {
         id: 'PUT6',
         TourName: 'Hunger Games',
         TourType: 'Public Knockout Tournament',
@@ -86,145 +86,156 @@ const DATA = [
             imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
         },
         participants: [],
-    },        
+    },
 ];
 
 
 const TournamentItem = ({item}) => {
     const [isExpanded, setExpanded] = useState(false);
-    
+
     return (
         <View>
-            <TouchableHighlight onPress={() => {setExpanded(!isExpanded)}} >      
-            <ListItem containerStyle={styles.listItemOne}>
-                <Avatar
-                    size={50}
-                    rounded
-                    source={{
-                        uri:
+            <TouchableHighlight onPress={() => {
+                setExpanded(!isExpanded);
+            }} >
+                <ListItem containerStyle={styles.listItemOne}>
+                    <Avatar
+                        size={50}
+                        rounded
+                        source={{
+                            uri:
                         'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-                    }}
-                />
-                <ListItem.Content>
-                    <ListItem.Title
-                        style={styles.title}
-                        numberOfLines={1}
-                        ellipsizeMode='tail'
-                    >
-                        {item.TourName}
-                    </ListItem.Title>
-                    <ListItem.Subtitle style={styles.subTitle1}>
-                        {item.TourType}
-                    </ListItem.Subtitle>
-                    <ListItem.Subtitle style={styles.subTitle2}>
-                        Extra info if needed
-                    </ListItem.Subtitle>
-                </ListItem.Content>
-                <TouchableOpacity onPress={{}}>
-                    <Ionicons
-                        size={20}
-                        name='ellipsis-horizontal'
-                        color='#707070'
-                        padding={2}
+                        }}
                     />
-                </TouchableOpacity>
-            </ListItem>
+                    <ListItem.Content>
+                        <ListItem.Title
+                            style={styles.title}
+                            numberOfLines={1}
+                            ellipsizeMode='tail'
+                        >
+                            {item.TourName}
+                        </ListItem.Title>
+                        <ListItem.Subtitle style={styles.subTitle1}>
+                            {item.TourType}
+                        </ListItem.Subtitle>
+                        <ListItem.Subtitle style={styles.subTitle2}>
+                        Extra info if needed
+                        </ListItem.Subtitle>
+                    </ListItem.Content>
+                    <TouchableOpacity onPress={{}}>
+                        <Ionicons
+                            size={20}
+                            name='ellipsis-horizontal'
+                            color='#707070'
+                            padding={2}
+                        />
+                    </TouchableOpacity>
+                </ListItem>
 
             </TouchableHighlight>
             <ListItem containerStyle={styles.listItemTwo}>
-                    <ListItem.Content>
-                        <View style={styles.rowContainer}>
-                            <Ionicons
-                                size={15}
-                                name='people'
-                                color='#00CEB4'
-                            />
-                            <ListItem.Subtitle style={styles.subTitle1}>
+                <ListItem.Content>
+                    <View style={styles.rowContainer}>
+                        <Ionicons
+                            size={15}
+                            name='people'
+                            color='#00CEB4'
+                        />
+                        <ListItem.Subtitle style={styles.subTitle1}>
                                 You, Jonas, Silvia and 10 others
-                            </ListItem.Subtitle>
-                        </View>
-                    </ListItem.Content>
+                        </ListItem.Subtitle>
+                    </View>
+                </ListItem.Content>
             </ListItem>
             { isExpanded ?
                 <View>
-                <ListItem containerStyle={styles.listItemTwo}>
-                    <ListItem.Content>
-                        <View style={styles.rowContainer}>
-                            <Ionicons
-                                size={15}
-                                name='time-outline'
-                                color='#707070'
-                            />
-                            <ListItem.Subtitle style={styles.subTitle1}>
-                                2021-06-11, 17:00-20:00
-                            </ListItem.Subtitle>
-                        </View>
-                        <View style={styles.rowContainer}>
-                            <View marginLeft={-1}>
+                    <ListItem containerStyle={styles.listItemTwo}>
+                        <ListItem.Content>
+                            <View style={styles.rowContainer}>
                                 <Ionicons
-                                    size={14}
-                                    name='location-outline'
+                                    size={15}
+                                    name='time-outline'
                                     color='#707070'
                                 />
+                                <ListItem.Subtitle style={styles.subTitle1}>
+                                2021-06-11, 17:00-20:00
+                                </ListItem.Subtitle>
                             </View>
-                            <ListItem.Subtitle style={styles.subTitle1}>
+                            <View style={styles.rowContainer}>
+                                <View marginLeft={-1}>
+                                    <Ionicons
+                                        size={14}
+                                        name='location-outline'
+                                        color='#707070'
+                                    />
+                                </View>
+                                <ListItem.Subtitle style={styles.subTitle1}>
                                 Södertälje Padelhall, Stockholm
-                            </ListItem.Subtitle>
-                        </View>
-                        <ListItem.Subtitle style={styles.subTitle3}>
+                                </ListItem.Subtitle>
+                            </View>
+                            <ListItem.Subtitle style={styles.subTitle3}>
                             Players attending so far:
-                        </ListItem.Subtitle>
-                        <View style={styles.rowContainer}>
-                            <View style={styles.columnContainer}>
-                                <ListItem.Subtitle style={styles.name}>
+                            </ListItem.Subtitle>
+                            <View style={styles.rowContainer}>
+                                <View style={styles.columnContainer}>
+                                    <ListItem.Subtitle style={styles.name}>
                                     Johan Petersson
-                                </ListItem.Subtitle>
-                                <ListItem.Subtitle style={styles.name}>
+                                    </ListItem.Subtitle>
+                                    <ListItem.Subtitle style={styles.name}>
                                     Johan Persson
-                                </ListItem.Subtitle>
+                                    </ListItem.Subtitle>
 
-                            </View>
-                            <View style={styles.columnContainer}>
-                                <ListItem.Subtitle style={styles.ranking}>
+                                </View>
+                                <View style={styles.columnContainer}>
+                                    <ListItem.Subtitle style={styles.ranking}>
                                     Ranking: 1048
-                                </ListItem.Subtitle>
-                                <ListItem.Subtitle style={styles.ranking}>
+                                    </ListItem.Subtitle>
+                                    <ListItem.Subtitle style={styles.ranking}>
                                     Ranking: 2034
-                                </ListItem.Subtitle>
+                                    </ListItem.Subtitle>
 
+                                </View>
                             </View>
-                        </View>
-                    </ListItem.Content>
-                </ListItem>
-                </View>
-                : null
+                        </ListItem.Content>
+                    </ListItem>
+                </View> :
+                null
             }
-        <Divider/>
+            <Divider/>
         </View>
 
     );
 };
 
 
-const TournamentsList = () => {
+const TournamentsList = ({navigation}) => {
+    const addTournament = () => {
+        navigation.navigate('AddTournament');
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList                
-            data={DATA}
-            renderItem={({ item }) => (
-                <TournamentItem 
-                  item={item}
-                />
-              )}
-            keyExtractor={item => item.id}           
+            <FlatList
+                data={DATA}
+                renderItem={({item}) => (
+                    <TournamentItem
+                        item={item}
+                    />
+                )}
+                keyExtractor={(item) => item.id}
             />
-            <Text style={styles.nEnd}>No more tournaments to show</Text>
+            <View style={styles.actionButtonContainer}>
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={() => addTournament()} >
+                    <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
 
 export default TournamentsList;
-
 
 
 const styles = StyleSheet.create({
@@ -244,8 +255,6 @@ const styles = StyleSheet.create({
     rowContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 4,
-        marginBottom: 4,
     },
     listItemOne: {
         flex: 1,
@@ -254,7 +263,6 @@ const styles = StyleSheet.create({
     },
     listItemTwo: {
         flex: 1,
-        height: 175,
     },
     title: {
         paddingTop: 10,
@@ -298,5 +306,22 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 10,
     },
-
+    actionButtonContainer: {
+        flex: 1,
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    },
+    actionButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 50,
+        height: 50,
+        backgroundColor: 'white',
+        borderRadius: 100,
+        shadowRadius: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowOffset: {height: 10},
+    },
 });
