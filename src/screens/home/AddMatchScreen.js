@@ -12,7 +12,7 @@ import {useAuth} from '../../contexts/auth';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUserDoc} = useAuth();
-    
+
     // state hooks for inputs
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
@@ -65,7 +65,9 @@ const AddMatchScreen = ({navigation}) => {
                     leftComponent=
                         {{
                             text: 'Cancel',
-                            onPress: () => {navigation.goBack();},
+                            onPress: () => {
+                                navigation.goBack();
+                            },
                             style: {
                                 color: '#707070',
                                 fontWeight: '600',
@@ -84,7 +86,7 @@ const AddMatchScreen = ({navigation}) => {
                             textAlign ='left'
                             value={city}
                             onChangeText={(text) => setCity(text)}
-                            />
+                        />
                     </View>
                     <View style={{marginTop: 30, width: 305}}>
                         <Text style={styles2.formTitle}>Court</Text>
@@ -114,7 +116,7 @@ const AddMatchScreen = ({navigation}) => {
                             mode="date"
                             onConfirm={handleConfirm}
                             onCancel={hideDatePicker}
-                            isDarkModeEnabled={false}
+                            isDarkModeEnabled={true}
                             locale='sv_SE'
                             headerTextIOS='Pick Date'
                         />
@@ -141,7 +143,7 @@ const AddMatchScreen = ({navigation}) => {
                                 mode="time"
                                 onConfirm={handleConfirm}
                                 onCancel={hideTimePicker}
-                                isDarkModeEnabled={false}
+                                isDarkModeEnabled={true}
                                 locale='sv_SE'
                                 headerTextIOS='Pick Time'
                             />
