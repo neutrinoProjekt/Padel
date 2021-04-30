@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, TextInput, Pressable} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Pressable, Modal} from 'react-native';
 import {Switch} from 'react-native-switch';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
@@ -9,8 +9,10 @@ import MainButton from '../../components/MainButton';
 import {LogBox} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {colors} from '../styling/Colors';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Divider, Header} from 'react-native-elements';
 
-const CreateTournamentScreen = () => {
+const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
     const [rank1, setRank1] = useState(10); // used for Minimum rank slider
     const [rank2, setRank2] = useState(10); // used for Maximum rank slider
@@ -133,208 +135,240 @@ const CreateTournamentScreen = () => {
             setErrorMsg('Please suggest a date');
             return;
         };
+        // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
 
     return (
-        <View style={{alignItems: 'center'}}>
-            <View style={styles.titleAlignment}>
-                <Text style={styles.title}>Create Tournament</Text>
-            </View>
-            <View>
-                <Avatar
-                    source={imageUrl}
-                    size='xlarge'
-                />
-            </View>
-
-            {/* Minimum Rank Slider */}
-            <View style={{marginTop: 10}}>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                        <Text>Minimum rank</Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                        <Switch
-                            value={toggle1}
-                            onValueChange={(val) => setToggle1(val)}
-                            activeText={'On'}
-                            inActiveText={'Off'}
-                            circleActiveColor={colors.colorYellow}
-                            circleInctiveColor={colors.colorLightGrey}
-                        />
-                    </View>
-                </View>
-                <Slider
-                    style={{width: 300}}
-                    step={step}
-                    minimumValue={minRank}
-                    maximumValue={maxRank}
-                    value={rank1}
-                    onValueChange={(val) => {
-                        setRank1(val);
-                        setRankSliderColor();
+        <Modal
+            presentationStyle = 'pageSheet'
+            animationType= 'slide'
+        >
+            <SafeAreaView>
+                <Header
+                    centerComponent = {{
+                        text: 'Create Tournament',
+                        style: {
+                            color: '#707070',
+                            fontWeight: '600',
+                            fontSize: 16,
+                        },
                     }}
-                    thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
-                    maximumTrackTintColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
-                    minimumTrackTintColor={toggle1 ? rankColor : colors.colorDisabled}
-                    disabled={!toggle1}
-                />
-                <View style={styling.textCon}>
-                    <Text style={styling.colorGrey}>{minRank}</Text>
-                    <Text style={styling.colorYellow}>
-                        {toggle1 ? rank1 : ''}
-                    </Text>
-                    <Text style={styling.colorGrey}>{maxRank}</Text>
-                </View>
-            </View>
-
-            {/* Maximum Rank Slider */}
-            <View style={{paddingTop: 10}}>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                        <Text>Maximum rank</Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                        <Switch
-                            value={toggle2}
-                            onValueChange={(val) => setToggle2(val)}
-                            activeText={'On'}
-                            inActiveText={'Off'}
-                            circleActiveColor={colors.colorYellow}
-                            circleInctiveColor={colors.colorLightGrey}
-                        />
-                    </View>
-                </View>
-                <Slider
-                    style={{width: 300}}
-                    step={step}
-                    minimumValue={minRank}
-                    maximumValue={maxRank}
-                    value={rank2}
-                    onValueChange={(val) => {
-                        setRank2(val);
-                        setRankSliderColor();
+                    containerStyle={{
+                        backgroundColor: 'white',
+                        height: 70,
+                        fontWeight: '800',
                     }}
-                    thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                    maximumTrackTintColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
-                    minimumTrackTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                    disabled={!toggle2}
+                    leftComponent = {{
+                        text: 'Cancel',
+                        onPress: () => {
+                            navigation.goBack();
+                        },
+                        style: {
+                            color: '#707070',
+                            fontWeight: '600',
+                            fontSize: 16,
+                        },
+                    }}
                 />
-                <View style={styling.textCon}>
-                    <Text style={colors.colorDisabled}>{minRank}</Text>
-                    <Text style={colors.colorYellow}>
-                        {toggle2 ? rank2 : ''}
-                    </Text>
-                    <Text style={colors.colorDisabled}>{maxRank}</Text>
-                </View>
-            </View>
-
-            {/* Minimum Players Slider */}
-            <View style={{paddingTop: 10}}>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{paddingLeft: 101, alignSelf: 'center'}}>
-                        <Text>Minimum players</Text>
-                    </View>
-                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                        <Switch
-                            value={toggle3}
-                            onValueChange={(val) => setToggle3(val)}
-                            activeText={'On'}
-                            inActiveText={'Off'}
-                            circleActiveColor={colors.colorYellow}
-                            circleInctiveColor={colors.colorLightGrey}
+                <Divider/>
+                <View style={{alignItems: 'center'}}>
+                    <View>
+                        <Avatar
+                            source={imageUrl}
+                            size='xlarge'
                         />
                     </View>
-                </View>
-                <Slider
-                    style={{width: 300}}
-                    step={1}
-                    minimumValue={minPlayers}
-                    maximumValue={maxPlayers}
-                    value={players}
-                    onValueChange={(val) => setPlayers(val)}
-                    thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
-                    maximumTrackTintColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
-                    minimumTrackTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
-                    disabled={!toggle3}
-                />
-                <View style={styling.textCon}>
-                    <Text style={colors.colorDisabled}>{minPlayers}</Text>
-                    <Text style={colors.colorYellow}>
-                        {toggle3 ? players : ''}
-                    </Text>
-                    <Text style={styling.colorGrey}>{maxPlayers}</Text>
-                </View>
-            </View>
-            {/* Date picker*/}
-            <Pressable onPress={showDatePicker}>
-                <View style={{marginTop: 10}} pointerEvents="none">
-                    <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>Date</Text>
-                    <TextInput
-                        placeholder={date}
-                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                        style={[styles.input, {paddingRight: 15}, {fontSize: 20}]}
-                        textAlign = 'center'
+
+                    {/* Minimum Rank Slider */}
+                    <View style={{marginTop: 10}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                <Text>Minimum rank</Text>
+                            </View>
+                            <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                <Switch
+                                    value={toggle1}
+                                    onValueChange={(val) => setToggle1(val)}
+                                    activeText={'On'}
+                                    inActiveText={'Off'}
+                                    circleActiveColor={colors.colorYellow}
+                                    circleInctiveColor={colors.colorLightGrey}
+                                />
+                            </View>
+                        </View>
+                        <Slider
+                            style={{width: 300}}
+                            step={step}
+                            minimumValue={minRank}
+                            maximumValue={maxRank}
+                            value={rank1}
+                            onValueChange={(val) => {
+                                setRank1(val);
+                                setRankSliderColor();
+                            }}
+                            thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
+                            maximumTrackTintColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
+                            minimumTrackTintColor={toggle1 ? rankColor : colors.colorDisabled}
+                            disabled={!toggle1}
+                        />
+                        <View style={styling.textCon}>
+                            <Text style={styling.colorGrey}>{minRank}</Text>
+                            <Text style={styling.colorYellow}>
+                                {toggle1 ? rank1 : ''}
+                            </Text>
+                            <Text style={styling.colorGrey}>{maxRank}</Text>
+                        </View>
+                    </View>
+
+                    {/* Maximum Rank Slider */}
+                    <View style={{paddingTop: 10}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                <Text>Maximum rank</Text>
+                            </View>
+                            <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                <Switch
+                                    value={toggle2}
+                                    onValueChange={(val) => setToggle2(val)}
+                                    activeText={'On'}
+                                    inActiveText={'Off'}
+                                    circleActiveColor={colors.colorYellow}
+                                    circleInctiveColor={colors.colorLightGrey}
+                                />
+                            </View>
+                        </View>
+                        <Slider
+                            style={{width: 300}}
+                            step={step}
+                            minimumValue={minRank}
+                            maximumValue={maxRank}
+                            value={rank2}
+                            onValueChange={(val) => {
+                                setRank2(val);
+                                setRankSliderColor();
+                            }}
+                            thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                            maximumTrackTintColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
+                            minimumTrackTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                            disabled={!toggle2}
+                        />
+                        <View style={styling.textCon}>
+                            <Text style={colors.colorDisabled}>{minRank}</Text>
+                            <Text style={colors.colorYellow}>
+                                {toggle2 ? rank2 : ''}
+                            </Text>
+                            <Text style={colors.colorDisabled}>{maxRank}</Text>
+                        </View>
+                    </View>
+
+                    {/* Minimum Players Slider */}
+                    <View style={{paddingTop: 10}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={{paddingLeft: 101, alignSelf: 'center'}}>
+                                <Text>Minimum players</Text>
+                            </View>
+                            <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                <Switch
+                                    value={toggle3}
+                                    onValueChange={(val) => setToggle3(val)}
+                                    activeText={'On'}
+                                    inActiveText={'Off'}
+                                    circleActiveColor={colors.colorYellow}
+                                    circleInctiveColor={colors.colorLightGrey}
+                                />
+                            </View>
+                        </View>
+                        <Slider
+                            style={{width: 300}}
+                            step={1}
+                            minimumValue={minPlayers}
+                            maximumValue={maxPlayers}
+                            value={players}
+                            onValueChange={(val) => setPlayers(val)}
+                            thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
+                            maximumTrackTintColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
+                            minimumTrackTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
+                            disabled={!toggle3}
+                        />
+                        <View style={styling.textCon}>
+                            <Text style={colors.colorDisabled}>{minPlayers}</Text>
+                            <Text style={colors.colorYellow}>
+                                {toggle3 ? players : ''}
+                            </Text>
+                            <Text style={styling.colorGrey}>{maxPlayers}</Text>
+                        </View>
+                    </View>
+                    {/* Date picker*/}
+                    <Pressable onPress={showDatePicker}>
+                        <View style={{marginTop: 10}} pointerEvents="none">
+                            <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>Date</Text>
+                            <TextInput
+                                placeholder={date}
+                                placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                                style={[styles.input, {paddingRight: 15}, {fontSize: 20}]}
+                                textAlign = 'center'
+                            />
+                        </View>
+                    </Pressable>
+
+                    {/* Time picker*/}
+                    <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
+                        <Pressable onPress={showTimePicker1}>
+                            <View pointerEvents='none' style={{paddingRight: 10}}>
+                                <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>From</Text>
+                                <TextInput
+                                    placeholder={timeFrom}
+                                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                                    style={styling.textInput}
+                                    textAlign = 'center'
+                                />
+                                <DateTimePickerModal
+                                    isVisible={isTimePickerVisible1}
+                                    mode="time"
+                                    onConfirm={handleTimeFrom}
+                                    onCancel={hideTimePicker1}
+                                    isDarkModeEnabled={true}
+                                    locale='sv_SE'
+                                />
+                            </View>
+                        </Pressable>
+                        <Pressable onPress={showTimePicker2}>
+                            <View pointerEvents='none'>
+                                <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>To</Text>
+                                <TextInput
+                                    placeholder={timeTo}
+                                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                                    style={styling.textInput}
+                                    textAlign = 'center'
+                                />
+                                <DateTimePickerModal
+                                    isVisible={isTimePickerVisible2}
+                                    mode="time"
+                                    onConfirm={handleTimeTo}
+                                    onCancel={hideTimePicker2}
+                                    isDarkModeEnabled={true}
+                                    locale='sv_SE'
+                                />
+                            </View>
+                        </Pressable>
+                    </View>
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleDateConfirm}
+                        onCancel={hideDatePicker}
+                        isDarkModeEnabled={true}
+                        locale='sv_SE'
                     />
+                    <View style={{marginBottom: -10}}>
+                        <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
+                    </View>
+                    <View style={{marginTop: -15}}>
+                        <MainButton title="Create tournament" onPress={createTrnmnt}/>
+                    </View>
                 </View>
-            </Pressable>
-
-            {/* Time picker*/}
-            <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
-                <Pressable onPress={showTimePicker1}>
-                    <View pointerEvents='none' style={{paddingRight: 10}}>
-                        <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>From</Text>
-                        <TextInput
-                            placeholder={timeFrom}
-                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                            style={styling.textInput}
-                            textAlign = 'center'
-                        />
-                        <DateTimePickerModal
-                            isVisible={isTimePickerVisible1}
-                            mode="time"
-                            onConfirm={handleTimeFrom}
-                            onCancel={hideTimePicker1}
-                            isDarkModeEnabled={true}
-                            locale='sv_SE'
-                        />
-                    </View>
-                </Pressable>
-                <Pressable onPress={showTimePicker2}>
-                    <View pointerEvents='none'>
-                        <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>To</Text>
-                        <TextInput
-                            placeholder={timeTo}
-                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                            style={styling.textInput}
-                            textAlign = 'center'
-                        />
-                        <DateTimePickerModal
-                            isVisible={isTimePickerVisible2}
-                            mode="time"
-                            onConfirm={handleTimeTo}
-                            onCancel={hideTimePicker2}
-                            isDarkModeEnabled={true}
-                            locale='sv_SE'
-                        />
-                    </View>
-                </Pressable>
-            </View>
-            <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleDateConfirm}
-                onCancel={hideDatePicker}
-                isDarkModeEnabled={true}
-                locale='sv_SE'
-            />
-            <View style={{marginBottom: -10}}>
-                <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
-            </View>
-            <View style={{marginTop: -15}}>
-                <MainButton title="Create tournament" onPress={createTrnmnt}/>
-            </View>
-        </View>
+            </SafeAreaView>
+        </Modal>
     );
 };
 

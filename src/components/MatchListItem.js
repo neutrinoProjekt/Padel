@@ -30,7 +30,7 @@ const MatchListItem = ({owner, participants}) => {
                         0735623578
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Ranking: 1438
+                        Rating: 1438
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity>

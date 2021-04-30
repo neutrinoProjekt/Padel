@@ -1,6 +1,5 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import FindTournaments from './FindTournaments';
 import TournamentsList from './YourTournaments';
 
@@ -34,4 +33,3 @@ const TournamentNavigator = () => {
 
 export default TournamentNavigator;
 
-const styles = StyleSheet.create({});
