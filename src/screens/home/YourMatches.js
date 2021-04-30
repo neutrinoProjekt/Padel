@@ -47,8 +47,6 @@ const YourMatches = ({navigation}) => {
     useEffect(() => {
         if (currentUserDoc != null) {
             const unsubscribe = currentUserDoc.onMatchUpdate((updatedMatches) => {
-                console.log('updating matches');
-                console.dir(updatedMatches);
                 setMatchData(updatedMatches);
             }, () => {
                 console.error('aw shit here we go again');
@@ -68,8 +66,11 @@ const YourMatches = ({navigation}) => {
 
     return (
         <SafeAreaView>
+<<<<<<< HEAD
             <TouchableOpacity onPress={addMatch}>
             </TouchableOpacity>
+=======
+>>>>>>> origin/main
             <ScrollView style={styles.container}>
                 {
                     matchData.map((match) => (

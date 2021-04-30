@@ -6,7 +6,8 @@ import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
 import PersonPageScreen from '../personPage/PersonPageScreen';
 import Notifications from '../notifiactions/Notifications';
-import VictoryScreen from '../victory/VictoryScreen';
+import TournamentNavigator from '../tournaments/TournamentNavigator';
+import TournamentHandler from '../tournaments/TournamentHandler';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ const screenOptions = ({route}) => ({
         if (route.name === 'HomeScreen') {
             iconName = 'home-outline';
             color = focused ? '#00CEB4' : '#707070';
-        } else if (route.name === 'Tournaments') {
+        } else if (route.name === 'TournamentHandler') {
             iconName = 'trophy-outline';
             color = focused ? '#00CEB4' : '#707070';
         } else if (route.name === 'Notifications') {
@@ -46,6 +47,7 @@ const BottomNavigation = () => {
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
             <Tab.Screen name="Victory" component={VictoryScreen} />
             <Tab.Screen name="Notifications" component={Notifications} />
+            <Tab.Screen name="TournamentHandler" component={TournamentHandler} />
             <Tab.Screen name="Profile" component={PersonPageScreen} />
         </Tab.Navigator>
     );
