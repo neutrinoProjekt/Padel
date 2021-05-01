@@ -25,7 +25,7 @@ const CreateTournamentScreen = ({navigation}) => {
     const [toggle3, setToggle3] = useState(false);
 
     // States for date and time
-    const [date, setDate] = useState('dd-mm-yyyy');
+    const [date, setDate] = useState('yyyy-mm-dd');
     const [timeFrom, setTimeFrom] = useState('00:00');
     const [timeTo, setTimeTo] = useState('00:00');
     const [errorMsg, setErrorMsg] = useState('');
@@ -46,24 +46,21 @@ const CreateTournamentScreen = ({navigation}) => {
 
     // Time confirmation (From)
     const handleTimeFrom = (str) => {
-        const time = getTime(str);
-        setTimeFrom(time);
+        setTimeFrom(getTime(str));
     };
 
     // Time confirmation (To)
     const handleTimeTo = (str) => {
-        const time = getTime(str);
-        setTimeTo(time);
+        setTimeTo(getTime(str));
     };
 
     // Getters
     const getTime = (time) => {
-        return time.toString().match(/\d\d\:\d\d/)[0];
+        return time.toString().match(/\d\d:\d\d/)[0];
     };
 
     const getDate = (date) => {
-        date = date.toString().substring(0, 15).split(' ');
-        return date[3] + '-' + date[1] + '-' + date[2];
+        return new Date(date).toISOString().split('T')[0];
     };
 
 
@@ -84,7 +81,7 @@ const CreateTournamentScreen = ({navigation}) => {
     // Hook for clearing error message
     useEffect(() => {
         setErrorMsg('');
-    }, [rank1, rank2, date]);
+    }, [rank1, rank2, date, timeFrom, timeTo]);
 
     // Create tournament
     const createTrnmnt = () => {
@@ -94,16 +91,26 @@ const CreateTournamentScreen = ({navigation}) => {
             return;
         };
 
-        // Validate date
-        if (date == 'dd-mm-yyyy') {
+        // Validate date (todo: fix same date)
+        if (date == 'yyyy-mm-dd') {
             setErrorMsg('Please suggest a date');
             return;
-        };
+        } else if (new Date(date) < new Date()) {
+            setErrorMsg('Date has already passed');
+            return;
+        }
+
+        // Validate time
+        const arbDate = time => new Date(6969, 6, 6, time.substring(0, 2), time.substring(3, 5), 0, 0);
+        if (arbDate(timeFrom) < arbDate(timeTo)) {
+            setErrorMsg('Invalid time interval');
+        }
+        
         // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
 
     /* Local date picker component*/
-    const Date = () => {
+    const DatePicker = () => {
         return (
             <DateTimePicker
                 placeholder={date}
@@ -252,7 +259,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
                     {/* Date picker*/}
                     <View style={{paddingTop: 10}}>
-                        <Date />
+                        <DatePicker />
                     </View>
                     {/* Time picker*/}
                     <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
