@@ -9,7 +9,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // function that displays screen under the header
 export default function PersonPageScreen({navigation}) {
-
     const [phonenr, setPhonenr] = useState('');
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
@@ -18,46 +17,32 @@ export default function PersonPageScreen({navigation}) {
     // firebase
     const {currentUser, logout, currentUserDoc} = useAuth();
 
-    const RankView = () => {
-        navigation.navigate('RankView');
-    }
+    // let image = currentUserDoc.photoURL === null ? 
+    //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+    //     {uri: currentUserDoc.photoURL};
+    
+    useEffect(() => {
+        (async () => setImage({uri: await currentUserDoc.photoURL}))();
+    }, [])
 
-    let image = currentUser.photoURL === null ? 
-        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-        {uri: currentUser.photoURL};
+    return currentUser != null ? (
+        // source should be equal with a function that have an image
+        
 
-    return (
-    // source should be equal with a function that have an image
         <View style={styles.container}>
+            
             <Header
-                centerComponent={{
-                    text: 'Profile',
-                    style: {
-                        color: '#707070',
-                        fontWeight: '600',
-                        fontSize: 16},
-                }}
-                containerStyle={styles.header}
-                rightComponent=
-                    {{
-                        text: 'Rank View',
-                        onPress: {RankView},
-                        style: {
-                            color: '#707070',
-                            fontWeight: '600',
-                            fontSize: 16},
-                    }}
-            >
-            </Header>
-
-                    
-            <MaterialCommunityIcons 
-            name="podium" 
-            size={35} 
-            color="black"
-            onPress={RankView} />
-
-            <Text style={{color: '#707070', fontSize: 20, fontWeight: 'bold'}}>My Account</Text>
+                backgroundColor= 'transparent'
+                placement = 'center'
+                centerComponent={<Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>}
+                rightComponent={
+                    <MaterialCommunityIcons 
+                        name="podium-gold" 
+                        size={24} 
+                        color="black"
+                        onPress={()=> navigation.navigate('RankView')} /> 
+                }
+            />
             <Avatar
                 rounded
                 size="xlarge"
@@ -106,16 +91,5 @@ const styles = StyleSheet.create({
         color: '#707070',
         fontSize: 12,
         fontWeight: 'bold',
-    },
-    rankbtn: {
-        flex: 1,
-        alignItems: 'flex-end',
-        top: 15,
-        right: 20,
-    },
-    header: {
-        backgroundColor: 'white',
-        height: 70,
-        fontWeight: '800',
     },
 });
