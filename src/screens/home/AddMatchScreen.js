@@ -7,7 +7,6 @@ import {Divider, Header} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
-import createMatch from '../../models/Match';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useAuth} from '../../contexts/auth';
 
@@ -169,7 +168,7 @@ const AddMatchScreen = ({navigation}) => {
                         <MainButton
                             title='Post Match'
                             onPress={async () => {
-                                await currentUserDoc.addMatch({city});
+                                await currentUserDoc.addMatch({city, court});
                                 navigation.goBack();
                             }}
                         />

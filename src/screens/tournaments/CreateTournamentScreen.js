@@ -12,7 +12,6 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {Ionicons} from '@expo/vector-icons';
 
 const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
