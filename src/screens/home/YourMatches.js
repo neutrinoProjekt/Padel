@@ -49,7 +49,7 @@ const YourMatches = ({navigation}) => {
             const unsubscribe = currentUserDoc.onMatchUpdate((updatedMatches) => {
                 setMatchData(updatedMatches);
             }, () => {
-                console.error('aw shit here we go again');
+                console.error('error');
             });
 
             // cleanup
@@ -66,9 +66,6 @@ const YourMatches = ({navigation}) => {
 
     return (
         <SafeAreaView>
-            <TouchableOpacity onPress={addMatch}>
-            </TouchableOpacity>
-
             <ScrollView style={styles.container}>
                 {
                     matchData.map((match) => (
