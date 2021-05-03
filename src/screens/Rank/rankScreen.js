@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import {styles} from '../styling/Styles';
+import CardHeader from '../../components/CardHeader';
 
 
 
@@ -38,10 +39,10 @@ const LEADERS = {
                     rating: 69,
                 },
                 {
-                    name: 'August',
-                    picture: 'https://shop.partyland.party/files/mickey%20baby.[1].jpg',
+                    name: 'Yosef',
+                    picture: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/86797/93795/Goofy-Disney-Card-Party-Face-Mask-available-now-at-starstills__37575.1574398848.jpg',
                     placement: 4,
-                    rating: 1337,
+                    rating: 30,
                 },
                 {
                     name: 'Philip',
@@ -74,10 +75,10 @@ const LEADERS = {
                     rating: 30,
                 },
                 {
-                    name: 'Yosef',
-                    picture: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/86797/93795/Goofy-Disney-Card-Party-Face-Mask-available-now-at-starstills__37575.1574398848.jpg',
+                    name: 'August',
+                    picture: 'https://shop.partyland.party/files/mickey%20baby.[1].jpg',
                     placement: 10,
-                    rating: 30,
+                    rating: 1337,
                 },
         ],
 };
@@ -161,6 +162,7 @@ const RenderPlacment = ({item}) => (
 const rankScreen = () => {
     return (
         <SafeAreaProvider> 
+             <CardHeader centerHeader='Leaderboard'/>
             <View>
                 {/* shows only specific match but you're also able to scroll*/}
                 <FlatList
