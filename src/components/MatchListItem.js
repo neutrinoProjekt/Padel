@@ -4,6 +4,10 @@ import {ListItem, Divider, Avatar, Text} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
 
 const MatchListItem = ({owner, participants}) => {
+    let image = owner.photoURL === null ? 
+        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+        {uri: owner.photoURL};
+    
     return (
         <View>
             <ListItem containerStyle={styles.listItemOne}>
@@ -11,8 +15,7 @@ const MatchListItem = ({owner, participants}) => {
                     size={50}
                     rounded
                     source={{
-                        uri:
-                        'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+                        uri: image.uri,
                     }}
                 />
                 <ListItem.Content>
@@ -21,13 +24,13 @@ const MatchListItem = ({owner, participants}) => {
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
-                        Created By: {owner.name}
+                        Created By: {owner.fullname}
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles.subTitle1}>
                         0735623578
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Ranking: 1438
+                        Rating: 1438
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity>

@@ -87,10 +87,10 @@ const PasswordScreen = ({navigation, route}) => {
                         1 capital and 1 number
                     </Text>
                 </View>
-                <View>
+                <View style={{marginTop: 10}}>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
-                <View style={{marginTop: 30}}>
+                <View style={{marginTop: 20}}>
                     <TextInput placeholder="Password"
                         autoFocus
                         placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
