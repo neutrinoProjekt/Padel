@@ -1,9 +1,8 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
-import {Avatar} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
-import {color} from 'react-native-reanimated';
 import {useAuth} from '../../contexts/auth';
+import {getNotifications} from '../../models/Notification';
 
 // TODO
 // --fire base--
@@ -136,21 +135,12 @@ const RenderNotification = ({item}) => {
 
 
 const Notifications = () => {
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
     const [notificationData, setNotificationData] = useState();
 
     useEffect(() => {
-        const unsubscribe = currentUserDoc.onNotificationUpdate((updatedNotifications) => {
-            console.dir(updatedNotifications);
-            setNotificationData(updatedNotifications);
-        }, () => {
-            console.error('failed with ze notifications');
-        });
-
-        // cleanup
-        return async () => {
-            await (await unsubscribe)();
-        };
+        getNotifications(currentUser.uid)
+            .then(console.log);
     }, []);
 
     return (

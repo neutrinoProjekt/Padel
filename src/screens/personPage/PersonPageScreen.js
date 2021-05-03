@@ -5,6 +5,7 @@ import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
+import {getUser} from '../../models/User';
 
 // function that displays screen under the header
 export default function PersonPageScreen() {
@@ -14,14 +15,14 @@ export default function PersonPageScreen() {
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const {currentUser, logout, currentUserDoc} = useAuth();
-
-    // let image = currentUserDoc.photoURL === null ? 
-    //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-    //     {uri: currentUserDoc.photoURL};
+    const {currentUser, logout} = useAuth();
     
     useEffect(() => {
-        (async () => setImage({uri: await currentUserDoc.photoURL}))();
+        getUser(currentUser.uid)
+            .then(data => {
+                setDescription(data.description);
+                setImage(data.photoURL);
+            });
     }, [])
 
     return currentUser != null ? (

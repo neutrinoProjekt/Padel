@@ -39,21 +39,12 @@ export default class Notification {
      * @param {string} title
      * @param {string} owner - reference to owner (user)
      */
-    static async create({type = 'default', header = null, owner = null, description = null, image = null, date = null, isnew = null}) {
+    static async create() {
         try {
             // save empty user document to db
             const documentReference = await db
                 .collection(collectionName)
-                .add({
-                    type,
-                    title: header,
-                    owner,
-                    header,
-                    description,
-                    image,
-                    date,
-                    isnew,
-                });
+
 
             return new this(documentReference);
         } catch (error) {
@@ -102,4 +93,29 @@ export default class Notification {
     get reference() {
         return db.doc(`${collectionName}/${this.id}`);
     }
+}
+
+export function getNotifications(id) {
+    return db.collection(collectionName).where('owner', '==','/users/' + id).get()
+        .then(n => n.docs);
+}
+
+export function createNotification({
+    type = 'default', 
+    header = null, 
+    owner = null, 
+    description = null, 
+    image = null, 
+    date = null, 
+    isnew = null}) {
+    return db.collection(collectionName).add({
+        type,
+        title: header,
+        owner,
+        header,
+        description,
+        image,
+        date,
+        isnew,
+    });
 }
