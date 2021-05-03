@@ -5,11 +5,11 @@ const MainFormInput = (props) => {
     [input, setInput] = useState('');
 
     return (
-        <View style={{marginTop: 30, width: 105}}>
-            <Text style={styles.formTitle}>{props.title}</Text>
+        <View style={{marginTop: 30, width: props.inputWidth}}>
+            <Text style={styles.formTitle}>{props.inputTitle}</Text>
             <TextInput
                 style={styles.input}
-                width={105}
+                width={props.inputWidth}
                 placeholder={props.placeholder}
                 placeholderTextColor={'#BFBFBF'}
                 textAlign ='left'
