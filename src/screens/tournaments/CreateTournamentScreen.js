@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Modal} from 'react-native';
+import {Text, View, StyleSheet, Modal, Pressable} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
@@ -11,6 +11,8 @@ import CardHeader from '../../components/CardHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Ionicons} from '@expo/vector-icons';
 
 const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
@@ -105,7 +107,6 @@ const CreateTournamentScreen = ({navigation}) => {
         if (arbDate(timeFrom) < arbDate(timeTo)) {
             setErrorMsg('Invalid time interval');
         }
-        
         // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
 
@@ -146,6 +147,11 @@ const CreateTournamentScreen = ({navigation}) => {
             />
         );
     };
+    /*
+    text: props.leftHeader,
+    onPress: props.leftOnPress,
+    style: styles.leftComponentStyle,
+    */
 
     // Ignore native driver message for now...
     useEffect(() => {
@@ -157,8 +163,11 @@ const CreateTournamentScreen = ({navigation}) => {
             <SafeAreaView>
                 <CardHeader
                     centerHeader='Create Tournament'
-                    leftHeader='Cancel'
-                    leftOnPress={() => navigation.goBack()}
+                    leftComponent={
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <Text style={{fontWeight: 'bold', fontSize: 16, color: '#707070'}}>Cancel</Text>
+                        </TouchableOpacity>
+                    }
                 />
                 <View style={{alignItems: 'center'}}>
                     <Avatar source={imageUrl} size='xlarge'/>

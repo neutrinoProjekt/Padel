@@ -16,11 +16,8 @@ const CardHeader = (props) => {
                     style: styles.centerComponentStyle,
                 }}
                 containerStyle={styles.containerStyle}
-                leftComponent = {{
-                    text: props.leftHeader,
-                    onPress: props.leftOnPress,
-                    style: styles.leftComponentStyle,
-                }}
+                leftComponent = {props.leftComponent}
+                rightComponent={props.rightComponent}
             />
             <Divider/>
         </View>
