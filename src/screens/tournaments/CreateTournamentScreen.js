@@ -1,16 +1,18 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, TextInput, Pressable, Modal} from 'react-native';
-import {Switch} from 'react-native-switch';
+import {Text, View, StyleSheet, Modal, Pressable} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
-import {Slider} from 'react-native-elements/dist/slider/Slider';
 import MainButton from '../../components/MainButton';
 import {LogBox} from 'react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {colors} from '../styling/Colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Divider, Header} from 'react-native-elements';
+import CardHeader from '../../components/CardHeader';
+import ToggleSwitch from '../../components/ToggleSwitch';
+import DateTimePicker from '../../components/DateTimePicker';
+import ParameterSlider from '../../components/ParameterSlider';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Ionicons} from '@expo/vector-icons';
 
 const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
@@ -19,19 +21,16 @@ const CreateTournamentScreen = ({navigation}) => {
     const [players, setPlayers] = useState(1);
     const [rankColor, setRankColor] = useState(styling.colorYellow);
 
-    // States for toggling (toggle buttons)
+    // States for switches
     const [toggle1, setToggle1] = useState(false);
     const [toggle2, setToggle2] = useState(false);
     const [toggle3, setToggle3] = useState(false);
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [isTimePickerVisible1, setTimePickerVisibility1] = useState(false);
-    const [isTimePickerVisible2, setTimePickerVisibility2] = useState(false);
-
 
     // States for date and time
-    const [date, setDate] = useState('dd-mm-yyyy');
+    const [date, setDate] = useState('yyyy-mm-dd');
     const [timeFrom, setTimeFrom] = useState('00:00');
     const [timeTo, setTimeTo] = useState('00:00');
+    const [errorMsg, setErrorMsg] = useState('');
 
     // Relevant constants
     const minPlayers = 1;
@@ -41,75 +40,36 @@ const CreateTournamentScreen = ({navigation}) => {
     const step = maxRank % 9;
     const imageUrl = {uri: 'https://image.freepik.com/free-photo/golden-trophy-cup-white-background-with-clipping-path_35913-551.jpg'};
 
-    // date picker functions
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
+    // Date confirmation
     const handleDateConfirm = (date) => {
         date = getDate(date);
         setDate(date);
-        hideDatePicker();
     };
 
-    // Time picker functions (from)
-    const showTimePicker1 = () => {
-        setTimePickerVisibility1(true);
-    };
-
-    const hideTimePicker1 = () => {
-        setTimePickerVisibility1(false);
-    };
-
+    // Time confirmation (From)
     const handleTimeFrom = (str) => {
-        const time = getTime(str);
-        setTimeFrom(time);
-        hideTimePicker1();
+        setTimeFrom(getTime(str));
     };
 
-    // Time picker functions (to)
-    const hideTimePicker2 = () => {
-        setTimePickerVisibility2(false);
-    };
-    const showTimePicker2 = () => {
-        setTimePickerVisibility2(true);
-    };
-
+    // Time confirmation (To)
     const handleTimeTo = (str) => {
-        const time = getTime(str);
-        setTimeTo(time);
-        hideTimePicker2();
+        setTimeTo(getTime(str));
     };
 
-    // Returns time formatted as xx:xx, given a random string containing xx:xx
+    // Getters
     const getTime = (time) => {
-        return time.toString().match(/\d\d\:\d\d/)[0];
+        return time.toString().match(/\d\d:\d\d/)[0];
     };
 
-    // Returns date
     const getDate = (date) => {
-        date = date.toString().substring(0, 15).split(' ');
-        return date[3] + '-' + date[1] + '-' + date[2];
+        return new Date(date).toISOString().split('T')[0];
     };
 
-    // Ignore native driver message for now...
-    useEffect(() => {
-        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
-    }, []);
 
-    // Check whether entered rank interval is valid
+    // Validators
     const validRankInterval = () => {
         return rank1 <= rank2;
     };
-
-    // Hook for clearing error message
-    useEffect(() => {
-        setErrorMsg('');
-    }, [rank1, rank2, date]);
 
     // Set rank slider color
     const setRankSliderColor = () => {
@@ -120,7 +80,10 @@ const CreateTournamentScreen = ({navigation}) => {
         };
     };
 
-    const [errorMsg, setErrorMsg] = useState('');
+    // Hook for clearing error message
+    useEffect(() => {
+        setErrorMsg('');
+    }, [rank1, rank2, date, timeFrom, timeTo]);
 
     // Create tournament
     const createTrnmnt = () => {
@@ -130,55 +93,84 @@ const CreateTournamentScreen = ({navigation}) => {
             return;
         };
 
-        // Validate date
-        if (date == 'dd-mm-yyyy') {
+        // Validate date (todo: fix same date)
+        if (date == 'yyyy-mm-dd') {
             setErrorMsg('Please suggest a date');
             return;
-        };
+        } else if (new Date(date) < new Date()) {
+            setErrorMsg('Date has already passed');
+            return;
+        }
+
+        // Validate time
+        const arbDate = time => new Date(6969, 6, 6, time.substring(0, 2), time.substring(3, 5), 0, 0);
+        if (arbDate(timeFrom) < arbDate(timeTo)) {
+            setErrorMsg('Invalid time interval');
+        }
         // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
 
-    return (
-        <Modal
-            presentationStyle = 'pageSheet'
-            animationType= 'slide'
-        >
-            <SafeAreaView>
-                <Header
-                    centerComponent = {{
-                        text: 'Create Tournament',
-                        style: {
-                            color: '#707070',
-                            fontWeight: '600',
-                            fontSize: 16,
-                        },
-                    }}
-                    containerStyle={{
-                        backgroundColor: 'white',
-                        height: 70,
-                        fontWeight: '800',
-                    }}
-                    leftComponent = {{
-                        text: 'Cancel',
-                        onPress: () => {
-                            navigation.goBack();
-                        },
-                        style: {
-                            color: '#707070',
-                            fontWeight: '600',
-                            fontSize: 16,
-                        },
-                    }}
-                />
-                <Divider/>
-                <View style={{alignItems: 'center'}}>
-                    <View>
-                        <Avatar
-                            source={imageUrl}
-                            size='xlarge'
-                        />
-                    </View>
+    /* Local date picker component*/
+    const DatePicker = () => {
+        return (
+            <DateTimePicker
+                placeholder={date}
+                onConfirm={handleDateConfirm}
+                subHeader='Date'
+                mode='date'
+                width={305}
+            />
+        );
+    };
 
+    /* Local time picker components*/
+    const TimeFrom = () => {
+        return (
+            <DateTimePicker
+                placeholder={timeFrom}
+                onConfirm={handleTimeFrom}
+                subHeader='From'
+                mode='time'
+                width={145}
+            />
+        );
+    };
+
+    const TimeTo = () => {
+        return (
+            <DateTimePicker
+                placeholder={timeTo}
+                onConfirm={handleTimeTo}
+                subHeader='To'
+                mode = 'time'
+                width={145}
+            />
+        );
+    };
+    /*
+    text: props.leftHeader,
+    onPress: props.leftOnPress,
+    style: styles.leftComponentStyle,
+    */
+
+    // Ignore native driver message for now...
+    useEffect(() => {
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+    }, []);
+
+    return (
+        <Modal presentationStyle = 'pageSheet'animationType= 'slide'>
+            <SafeAreaView>
+                <CardHeader
+                    centerHeader='Create Tournament'
+                    leftComponent={
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <Text style={{fontWeight: 'bold', fontSize: 16, color: '#707070'}}>Cancel</Text>
+                        </TouchableOpacity>
+                    }
+                />
+                <View style={{alignItems: 'center'}}>
+                    <Avatar source={imageUrl} size='xlarge'/>
                     {/* Minimum Rank Slider */}
                     <View style={{marginTop: 10}}>
                         <View style={{flexDirection: 'row'}}>
@@ -186,36 +178,28 @@ const CreateTournamentScreen = ({navigation}) => {
                                 <Text>Minimum rank</Text>
                             </View>
                             <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                <Switch
-                                    value={toggle1}
+                                <ToggleSwitch
                                     onValueChange={(val) => setToggle1(val)}
-                                    activeText={'On'}
-                                    inActiveText={'Off'}
-                                    circleActiveColor={colors.colorYellow}
-                                    circleInctiveColor={colors.colorLightGrey}
-                                />
+                                    value={toggle1}/>
                             </View>
                         </View>
-                        <Slider
-                            style={{width: 300}}
+                        <ParameterSlider
                             step={step}
-                            minimumValue={minRank}
-                            maximumValue={maxRank}
+                            min={minRank}
+                            max={maxRank}
                             value={rank1}
-                            onValueChange={(val) => {
+                            onChange={(val) => {
                                 setRank1(val);
                                 setRankSliderColor();
                             }}
                             thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
-                            maximumTrackTintColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
-                            minimumTrackTintColor={toggle1 ? rankColor : colors.colorDisabled}
+                            maxTrackColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
+                            minTrackColor={toggle1 ? rankColor : colors.colorDisabled}
                             disabled={!toggle1}
                         />
                         <View style={styling.textCon}>
                             <Text style={styling.colorGrey}>{minRank}</Text>
-                            <Text style={styling.colorYellow}>
-                                {toggle1 ? rank1 : ''}
-                            </Text>
+                            <Text style={styling.colorYellow}>{toggle1 ? rank1 : ''}</Text>
                             <Text style={styling.colorGrey}>{maxRank}</Text>
                         </View>
                     </View>
@@ -227,36 +211,26 @@ const CreateTournamentScreen = ({navigation}) => {
                                 <Text>Maximum rank</Text>
                             </View>
                             <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                <Switch
-                                    value={toggle2}
-                                    onValueChange={(val) => setToggle2(val)}
-                                    activeText={'On'}
-                                    inActiveText={'Off'}
-                                    circleActiveColor={colors.colorYellow}
-                                    circleInctiveColor={colors.colorLightGrey}
-                                />
+                                <ToggleSwitch onValueChange={(val) => setToggle2(val)} value={toggle2}/>
                             </View>
                         </View>
-                        <Slider
-                            style={{width: 300}}
+                        <ParameterSlider
                             step={step}
-                            minimumValue={minRank}
-                            maximumValue={maxRank}
+                            min={minRank}
+                            max={maxRank}
                             value={rank2}
-                            onValueChange={(val) => {
+                            onChange={(val) => {
                                 setRank2(val);
                                 setRankSliderColor();
                             }}
                             thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                            maximumTrackTintColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
-                            minimumTrackTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                            maxTrackColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
+                            minTrackColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
                             disabled={!toggle2}
                         />
                         <View style={styling.textCon}>
                             <Text style={colors.colorDisabled}>{minRank}</Text>
-                            <Text style={colors.colorYellow}>
-                                {toggle2 ? rank2 : ''}
-                            </Text>
+                            <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
                             <Text style={colors.colorDisabled}>{maxRank}</Text>
                         </View>
                     </View>
@@ -268,98 +242,40 @@ const CreateTournamentScreen = ({navigation}) => {
                                 <Text>Minimum players</Text>
                             </View>
                             <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                <Switch
-                                    value={toggle3}
+                                <ToggleSwitch
                                     onValueChange={(val) => setToggle3(val)}
-                                    activeText={'On'}
-                                    inActiveText={'Off'}
-                                    circleActiveColor={colors.colorYellow}
-                                    circleInctiveColor={colors.colorLightGrey}
+                                    value={toggle3}
                                 />
                             </View>
                         </View>
-                        <Slider
-                            style={{width: 300}}
+                        <ParameterSlider
                             step={1}
-                            minimumValue={minPlayers}
-                            maximumValue={maxPlayers}
+                            min={minPlayers}
+                            max={maxPlayers}
                             value={players}
-                            onValueChange={(val) => setPlayers(val)}
+                            onChange={(val) => setPlayers(val)}
                             thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
-                            maximumTrackTintColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
-                            minimumTrackTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
+                            maxTrackColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
+                            minTrackColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
                             disabled={!toggle3}
                         />
                         <View style={styling.textCon}>
                             <Text style={colors.colorDisabled}>{minPlayers}</Text>
-                            <Text style={colors.colorYellow}>
-                                {toggle3 ? players : ''}
-                            </Text>
+                            <Text style={colors.colorYellow}>{toggle3 ? players : ''}</Text>
                             <Text style={styling.colorGrey}>{maxPlayers}</Text>
                         </View>
                     </View>
-                    {/* Date picker*/}
-                    <Pressable onPress={showDatePicker}>
-                        <View style={{marginTop: 10}} pointerEvents="none">
-                            <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>Date</Text>
-                            <TextInput
-                                placeholder={date}
-                                placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                                style={[styles.input, {paddingRight: 15}, {fontSize: 20}]}
-                                textAlign = 'center'
-                            />
-                        </View>
-                    </Pressable>
 
+                    {/* Date picker*/}
+                    <View style={{paddingTop: 10}}>
+                        <DatePicker />
+                    </View>
                     {/* Time picker*/}
                     <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
-                        <Pressable onPress={showTimePicker1}>
-                            <View pointerEvents='none' style={{paddingRight: 10}}>
-                                <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>From</Text>
-                                <TextInput
-                                    placeholder={timeFrom}
-                                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                                    style={styling.textInput}
-                                    textAlign = 'center'
-                                />
-                                <DateTimePickerModal
-                                    isVisible={isTimePickerVisible1}
-                                    mode="time"
-                                    onConfirm={handleTimeFrom}
-                                    onCancel={hideTimePicker1}
-                                    isDarkModeEnabled={true}
-                                    locale='sv_SE'
-                                />
-                            </View>
-                        </Pressable>
-                        <Pressable onPress={showTimePicker2}>
-                            <View pointerEvents='none'>
-                                <Text style={{paddingBottom: 10, fontWeight: 'bold', fontSize: 12, color: '#707070'}}>To</Text>
-                                <TextInput
-                                    placeholder={timeTo}
-                                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                                    style={styling.textInput}
-                                    textAlign = 'center'
-                                />
-                                <DateTimePickerModal
-                                    isVisible={isTimePickerVisible2}
-                                    mode="time"
-                                    onConfirm={handleTimeTo}
-                                    onCancel={hideTimePicker2}
-                                    isDarkModeEnabled={true}
-                                    locale='sv_SE'
-                                />
-                            </View>
-                        </Pressable>
+                        <TimeTo />
+                        <TimeFrom />
                     </View>
-                    <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleDateConfirm}
-                        onCancel={hideDatePicker}
-                        isDarkModeEnabled={true}
-                        locale='sv_SE'
-                    />
+                    {/* Button*/}
                     <View style={{marginBottom: -10}}>
                         <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
                     </View>
