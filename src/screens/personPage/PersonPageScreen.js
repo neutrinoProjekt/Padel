@@ -1,13 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import {Avatar} from 'react-native-elements';
+import {Avatar, Header} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 // function that displays screen under the header
-export default function PersonPageScreen() {
+export default function PersonPageScreen({navigation}) {
     const [phonenr, setPhonenr] = useState('');
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
@@ -26,8 +27,22 @@ export default function PersonPageScreen() {
 
     return currentUser != null ? (
         // source should be equal with a function that have an image
+        
+
         <View style={styles.container}>
-            <Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>
+            
+            <Header
+                backgroundColor= 'transparent'
+                placement = 'center'
+                centerComponent={<Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>}
+                rightComponent={
+                    <MaterialCommunityIcons 
+                        name="podium-gold" 
+                        size={24} 
+                        color="black"
+                        onPress={()=> navigation.navigate('RankView')} /> 
+                }
+            />
             <Avatar
                 rounded
                 size="xlarge"
