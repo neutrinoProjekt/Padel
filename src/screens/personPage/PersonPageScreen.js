@@ -30,40 +30,41 @@ export default function PersonPageScreen({navigation}) {
 
     return currentUser != null ? (
         <SafeAreaView>
-            {/* source should be equal with a function that have an image
-
-        {/**Header with title and the icon-button on the right side */}
             <CardHeader
-                centerHeader='My Account'
-                rightComponent={
-                    <MaterialCommunityIcons
-                        name="podium-gold"
-                        size={24}
-                        onPress={()=> navigation.navigate('RankView')} />
-                }/>
+         centerHeader='My Account'
+         rightComponent={
+            <MaterialCommunityIcons 
+                name="podium-gold" 
+                size={24} 
+                color='#707070'
+                onPress={()=> navigation.navigate('RankView')} /> 
+            }/>
+            
+        {/* source should be equal with a function that have an image
+        
+        {/**Header with title and the icon-button on the right side */}
+    
 
-            <View style={styles.container}>
-
-                {/** Profile picture */}
-                <Avatar
-                    rounded
-                    size="xlarge"
-                    source={image}
-                    activeOpacity={0.7}
-                />
-
-                {/* Firebase issue. Get the user' peofile pic from the database*/}
-                <Text style={styles.text}>{currentUser.displayName}</Text>
-                <View style={{marginBottom: 20}}>
-                    <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
-                </View>
-                {/* 3 grey boxes to put user's personal info*/}
-                <View>
-                    <Text style={[styles.subtitle]}>Description:</Text>
-                    <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
-                    <Text style={styles.subtitle}> Contact info: </Text>
-                    <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
-                </View>
+        <View style={styles.container}> 
+          {/**Profile picture */}
+            <Avatar
+                rounded
+                size="xlarge"
+                source={image}
+                activeOpacity={0.7}
+            />  
+            {/* Firebase issue. Get the user' peofile pic from the database*/}
+            <Text style={styles.text}>{currentUser.displayName}</Text>
+            <View style={{marginBottom: 20}}>
+                <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
+            </View>
+            {/* 3 grey boxes to put user's personal info*/}
+            <View>
+                <Text style={[styles.subtitle]}>Description:</Text>
+                <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
+                <Text style={styles.subtitle}> Contact info: </Text>
+                <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
+            </View>
 
                 {/* Button to save the changes*/}
                 <MainButton title='Save' onPress={() => alert(phonenr)}/>
@@ -77,10 +78,9 @@ export default function PersonPageScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 40,
+        marginTop: 20,
     },
     image: {
         flex: 1,
