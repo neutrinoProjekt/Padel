@@ -4,12 +4,11 @@ import MainButton from '../../components/MainButton';
 import {useAuth} from '../../contexts/auth';
 import {styles} from '../styling/Styles';
 
-export default function Error () {
-
+export default function Error() {
     const {logout} = useAuth();
 
     return (
-        
+
         <View style={{alignItems: 'center'}}>
             <KeyboardAvoidingView behavior='padding'>
                 <View style={{marginTop: 100}}>

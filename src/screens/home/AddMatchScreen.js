@@ -7,11 +7,12 @@ import {Divider, Header} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
+import {createMatch} from '../../models/Match';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useAuth} from '../../contexts/auth';
 
 const AddMatchScreen = ({navigation}) => {
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
 
     // state hooks for inputs
     const [city, setCity] = useState('');
@@ -167,8 +168,8 @@ const AddMatchScreen = ({navigation}) => {
                     <TouchableOpacity>
                         <MainButton
                             title='Post Match'
-                            onPress={async () => {
-                                await currentUserDoc.addMatch({city, court});
+                            onPress={() => {
+                                createMatch({owner: currentUser.uid, city, court});
                                 navigation.goBack();
                             }}
                         />
