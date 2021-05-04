@@ -1,16 +1,9 @@
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Text, SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import BackButton from '../../components/BackButton';
 
-const SearchResults = ({navigation}) => {
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'Search',
-            headerBackTitle: 'Find Matches',
-        });
-    }, [navigation]);
-
+const Matches = ({navigation}) => {
     return (
         <SafeAreaView style={styles.safeContainer}>
             <ScrollView style={styles.scrollContainer}>
@@ -23,7 +16,7 @@ const SearchResults = ({navigation}) => {
     );
 };
 
-export default SearchResults;
+export default Matches;
 
 const styles = StyleSheet.create({
     safeContainer: {

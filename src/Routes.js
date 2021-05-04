@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import StartScreen from './screens/landing/StartScreen';
+import StartScreen from './screens/home/StartScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import Error from './screens/error/ErrorScreen';
-import BottomNavigation from './navigators/bottomNav/BottomNavigation';
+import BottomNavigation from './screens/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import {useAuth} from './contexts/auth';
 
