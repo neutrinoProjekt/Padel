@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
-import {styles} from '../styling/Styles';
 import CardHeader from '../../components/CardHeader';
 
 

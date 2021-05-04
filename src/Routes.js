@@ -43,7 +43,7 @@ export default function Routes() {
             <Stack.Screen
                 name="PaddlePal"
                 component={BottomNavigation}
-                options={{headerTintColor: '#707070'}}
+                options={{headerTintColor: '#707070', headerShown: false}}
             />
         </Stack.Navigator>
     );
