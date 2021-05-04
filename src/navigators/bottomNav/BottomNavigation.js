@@ -4,9 +4,9 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import HomeModNav from '../home/HomeModNav';
-import PersonalPageNav from '../../screens/personPage/PersonalPageNav';
-import Notifications from '../../screens/notifiactions/Notifications';
-import TournamentHandler from '../../screens/tournaments/TournamentHandler';
+import PersonalModNav from '../personPage/PersonalModNav';
+import NotificationsModNav from '../notifications/NotificationsModNav';
+import TournamentModNav from '../tournaments/TournamentModNav';
 import VictoryScreen from '../../screens/victory/VictoryScreen';
 
 const Tab = createBottomTabNavigator();
@@ -18,13 +18,13 @@ const screenOptions = ({route}) => ({
         if (route.name === 'HomeModNav') {
             iconName = 'home-outline';
             color = focused ? '#00CEB4' : '#707070';
-        } else if (route.name === 'TournamentHandler') {
+        } else if (route.name === 'TournamentModNav') {
             iconName = 'trophy-outline';
             color = focused ? '#00CEB4' : '#707070';
-        } else if (route.name === 'Notifications') {
+        } else if (route.name === 'NotificationsModNav') {
             iconName = 'notifications-outline';
             color = focused ? '#00CEB4' : '#707070';
-        } else if (route.name === 'Profile') {
+        } else if (route.name === 'PersonalModNav') {
             iconName = 'person-outline';
             color = focused ? '#00CEB4' : '#707070';
         }
@@ -45,10 +45,10 @@ const BottomNavigation = () => {
             initialRouteName="HomeModNav"
         >
             {/* <Tab.Screen name="Victory" component={VictoryScreen} /> */}
-            <Tab.Screen name="Notifications" component={Notifications} />
-            <Tab.Screen name="TournamentHandler" component={TournamentHandler} />
-            <Tab.Screen name="Profile" component={PersonalPageNav} />
             <Tab.Screen name="HomeModNav" component={HomeModNav} />
+            <Tab.Screen name="TournamentModNav" component={TournamentModNav} />
+            <Tab.Screen name="NotificationsModNav" component={NotificationsModNav} />
+            <Tab.Screen name="PersonalModNav" component={PersonalModNav} />
         </Tab.Navigator>
     );
 };
