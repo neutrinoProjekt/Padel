@@ -3,12 +3,11 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, ImageBackground} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import {ProgressBar} from 'react-native-paper';
 import {Ionicons} from '@expo/vector-icons';
-
 
 // --fire base--
 // make it possible to fetch tournament resaults from fire base
@@ -107,7 +106,7 @@ const VictoryScreen = () => {
                 <View style={{padding: 100}}>
                     <Text style={{
                         fontWeight: 'bold',
-                        fontSize: 40, color: '#fff',
+                        fontSize: 40, color: '#000',
                         textAlign: 'center'}}>
                             You came {TOURNAMENTRESULTS.results}, well done!
                     </Text>
