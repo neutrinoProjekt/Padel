@@ -16,14 +16,27 @@ export function getNotifications(id) {
         .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
 }
 
+export function pressNotification(id) {
+     db.collection('notifications').doc(id)
+        .update({isnew: false});
+    return null;
+ }
+
+ export function deletNotification(id) {
+    db.collection('notifications').doc(id)
+        .delete();
+    return null;
+ }
+
 export function createNotification({
     type = 'default',
     header = null,
     owner = null,
     description = null,
     image = null,
-    date = null,
-    isnew = null}) {
+    date = new Date(),
+    isnew = true,
+    detailText = null}) {
     return db.collection(collectionName).add({
         type,
         title: header,
@@ -33,5 +46,6 @@ export function createNotification({
         image,
         date,
         isnew,
+        detailText,
     });
 }

@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
-import {subscribeNotifications, createNotification} from '../../models/Notification';
+import {subscribeNotifications, createNotification, pressNotification, deletNotification, getNotifications} from '../../models/Notification';
+import CardHeader from '../../components/CardHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import { convertCompilerOptionsFromJson } from 'typescript';
 
 // renders base notification, same for all types
 const NotificationView = (inData) => {
@@ -13,9 +16,9 @@ const NotificationView = (inData) => {
         <TouchableHighlight onPress={() => {
             setExtend(!extend);
         }} >
-            <View style={{borderRightWidth: 8, borderColor: item.isnew ? '#00CEB4':'#f7f7f7'}}>
+            <View>
                 <View style={styles.nBox} >
-                    <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
+                    <View style={{flexDirection: 'row', width: '98%', justifyContent: 'space-around', padding: '1%',}}>
                         <View style={{width: 90}}>
                             <Image
                                 style={styles.nPicture}
@@ -25,17 +28,38 @@ const NotificationView = (inData) => {
                             <Text style={styles.nHeader}>{item.header}</Text>
                             <View style={{marginTop: 10}}>
                                 <NotificationDetails enabled={extend} item={item}/>
+                                <DeletNotification enabled={extend} item={item}/>
                             </View>
                         </View>
                         <View style={{margin: 10, width: '10%', minWidth: 60}}>
                             <Text style={styles.nText}>{item.date}</Text>
                         </View>
                     </View>
+                    <View style={{width:8, backgroundColor: item.isnew ? '#00CEB4':'#f7f7f7'}}></View>
                 </View>
             </View>
         </TouchableHighlight>
     );
 };
+
+
+const DeletNotification = (props) =>   {
+    if(props.enabled){
+        return(
+            <View>
+            <TouchableHighlight onPress={() => {deletNotification(props.item.id)}}>
+                <Text style={{width:'100%', textAlign:'center', padding: 10, backgroundColor:'#F67273', borderRadius:5, color:'#707070', fontWeight:'bold'}}>Remove</Text>
+            </TouchableHighlight>
+            </View>
+        );
+    }
+    else{
+        return(
+            <View></View>
+        );
+    }   
+}
+
 
 // this shoud be added to depending on the type
 const NotificationDetails = (props) => {
@@ -43,7 +67,7 @@ const NotificationDetails = (props) => {
 
     // when notification is expanded
     if (props.enabled) {
-        console.log(item.type);
+        pressNotification(item.id);
         switch (item.type) {
         case 'text':
             return (
@@ -79,7 +103,6 @@ const NotificationDetails = (props) => {
 
 // måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
 const matchJoinRequest = (item) => {
-    console.log(item);
     return (
         <View>
             <Text style={styles.nText}>{item.detailText}</Text>
@@ -106,6 +129,7 @@ const RenderNotification = ({item}) => {
     );
 };
 
+
 const Notifications = () => {
     const {currentUser} = useAuth();
     const [notificationData, setNotificationData] = useState();
@@ -116,29 +140,34 @@ const Notifications = () => {
     }, []);
 
     return (
-        <View>
-            <TouchableHighlight onPress={() => createNotification({
-                owner: currentUser.uid,
-                header: 'Gotta request to join',
-                description: 'A request to join! now?',
-                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
-                date: '2014-02-02-14.44',
-                isnew: false,
-                detailText: 'urban would like to join your match!',
-                type: 'matchJoinRequest',
-                typeDetails: {
-                    joinerId: 'temptemp',
-                },
-            })}>
-                <Text>Press to add notidication</Text>
-            </TouchableHighlight>
-            <FlatList
-                data={notificationData}
-                renderItem={RenderNotification}
-                keyExtractor={(item) => item.id}
+        <SafeAreaView>
+            <CardHeader
+                centerHeader='Notifications'
             />
-            <Text style={styles.nEnd}>No more notifications</Text>
-        </View>
+            <View>
+                <TouchableHighlight onPress={() => createNotification({
+                    owner: currentUser.uid,
+                    header: 'Gotta request to join',
+                    description: 'A request to join! now?',
+                    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
+                    date: '2014-02-02-14.44',
+                    isnew: true,
+                    detailText: 'urban would like to join your match!',
+                    type: 'matchJoinRequest',
+                    typeDetails: {
+                        joinerId: 'temptemp',
+                    },
+                })}>
+                    <Text>Press to add notidication</Text>
+                </TouchableHighlight>
+                <FlatList
+                    data={notificationData}
+                    renderItem={RenderNotification}
+                    keyExtractor={(item) => item.id}
+                />
+                <Text style={styles.nEnd}>No more notifications</Text>
+            </View>
+        </SafeAreaView>
     );
 };
 
@@ -148,7 +177,6 @@ export default Notifications;
 const styles = StyleSheet.create({
     nBox: {
         backgroundColor: '#f7f7f7',
-        padding: '1%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderBottomWidth: 2,
