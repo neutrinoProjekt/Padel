@@ -20,3 +20,8 @@ export function createUser(id, fullname, displayName) {
 export function getUser(id) {
     return db.collection(collectionName).doc(id).get().then((u) => u.data());
 }
+
+export function getTopRated() {
+    return db.collection(collectionName).orderBy('rating','desc').limit(20).get()
+        .then(u => u.docs.map(doc => doc.data()));
+}

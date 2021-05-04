@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import {styles} from '../styling/Styles';
 import CardHeader from '../../components/CardHeader';
-
 
 // Front-end: (DONE DONE DONE)
 // global leaderboard (all the users)
@@ -152,6 +151,7 @@ const RenderPlacment = ({item}) => (
 
 
 const rankScreen = () => {
+
     return (
         <SafeAreaProvider>
             <CardHeader centerHeader='Leaderboard'/>
