@@ -2,11 +2,11 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Header, Divider} from 'react-native-elements';
 
-/* Header used for typical "card-pages"
-/* @param leftHeader - Left text field
-/* @param leftOnPress - Function called when pressing leftHeader
-/* @param centerHeader - Center text field (main header)
-/* EXAMPLE: <CardHeader centerHeader={'My Account'} rightComponent= {<MainButton..../>} /> 
+/**  Header used for typical "card-pages"
+/* @param {string} leftHeader - Left text field
+/* @param {function} leftOnPress - Function called when pressing leftHeader
+/* @param {string} centerHeader - Center text field (main header)
+/* EXAMPLE: <CardHeader centerHeader={'My Account'} rightComponent= {<MainButton..../>} />
 */
 const CardHeader = (props) => {
     return (

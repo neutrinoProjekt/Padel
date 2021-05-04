@@ -7,6 +7,7 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
+import {createMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import DateTimePicker from '../../components/DateTimePicker';
@@ -15,7 +16,7 @@ import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
 
 const AddMatchScreen = ({navigation}) => {
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
 
     // state hooks for inputs
     const [city, setCity] = useState('');
@@ -102,8 +103,8 @@ const AddMatchScreen = ({navigation}) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
-    /* Creates match if parameters are valid */
-    const createMatch = () => {
+    /* Posts match if parameters are valid */
+    const postMatch = () => {
         // Validate City input (todo: actually validate that it's a city)
         if (city == '') {
             setErrorMsg('Please enter a city');
@@ -135,12 +136,7 @@ const AddMatchScreen = ({navigation}) => {
         let mode = single ? 'single' : 'double';
         console.log(mode);
         // params
-        postMatch();
-    };
-
-    /* Post match */
-    const postMatch = async () => {
-        await currentUserDoc.addMatch({city});
+        createMatch({owner: currentUser.uid, city, court});
         navigation.goBack();
     };
 
@@ -219,7 +215,7 @@ const AddMatchScreen = ({navigation}) => {
                     <TouchableOpacity>
                         <MainButton
                             title='Post Match'
-                            onPress={createMatch}
+                            onPress={postMatch}
                         />
                     </TouchableOpacity>
                 </View>

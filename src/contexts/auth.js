@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {auth} from '../modules/firebase/firebase';
-import UserDoc from '../models/UserDoc';
+import {createUser} from '../models/User';
 
 const AuthContext = React.createContext();
 
@@ -10,25 +10,12 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState();
-    const [currentUserDoc, setCurrentUserDoc] = useState();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
     function signup(email, password, username, fullname) {
         return auth.createUserWithEmailAndPassword(email, password)
-            .then(({user}) => {
-                user.updateProfile({
-                    displayName: username,
-                    photoURL: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullname
-                });
-                UserDoc.createByID(user.uid)
-                    .then(userDoc => userDoc.update({
-                        fullname: fullname,
-                        photoURL: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullname,
-                        notifications: {},
-                        matches: {},
-                    }));
-            })
+            .then(({user}) => createUser(user.uid, fullname, username))
             .catch((e) => setError(e.message));
     }
 
@@ -44,7 +31,6 @@ export function AuthProvider({children}) {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             setCurrentUser(user);
-            if (user != null) setCurrentUserDoc(await UserDoc.getByID(user.uid));
             setLoading(false);
         });
 
@@ -54,7 +40,6 @@ export function AuthProvider({children}) {
     const value = {
         error,
         currentUser,
-        currentUserDoc,
         login,
         signup,
         logout,

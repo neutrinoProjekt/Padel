@@ -5,7 +5,8 @@ import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import {getUser} from '../../models/User';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import CardHeader from '../../components/CardHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -17,40 +18,41 @@ export default function PersonPageScreen({navigation}) {
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const {currentUser, logout, currentUserDoc} = useAuth();
+    const {currentUser, logout} = useAuth();
 
-    // let image = currentUserDoc.photoURL === null ? 
-    //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-    //     {uri: currentUserDoc.photoURL};
-    
     useEffect(() => {
-        (async () => setImage({uri: await currentUserDoc.photoURL}))();
-    }, [])
+        getUser(currentUser.uid)
+            .then((data) => {
+                setDescription(data.description);
+                setImage(data.photoURL);
+            });
+    }, []);
 
     return currentUser != null ? (
         <SafeAreaView>
-        {/* source should be equal with a function that have an image
-        
-        {/**Header with title and the icon-button on the right side */}
-        <CardHeader
+            <CardHeader
          centerHeader='My Account'
          rightComponent={
             <MaterialCommunityIcons 
                 name="podium-gold" 
                 size={24} 
+                color='#707070'
                 onPress={()=> navigation.navigate('RankView')} /> 
             }/>
+            
+        {/* source should be equal with a function that have an image
+        
+        {/**Header with title and the icon-button on the right side */}
+    
 
-        <View style={styles.container}>
-
+        <View style={styles.container}> 
           {/**Profile picture */}
             <Avatar
                 rounded
                 size="xlarge"
                 source={image}
                 activeOpacity={0.7}
-            />
-
+            />  
             {/* Firebase issue. Get the user' peofile pic from the database*/}
             <Text style={styles.text}>{currentUser.displayName}</Text>
             <View style={{marginBottom: 20}}>
@@ -64,22 +66,21 @@ export default function PersonPageScreen({navigation}) {
                 <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
             </View>
 
-            {/* Button to save the changes*/}
-            <MainButton title='Save' onPress={() => alert(phonenr)}/>
-            <View style={{marginTop: 10}}>
-                <MainButton title='Sign Out' onPress={() => logout()}/>
+                {/* Button to save the changes*/}
+                <MainButton title='Save' onPress={() => alert(phonenr)}/>
+                <View style={{marginTop: 10}}>
+                    <MainButton title='Sign Out' onPress={() => logout()}/>
+                </View>
             </View>
-        </View>
         </SafeAreaView>
     ) : (<Text></Text>);
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 40,
+        marginTop: 20,
     },
     image: {
         flex: 1,
