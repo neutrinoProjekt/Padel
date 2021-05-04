@@ -118,7 +118,6 @@ const CreateTournamentScreen = ({navigation}) => {
             date: date,
         });
         navigation.goBack();
-        // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
 
     /* Local date picker component*/
@@ -158,11 +157,6 @@ const CreateTournamentScreen = ({navigation}) => {
             />
         );
     };
-    /*
-    text: props.leftHeader,
-    onPress: props.leftOnPress,
-    style: styles.leftComponentStyle,
-    */
 
     // Ignore native driver message for now...
     useEffect(() => {
