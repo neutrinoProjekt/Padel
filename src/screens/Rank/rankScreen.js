@@ -1,8 +1,12 @@
-import React from 'react';
-import {Text, View, Image} from 'react-native';
+
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
+
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import CardHeader from '../../components/CardHeader';
+import {getTopRated} from '../../models/User';
+import { Feather } from '@expo/vector-icons'; 
 
 // Front-end: (DONE DONE DONE)
 // global leaderboard (all the users)
@@ -13,71 +17,7 @@ import CardHeader from '../../components/CardHeader';
 // profile picture
 // username
 // rating (get the sorted list)
-const LEADERS = {
-    players:
-        [
-            {
-                name: 'Anna',
-                picture: 'http://lumiere-a.akamaihd.net/v1/images/ct_frozen_anna_18466_6775584b.jpeg',
-                placement: 1,
-                rating: 1000,
-            },
-            {
-                name: 'Lukas',
-                picture: 'https://www.kalleanka.se/wp-content/uploads/sb-instagram-feed-images/kalle_anka_co.jpg',
-                placement: 2,
-                rating: 420,
-            },
-            {
-                name: 'Vide',
-                picture: 'https://cached-images.bonnier.news/swift/bilder/epi-30-dn/UploadedImages/2019/12/9/dc6a59ab-f934-4af7-8bf3-eb8a42e37547/bigOriginal.jpg',
-                placement: 3,
-                rating: 69,
-            },
-            {
-                name: 'Yosef',
-                picture: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/86797/93795/Goofy-Disney-Card-Party-Face-Mask-available-now-at-starstills__37575.1574398848.jpg',
-                placement: 4,
-                rating: 30,
-            },
-            {
-                name: 'Philip',
-                picture: 'https://i.pinimg.com/originals/63/6f/c9/636fc98554daf0f31ddb5ec0d12ecf51.jpg',
-                placement: 5,
-                rating: 60,
-            },
-            {
-                name: 'Shaff',
-                picture: 'https://static.wikia.nocookie.net/disney/images/3/31/Profile_-_Baloo.jpeg',
-                placement: 6,
-                rating: 50,
-            },
-            {
-                name: 'Daniel',
-                picture: 'https://mk0featuredanim65enk.kinstacdn.com/wp-content/uploads/2021/03/Flynn-Ryder-portrait-photo.jpeg',
-                placement: 7,
-                rating: 40,
-            },
-            {
-                name: 'Yosef',
-                picture: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/86797/93795/Goofy-Disney-Card-Party-Face-Mask-available-now-at-starstills__37575.1574398848.jpg',
-                placement: 8,
-                rating: 30,
-            },
-            {
-                name: 'Yosef',
-                picture: 'https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/86797/93795/Goofy-Disney-Card-Party-Face-Mask-available-now-at-starstills__37575.1574398848.jpg',
-                placement: 9,
-                rating: 30,
-            },
-            {
-                name: 'August',
-                picture: 'https://shop.partyland.party/files/mickey%20baby.[1].jpg',
-                placement: 10,
-                rating: 1337,
-            },
-        ],
-};
+
 
 // returns an image of the medal depending on the urer's plcement
 const PlacePicture = (placement) => {
@@ -124,7 +64,7 @@ const RenderPlacment = ({item}) => (
             {/** profile picture */}
             <Image
                 style={{height: 60, width: 60, borderRadius: 30, marginLeft: 15, marginRight: 15}}
-                source = {{uri: item.picture}}
+                source = {{uri: item.photoURL}}
             />
 
             {/** display Name or username of the player + his/her rating */}
@@ -134,9 +74,11 @@ const RenderPlacment = ({item}) => (
                 fontWeight: 'bold',
                 fontSize: 20,
             }}>
-                {item.name}
-                {/** should make this part green */}
-            </Text>
+
+            {item.fullname}
+            {/**should make this part green */}
+        </Text>
+
         </View>
 
         <View style={{flexDirection: 'row',
@@ -149,13 +91,36 @@ const RenderPlacment = ({item}) => (
 );
 
 const rankScreen = () => {
+
+    const [leaders, setLeaders] = useState({});
+    
+    const updateLeaders = async () => {
+        console.log('updating leaders')
+        let leaders = await getTopRated();
+        // add placement property
+        leaders = leaders.map((profile, index) => ({...profile, placement: index + 1}));
+        setLeaders(leaders);   
+    }
+
+    useEffect(()=> {
+        updateLeaders();
+    }, []);
+
     return (
-        <SafeAreaProvider>
-            <CardHeader centerHeader='Leaderboard'/>
+        <SafeAreaProvider> 
+            <CardHeader 
+             centerHeader='Leaderboard'
+             rightComponent={
+                 <Feather 
+                 onPress={updateLeaders}
+                 name="refresh-cw" 
+                 size={20}
+                 color='#707070'/>
+            }/>
             <View>
                 {/* shows only specific match but you're also able to scroll*/}
                 <FlatList
-                    data={LEADERS.players}
+                    data={leaders}
                     renderItem={RenderPlacment}
                     keyExtractor={(item) => item.id}
                 />

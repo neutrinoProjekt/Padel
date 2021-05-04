@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
@@ -31,14 +31,14 @@ export default function PersonPageScreen({navigation}) {
     return currentUser != null ? (
         <SafeAreaView>
             <CardHeader
-         centerHeader='My Account'
-         rightComponent={
-            <MaterialCommunityIcons 
-                name="podium-gold" 
-                size={24} 
-                color='#707070'
-                onPress={()=> navigation.navigate('RankView')} /> 
-            }/>
+                centerHeader='My Account'
+                rightComponent={
+                    <MaterialCommunityIcons 
+                        name="podium-gold" 
+                        size={24} 
+                        color='#707070'
+                        onPress={()=> navigation.navigate('RankView')} /> 
+                    }/>
             
         {/* source should be equal with a function that have an image
         
@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
         color: '#707070',
         fontSize: 12,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
 });
