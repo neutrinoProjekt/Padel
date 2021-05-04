@@ -30,20 +30,12 @@ export default function Routes() {
                 options={{headerShown: false}}
             />
         </Stack.Navigator>
-    ) : currentUserDoc === null ? (
-        <Stack.Navigator screenOptions={{cardStyle: {backgroundColor: '#ffffff'}}}>
-            <Stack.Screen
-                name="Error"
-                component={Error}
-                options={{headerShown: false}}
-            />
-        </Stack.Navigator>
     ) : (
         <Stack.Navigator screenOptions={{cardStyle: {backgroundColor: '#ffffff'}}}>
             <Stack.Screen
                 name="PaddlePal"
                 component={BottomNavigation}
-                options={{headerShown: false}}
+                options={{headerTintColor: '#707070', headerShown: false}}
             />
         </Stack.Navigator>
     );
