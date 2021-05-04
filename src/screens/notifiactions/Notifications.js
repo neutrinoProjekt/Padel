@@ -82,10 +82,8 @@ const Notifications = () => {
     const [notificationData, setNotificationData] = useState();
 
     useEffect(() => {
-        var unsubscribe = subscribeNotifications(currentUser.uid, setNotificationData);
-        return () => {
-            unsubscribe();
-        }
+        const unsubscribe = subscribeNotifications(currentUser.uid, setNotificationData);
+        return () => unsubscribe();
     }, []);
 
     return (

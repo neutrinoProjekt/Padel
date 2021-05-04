@@ -5,64 +5,21 @@ import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
-
-
-const getMatches = () => (
-    [
-        {
-            id: 'ma1',
-            owner: {
-                id: 'us1',
-                name: 'Karl-Bertil Johansson',
-                imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            },
-            participants: [],
-        },
-        {
-            id: 'ma2',
-            owner: {
-                id: 'us1',
-                name: 'Anna-Karin Johansson',
-                imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            },
-            participants: [],
-        },
-        {
-            id: 'ma3',
-            owner: {
-                id: 'us1',
-                name: 'Britt-Marie Johansson',
-                imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            },
-            participants: [],
-        },
-    ]
-);
+import {subscribeMatch} from '../../models/Match';
 
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
 
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
 
     useEffect(() => {
-        if (currentUserDoc != null) {
-            const unsubscribe = currentUserDoc.onMatchUpdate((updatedMatches) => {
-                setMatchData(updatedMatches);
-            }, () => {
-                console.error('aw shit here we go again');
-            });
-
-            // cleanup
-            return async () => {
-                await (await unsubscribe)();
-            };
-        }
-    }, [currentUserDoc]);
+        const unsubscribe = subscribeMatch(currentUser.uid, setMatchData);
+        return () => unsubscribe();
+    }, []);
 
     const addMatch = () => {
         navigation.navigate('Add Match');
     };
-
 
     return (
         <SafeAreaView>
@@ -90,7 +47,6 @@ const YourMatches = ({navigation}) => {
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
-
 
         </SafeAreaView>
 
@@ -122,5 +78,4 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowOffset: {height: 10},
     },
-
 });

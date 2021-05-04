@@ -2,17 +2,17 @@ import {db} from '../modules/firebase/firebase';
 
 const collectionName = 'notifications';
 
-export function subscribeNotifications(id, onUpdate) {
+export function subscribeNotifications(id, onUpdate, onError) {
     return db.collection(collectionName)
         .where('owner', '==','/users/' + id)
         .onSnapshot(snapshot => {
-            const not = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
-            onUpdate(not);
-        });
+            const notifications = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+            onUpdate(notifications);
+        }), onError;
 }
 
 export function getNotifications(id) {
-    return db.collection(collectionName).where('owner', '==','/users/' + id).get()
+    return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
         .then(n => n.docs.map(doc => ({...doc.data(), id: doc.id})));
 }
 
@@ -32,6 +32,6 @@ export function createNotification({
         description,
         image,
         date,
-        isnew,
+        isnew
     });
 }
