@@ -1,27 +1,25 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import FindTournaments from '../../screens/tournaments/FindTournaments';
-import TournamentsList from '../../screens/tournaments/YourTournaments';
+import FindTournaments from './FindTournaments';
+import TournamentsList from './YourTournaments';
 
 const TopNavigator = createMaterialTopTabNavigator();
 
-const topNavigatorOptions = {
-    activeTintColor: '#707070',
-    inactiveTintColor: '#707070',
-    indicatorStyle: {backgroundColor: '#00CEB4'},
-    labelStyle: {
-        textTransform: 'none',
-        fontSize: 14,
-        fontWeight: 'bold',
-    },
-    tabStyle: {borderTopWidth: 0},
-};
-
-const TournamentTopNav = () => {
+const TournamentNavigator = () => {
     return (
         <TopNavigator.Navigator
-            tabBarOptions={topNavigatorOptions}
+            tabBarOptions={{
+                activeTintColor: '#00CEB4',
+                inactiveTintColor: '#707070',
+                indicatorStyle: {backgroundColor: '#00CEB4'},
+                labelStyle: {
+                    textTransform: 'none',
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                },
+                tabStyle: {borderTopWidth: 0},
+            }}
         >
             <TopNavigator.Screen
                 name="Your Tournaments"
@@ -34,7 +32,7 @@ const TournamentTopNav = () => {
     );
 };
 
-export default TournamentTopNav;
+export default TournamentNavigator;
 
 const styles = StyleSheet.create({});
 
