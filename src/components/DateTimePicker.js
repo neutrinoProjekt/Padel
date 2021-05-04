@@ -25,9 +25,7 @@ const DateTimePicker = (props) => {
                 <Text style={styles.subHeader}>{props.subHeader}</Text>
                 <TextInput
                     placeholder={props.placeholder}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     style={[styles.textInput, {width: props.width}]}
-                    textAlign = 'center'
                 />
                 <DateTimePickerModal
                     isVisible={visible}
@@ -56,7 +54,8 @@ const styles = StyleSheet.create({
         borderColor: '#BFBFBF',
         borderRadius: 10,
         backgroundColor: '#F7F7F7',
-        fontSize: 16,
+        fontSize: 14,
+        paddingLeft: 15,
     },
 
 });
