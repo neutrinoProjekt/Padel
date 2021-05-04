@@ -1,5 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CreateTournamentScreen from './CreateTournamentScreen';
 import TournamentNavigator from './TournamentNavigator';
 
