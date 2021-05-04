@@ -1,51 +1,143 @@
-import React, {useState} from 'react';
+/* eslint-disable max-len */
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet, View, Modal, TextInput,
-    TouchableOpacity, SafeAreaView, Text, Pressable,
+    TouchableOpacity, SafeAreaView, Text,
 } from 'react-native';
-import {Divider, Header} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
-import createMatch from '../../models/Match';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {createMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
+import CardHeader from '../../components/CardHeader';
+import DateTimePicker from '../../components/DateTimePicker';
+import {validateTimeInterval, validateDate} from '../styling/Validators';
+import RadioButton from '../../components/RadioButton';
+import {colors} from './../styling/Colors';
 
 const AddMatchScreen = ({navigation}) => {
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
 
     // state hooks for inputs
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
     const [date, setDate] = useState('yyyy-mm-dd');
-    const [from, setFrom] = useState('hh:mm');
-    const [to, setTo] = useState('hh:mm');
+    const [timeFrom, setTimeFrom] = useState('hh:mm');
+    const [timeTo, setTimeTo] = useState('hh:mm');
+    const [errorMsg, setErrorMsg] = useState('');
+    const [single, setSingle] = useState(true);
+    const [double, setDouble] = useState(false);
+
+    // Clear error messages
+    useEffect(() => {
+        setErrorMsg('');
+    }, [date, timeFrom, timeTo, city, court]);
 
 
-    // state hooks for date-/time-pickers
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-
-    // time picker functions
-    const showTimePicker = () => {
-        setTimePickerVisibility(true);
+    /* Parameter handlers */
+    const handleTimeFrom = (time) => {
+        setTimeFrom(getTime(time));
     };
 
-    const hideTimePicker = () => {
-        setTimePickerVisibility(false);
+    const handleTimeTo = (time) => {
+        setTimeTo(getTime(time));
     };
 
-    // date picker functions
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
+    const handleDateConfirm = (date) => {
+        setDate(getDate(date));
     };
 
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
+    // Left header component
+    const leftComponent = () => {
+        return (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{fontWeight: 'bold', fontSize: 16, color: '#707070'}}>Cancel</Text>
+            </TouchableOpacity>
+        );
     };
 
-    const handleConfirm = (time) => {
-        hideDatePicker();
+    /* Local date picker component*/
+    const DatePicker = () => {
+        return (
+            <DateTimePicker
+                placeholder={date}
+                onConfirm={handleDateConfirm}
+                subHeader='Date'
+                mode='date'
+                width={305}
+            />
+        );
+    };
+
+    /* Local time picker components*/
+    const TimeFrom = () => {
+        return (
+            <DateTimePicker
+                placeholder={timeFrom}
+                onConfirm={handleTimeFrom}
+                subHeader='From'
+                mode='time'
+                width={145}
+            />
+        );
+    };
+
+    const TimeTo = () => {
+        return (
+            <DateTimePicker
+                placeholder={timeTo}
+                onConfirm={handleTimeTo}
+                subHeader='To'
+                mode = 'time'
+                width={145}
+            />
+        );
+    };
+
+    /* Getters (to be moved) */
+    const getTime = (time) => {
+        return time.toString().match(/\d\d:\d\d/)[0];
+    };
+
+    const getDate = (date) => {
+        return new Date(date).toISOString().split('T')[0];
+    };
+
+    /* Posts match if parameters are valid */
+    const postMatch = () => {
+        // Validate City input (todo: actually validate that it's a city)
+        if (city == '') {
+            setErrorMsg('Please enter a city');
+            return;
+        }
+
+        // Validate paddle hall (todo: actually validate that it's a paddle hall)
+        if (court == '') {
+            setErrorMsg('Please enter a court');
+            return;
+        }
+        // Validate date (todo: fix same date)
+        if (date == 'yyyy-mm-dd') {
+            setErrorMsg('Please suggest a date');
+            return;
+        } else if (!validateDate(date)) {
+            setErrorMsg('Date has already passed');
+            return;
+        }
+
+        // Validate time interval
+        if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
+            setErrorMsg('Please enter a time interval');
+            return;
+        } else if (!validateTimeInterval(timeFrom, timeTo)) {
+            setErrorMsg('Invalid time interval');
+            return;
+        }
+        let mode = single ? 'single' : 'double';
+        console.log(mode);
+        // params
+        createMatch({owner: currentUser.uid, city, court});
+        navigation.goBack();
     };
 
     return (
@@ -54,29 +146,10 @@ const AddMatchScreen = ({navigation}) => {
             animationType='slide'
         >
             <SafeAreaView style={styles2.safeContainer}>
-                <Header
-                    centerComponent={{
-                        text: 'Add Match',
-                        style: {
-                            color: '#707070',
-                            fontWeight: '600',
-                            fontSize: 16},
-                    }}
-                    containerStyle={styles2.header}
-                    leftComponent=
-                        {{
-                            text: 'Cancel',
-                            onPress: () => {
-                                navigation.goBack();
-                            },
-                            style: {
-                                color: '#707070',
-                                fontWeight: '600',
-                                fontSize: 16},
-                        }}
-                >
-                </Header>
-                <Divider/>
+                <CardHeader
+                    centerHeader='Add Match'
+                    leftComponent={leftComponent}
+                />
                 <ScrollView style={styles2.scrollContainer}>
                     <View style={{marginTop: 30, width: 305}}>
                         <Text style={styles2.formTitle}>City</Text>
@@ -89,7 +162,7 @@ const AddMatchScreen = ({navigation}) => {
                             onChangeText={(text) => setCity(text)}
                         />
                     </View>
-                    <View style={{marginTop: 30, width: 305}}>
+                    <View style={{marginTop: 20, width: 305}}>
                         <Text style={styles2.formTitle}>Court</Text>
                         <TextInput
                             style={styles.input}
@@ -100,78 +173,49 @@ const AddMatchScreen = ({navigation}) => {
                             onChangeText={(text) => setCourt(text)}
                         />
                     </View>
-                    <View style={{marginTop: 30, width: 305}}>
-                        <Text style={styles2.formTitle}>Date</Text>
-                        <Pressable onPress={showDatePicker}>
-                            <View pointerEvents='none'>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder={'yyyy-mm-dd'}
-                                    placeholderTextColor={'#BFBFBF'}
-                                    textAlign ='left'
-                                />
-                            </View>
-                        </Pressable>
-                        <DateTimePickerModal
-                            isVisible={isDatePickerVisible}
-                            mode="date"
-                            onConfirm={handleConfirm}
-                            onCancel={hideDatePicker}
-                            isDarkModeEnabled={true}
-                            locale='sv_SE'
-                            headerTextIOS='Pick Date'
-                        />
+                    <View style={{marginTop: 20, width: 305}}>
+                        <DatePicker />
                     </View>
                     <View style={styles2.rowContainer}>
                         <View
-                            style={{marginTop: 30,
+                            style={{marginTop: 10,
                                 width: 145,
                                 marginRight: 10}}
                         >
-                            <Text style={styles2.formTitle}>From</Text>
-                            <Pressable onPress={showTimePicker}>
-                                <View pointerEvents='none'>
-                                    <TextInput
-                                        style={styles.narrowInput}
-                                        placeholder={'hh:mm'}
-                                        placeholderTextColor={'#BFBFBF'}
-                                        textAlign='left'
-                                    />
-                                </View>
-                            </Pressable>
-                            <DateTimePickerModal
-                                isVisible={isTimePickerVisible}
-                                mode="time"
-                                onConfirm={handleConfirm}
-                                onCancel={hideTimePicker}
-                                isDarkModeEnabled={true}
-                                locale='sv_SE'
-                                headerTextIOS='Pick Time'
-                            />
+                            <TimeFrom />
                         </View>
-                        <View style={{marginTop: 30, width: 145}}>
-                            <Pressable onPress={showTimePicker}>
-                                <View pointerEvents='none'>
-                                    <Text style={styles2.formTitle}>To</Text>
-                                    <TextInput
-                                        style={styles.narrowInput}
-                                        placeholder={'hh:mm'}
-                                        placeholderTextColor={'#BFBFBF'}
-                                        textAlign ='left'
-                                    />
-                                </View>
-                            </Pressable>
+                        <View style={{marginTop: 10, width: 145}}>
+                            <TimeTo />
                         </View>
+                    </View>
+                    <View style={{paddingTop: 10}}>
+                        <Text style={styles2.formTitle}>Mode</Text>
+                        <RadioButton
+                            onClick={() => {
+                                setSingle(true); setDouble(false);
+                            }}
+                            size={24}
+                            color={single ? colors.signature : 'black'}
+                            selected={single}
+                            label='Single'
+                        />
+                        <RadioButton
+                            onClick={() => {
+                                setDouble(true); setSingle(false);
+                            }}
+                            size={24}
+                            color={double ? colors.signature : 'black'}
+                            selected={double}
+                            label='Double'
+                        />
                     </View>
                 </ScrollView>
                 <View style={styles2.actionButtonContainer}>
+                    <Text style={[styles.error, {paddingTop: 30}]}>{errorMsg}</Text>
                     <TouchableOpacity>
                         <MainButton
                             title='Post Match'
-                            onPress={async () => {
-                                await currentUserDoc.addMatch({city});
-                                navigation.goBack();
-                            }}
+                            onPress={postMatch}
                         />
                     </TouchableOpacity>
                 </View>

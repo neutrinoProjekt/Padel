@@ -1,40 +1,58 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
+import {getUser} from '../../models/User';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import CardHeader from '../../components/CardHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 // function that displays screen under the header
-export default function PersonPageScreen() {
+export default function PersonPageScreen({navigation}) {
     const [phonenr, setPhonenr] = useState('');
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const {currentUser, logout, currentUserDoc} = useAuth();
+    const {currentUser, logout} = useAuth();
 
-    // let image = currentUserDoc.photoURL === null ? 
-    //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-    //     {uri: currentUserDoc.photoURL};
-    
     useEffect(() => {
-        (async () => setImage({uri: await currentUserDoc.photoURL}))();
-    }, [])
+        getUser(currentUser.uid)
+            .then((data) => {
+                setDescription(data.description);
+                setImage(data.photoURL);
+            });
+    }, []);
 
     return currentUser != null ? (
-        // source should be equal with a function that have an image
-        <View style={styles.container}>
-            <Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>
+        <SafeAreaView>
+            <CardHeader
+                centerHeader='My Account'
+                rightComponent={
+                    <MaterialCommunityIcons 
+                        name="podium-gold" 
+                        size={24} 
+                        color='#707070'
+                        onPress={()=> navigation.navigate('RankView')} /> 
+                    }/>
+            
+        {/* source should be equal with a function that have an image
+        
+        {/**Header with title and the icon-button on the right side */}
+    
+
+        <View style={styles.container}> 
+          {/**Profile picture */}
             <Avatar
                 rounded
                 size="xlarge"
                 source={image}
                 activeOpacity={0.7}
-            />
-
+            />  
             {/* Firebase issue. Get the user' peofile pic from the database*/}
             <Text style={styles.text}>{currentUser.displayName}</Text>
             <View style={{marginBottom: 20}}>
@@ -48,20 +66,21 @@ export default function PersonPageScreen() {
                 <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
             </View>
 
-            {/* Button to save the changes*/}
-            <MainButton title='Save' onPress={() => alert(phonenr)}/>
-            <View style={{marginTop: 10}}>
-                <MainButton title='Sign Out' onPress={() => logout()}/>
+                {/* Button to save the changes*/}
+                <MainButton title='Save' onPress={() => alert(phonenr)}/>
+                <View style={{marginTop: 10}}>
+                    <MainButton title='Sign Out' onPress={() => logout()}/>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     ) : (<Text></Text>);
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 20,
     },
     image: {
         flex: 1,
@@ -76,5 +95,6 @@ const styles = StyleSheet.create({
         color: '#707070',
         fontSize: 12,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
 });
