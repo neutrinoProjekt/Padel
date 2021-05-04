@@ -6,9 +6,12 @@ import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
 import {getUser} from '../../models/User';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import CardHeader from '../../components/CardHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 // function that displays screen under the header
-export default function PersonPageScreen() {
+export default function PersonPageScreen({navigation}) {
     const [phonenr, setPhonenr] = useState('');
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
@@ -26,9 +29,22 @@ export default function PersonPageScreen() {
     }, [])
 
     return currentUser != null ? (
-        // source should be equal with a function that have an image
+        <SafeAreaView>
+        {/* source should be equal with a function that have an image
+        
+        {/**Header with title and the icon-button on the right side */}
+        <CardHeader
+         centerHeader='My Account'
+         rightComponent={
+            <MaterialCommunityIcons 
+                name="podium-gold" 
+                size={24} 
+                onPress={()=> navigation.navigate('RankView')} /> 
+            }/>
+
         <View style={styles.container}>
-            <Text style={{color: '#707070', fontSize: 20, fontWeight: 'bold'}}>My Account</Text>
+
+          {/**Profile picture */}
             <Avatar
                 rounded
                 size="xlarge"
@@ -38,11 +54,12 @@ export default function PersonPageScreen() {
 
             {/* Firebase issue. Get the user' peofile pic from the database*/}
             <Text style={styles.text}>{currentUser.displayName}</Text>
-            <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
-
+            <View style={{marginBottom: 20}}>
+                <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
+            </View>
             {/* 3 grey boxes to put user's personal info*/}
             <View>
-                <Text style={styles.subtitle}>{description}</Text>
+                <Text style={[styles.subtitle]}>Description:</Text>
                 <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
                 <Text style={styles.subtitle}> Contact info: </Text>
                 <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
@@ -54,6 +71,7 @@ export default function PersonPageScreen() {
                 <MainButton title='Sign Out' onPress={() => logout()}/>
             </View>
         </View>
+        </SafeAreaView>
     ) : (<Text></Text>);
 }
 
@@ -62,6 +80,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 40,
     },
     image: {
         flex: 1,
@@ -74,7 +93,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         color: '#707070',
-        fontSize: 17,
+        fontSize: 12,
         fontWeight: 'bold',
     },
 });

@@ -208,7 +208,11 @@ const TournamentItem = ({item}) => {
 };
 
 
-const TournamentsList = () => {
+const TournamentsList = ({navigation}) => {
+    const addTournament = () => {
+        navigation.navigate('AddTournament');
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
@@ -220,6 +224,13 @@ const TournamentsList = () => {
                 )}
                 keyExtractor={(item) => item.id}
             />
+            <View style={styles.actionButtonContainer}>
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    onPress={() => addTournament()} >
+                    <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -294,5 +305,23 @@ const styles = StyleSheet.create({
         color: '#00CEB4',
         fontWeight: '700',
         fontSize: 10,
+    },
+    actionButtonContainer: {
+        flex: 1,
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    },
+    actionButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 50,
+        height: 50,
+        backgroundColor: 'white',
+        borderRadius: 100,
+        shadowRadius: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowOffset: {height: 10},
     },
 });

@@ -35,3 +35,4 @@ const TournamentNavigator = () => {
 export default TournamentNavigator;
 
 const styles = StyleSheet.create({});
+

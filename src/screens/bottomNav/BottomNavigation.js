@@ -4,9 +4,10 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import HomeScreen from '../home/HomeScreen';
-import PersonPageScreen from '../personPage/PersonPageScreen';
+import PersonalPageNav from '../personPage/PersonalPageNav';
 import Notifications from '../notifiactions/Notifications';
-import TournamentNavigator from '../tournaments/TournamentNavigator';
+import TournamentHandler from '../tournaments/TournamentHandler';
+import VictoryScreen from './../victory/VictoryScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ const screenOptions = ({route}) => ({
         if (route.name === 'HomeScreen') {
             iconName = 'home-outline';
             color = focused ? '#00CEB4' : '#707070';
-        } else if (route.name === 'Tournaments') {
+        } else if (route.name === 'TournamentHandler') {
             iconName = 'trophy-outline';
             color = focused ? '#00CEB4' : '#707070';
         } else if (route.name === 'Notifications') {
@@ -43,9 +44,10 @@ const BottomNavigation = () => {
             }}
             initialRouteName="HomeScreen"
         >
+            {/* <Tab.Screen name="Victory" component={VictoryScreen} /> */}
             <Tab.Screen name="Notifications" component={Notifications} />
-            <Tab.Screen name="Tournaments" component={TournamentNavigator} />
-            <Tab.Screen name="Profile" component={PersonPageScreen} />
+            <Tab.Screen name="TournamentHandler" component={TournamentHandler} />
+            <Tab.Screen name="Profile" component={PersonalPageNav} />
             <Tab.Screen name="HomeScreen" component={HomeScreen} />
         </Tab.Navigator>
     );
