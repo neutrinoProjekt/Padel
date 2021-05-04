@@ -30,7 +30,7 @@ const AddMatchScreen = ({navigation}) => {
     // Clear error messages
     useEffect(() => {
         setErrorMsg('');
-    }, [date, timeFrom, timeTo]);
+    }, [date, timeFrom, timeTo, city, court]);
 
 
     /* Parameter handlers */
@@ -104,6 +104,17 @@ const AddMatchScreen = ({navigation}) => {
 
     /* Creates match if parameters are valid */
     const createMatch = () => {
+        // Validate City input (todo: actually validate that it's a city)
+        if (city == '') {
+            setErrorMsg('Please enter a city');
+            return;
+        }
+
+        // Validate paddle hall (todo: actually validate that it's a paddle hall)
+        if (court == '') {
+            setErrorMsg('Please enter a court');
+            return;
+        }
         // Validate date (todo: fix same date)
         if (date == 'yyyy-mm-dd') {
             setErrorMsg('Please suggest a date');
@@ -121,6 +132,9 @@ const AddMatchScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
+        let mode = single ? 'single' : 'double';
+        console.log(mode);
+        // params
         postMatch();
     };
 
