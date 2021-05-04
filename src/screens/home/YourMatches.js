@@ -63,13 +63,13 @@ const YourMatches = ({navigation}) => {
         navigation.navigate('Add Match');
     };
 
-
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
                 {
                     matchData.map((match) => (
                         <MatchListItem
+                            navigation={navigation}
                             key={match.id}
                             owner={match.owner}
                             participants={match.participants}
