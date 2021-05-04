@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Modal, Pressable} from 'react-native';
+import {Text, View, StyleSheet, Modal} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
@@ -12,6 +12,7 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {validateDate, validateTimeInterval, validateRankInterval} from '../styling/Validators';
 
 const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
@@ -27,8 +28,8 @@ const CreateTournamentScreen = ({navigation}) => {
 
     // States for date and time
     const [date, setDate] = useState('yyyy-mm-dd');
-    const [timeFrom, setTimeFrom] = useState('00:00');
-    const [timeTo, setTimeTo] = useState('00:00');
+    const [timeFrom, setTimeFrom] = useState('hh:mm');
+    const [timeTo, setTimeTo] = useState('hh:mm');
     const [errorMsg, setErrorMsg] = useState('');
 
     // Relevant constants
@@ -64,12 +65,6 @@ const CreateTournamentScreen = ({navigation}) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
-
-    // Validators
-    const validRankInterval = () => {
-        return rank1 <= rank2;
-    };
-
     // Set rank slider color
     const setRankSliderColor = () => {
         if (validRankInterval()) {
@@ -87,7 +82,7 @@ const CreateTournamentScreen = ({navigation}) => {
     // Create tournament
     const createTrnmnt = () => {
         // Validate rank interval
-        if (toggle1 && toggle2 && !validRankInterval()) {
+        if (toggle1 && toggle2 && !validateRankInterval()) {
             setErrorMsg('Invalid rank interval');
             return;
         };
@@ -96,15 +91,17 @@ const CreateTournamentScreen = ({navigation}) => {
         if (date == 'yyyy-mm-dd') {
             setErrorMsg('Please suggest a date');
             return;
-        } else if (new Date(date) < new Date()) {
+        } else if (!validateDate(date)) {
             setErrorMsg('Date has already passed');
             return;
         }
 
-        // Validate time
-        const arbDate = (time) => new Date(6969, 6, 6, time.substring(0, 2), time.substring(3, 5), 0, 0);
-        if (arbDate(timeFrom) < arbDate(timeTo)) {
+        // Validate time interval
+        if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
+            setErrorMsg('Please enter a time interval');
+        } else if (!validateTimeInterval(timeFrom, timeTo)) {
             setErrorMsg('Invalid time interval');
+            return;
         }
         // timeFrom, timeTo, date, minplayers, minrank, maxrank
     };
@@ -271,8 +268,8 @@ const CreateTournamentScreen = ({navigation}) => {
                     </View>
                     {/* Time picker*/}
                     <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
-                        <TimeTo />
                         <TimeFrom />
+                        <TimeTo />
                     </View>
                     {/* Button*/}
                     <View style={{marginBottom: -10}}>
