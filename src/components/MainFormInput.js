@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { StyleSheet, Text, View, TextInput } from 'react-native'
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 
 const MainFormInput = (props) => {
 
