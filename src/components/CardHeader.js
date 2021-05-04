@@ -6,7 +6,7 @@ import {Header, Divider} from 'react-native-elements';
 /* @param leftHeader - Left text field
 /* @param leftOnPress - Function called when pressing leftHeader
 /* @param centerHeader - Center text field (main header)
-/* EXAMPLE: <CardHeader centerHeader={'My Account'} rightComponent= {<MainButton..../>} /> 
+/* EXAMPLE: <CardHeader centerHeader={'My Account'} rightComponent= {<MainButton..../>} />
 */
 const CardHeader = (props) => {
     return (

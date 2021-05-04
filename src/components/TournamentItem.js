@@ -7,14 +7,14 @@ const TournamentItem = ({owner, participants}) => {
         <View>
             <ListItem topDivider>
                 <ListItem.Content style={styles.listItemOne}>
-                    <ListItem.Title style={{fontWeight: "800"}}>
+                    <ListItem.Title style={{fontWeight: '800'}}>
                         Tournament Created By: {owner.name}
                     </ListItem.Title>
                 </ListItem.Content>
             </ListItem>
             <ListItem topDivider style={styles.listItemTwo}>
                 <ListItem.Content>
-                    <ListItem.Title style={{fontWeight: "800"}}>
+                    <ListItem.Title style={{fontWeight: '800'}}>
                         Match Created By: {owner.name}
                     </ListItem.Title>
                 </ListItem.Content>
