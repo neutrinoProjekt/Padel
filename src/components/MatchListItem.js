@@ -4,10 +4,10 @@ import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
 
 const MatchListItem = ({owner, participants}) => {
-    let image = owner.photoURL === null ?
+    const image = owner.photoURL === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
-    
+
     return (
         <View>
             <ListItem containerStyle={styles.listItemOne}>

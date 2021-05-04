@@ -46,12 +46,12 @@ const NotificationDetails = (props) => {
         console.log(item.type);
         switch (item.type) {
         case 'text':
-            return(
+            return (
                 <Text style={styles.nText}>{item.detailText}</Text>
             );
             // to be added to when the relevant page has been made
         case 'matchJoinRequest':
-            return(
+            return (
                 matchJoinRequest(item)
             );
             // to be added to when the relevant page has been made
@@ -77,18 +77,22 @@ const NotificationDetails = (props) => {
     );
 };
 
-//måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
+// måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
 const matchJoinRequest = (item) => {
     console.log(item);
-    return(
+    return (
         <View>
             <Text style={styles.nText}>{item.detailText}</Text>
-            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin:20}}>
-                <TouchableHighlight onPress={() => {console.log('denied!')}} >
-                    <Text style={{color:'#707070', fontWeight:'bold', fontSize:'1.5rem'}}>Deny</Text>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
+                <TouchableHighlight onPress={() => {
+                    console.log('denied!');
+                }} >
+                    <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Deny</Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {console.log('Aproved!')}} >
-                    <Text style={{color:'#707070', fontWeight:'bold', fontSize:'1.5rem'}}>Accept</Text>
+                <TouchableHighlight onPress={() => {
+                    console.log('Aproved!');
+                }} >
+                    <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Accept</Text>
                 </TouchableHighlight>
             </View>
         </View>
@@ -122,16 +126,16 @@ const Notifications = () => {
                 isnew: false,
                 detailText: 'urban would like to join your match!',
                 type: 'matchJoinRequest',
-                typeDetails:{
-                    joinerId:'temptemp'
-                }
+                typeDetails: {
+                    joinerId: 'temptemp',
+                },
             })}>
                 <Text>Press to add notidication</Text>
             </TouchableHighlight>
             <FlatList
                 data={notificationData}
                 renderItem={RenderNotification}
-                keyExtractor={item => item.id}
+                keyExtractor={(item) => item.id}
             />
             <Text style={styles.nEnd}>No more notifications</Text>
         </View>

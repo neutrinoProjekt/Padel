@@ -5,7 +5,6 @@ import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
 
 const Search = ({navigation}) => {
-
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');

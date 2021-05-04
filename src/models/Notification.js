@@ -4,25 +4,25 @@ const collectionName = 'notifications';
 
 export function subscribeNotifications(id, onUpdate, onError) {
     return db.collection(collectionName)
-        .where('owner', '==','/users/' + id)
-        .onSnapshot(snapshot => {
-            const notifications = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+        .where('owner', '==', '/users/' + id)
+        .onSnapshot((snapshot) => {
+            const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(notifications);
         }), onError;
 }
 
 export function getNotifications(id) {
     return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
-        .then(n => n.docs.map(doc => ({...doc.data(), id: doc.id})));
+        .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
 }
 
 export function createNotification({
-    type = 'default', 
-    header = null, 
-    owner = null, 
-    description = null, 
-    image = null, 
-    date = null, 
+    type = 'default',
+    header = null,
+    owner = null,
+    description = null,
+    image = null,
+    date = null,
     isnew = null}) {
     return db.collection(collectionName).add({
         type,
@@ -32,6 +32,6 @@ export function createNotification({
         description,
         image,
         date,
-        isnew
+        isnew,
     });
 }

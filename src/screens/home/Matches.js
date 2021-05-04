@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, SafeAreaView} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import BackButton from '../../components/BackButton';
 
 const Matches = ({navigation}) => {

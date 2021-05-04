@@ -11,7 +11,7 @@ import CardHeader from '../../components/CardHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
@@ -102,7 +102,7 @@ const CreateTournamentScreen = ({navigation}) => {
         }
 
         // Validate time
-        const arbDate = time => new Date(6969, 6, 6, time.substring(0, 2), time.substring(3, 5), 0, 0);
+        const arbDate = (time) => new Date(6969, 6, 6, time.substring(0, 2), time.substring(3, 5), 0, 0);
         if (arbDate(timeFrom) < arbDate(timeTo)) {
             setErrorMsg('Invalid time interval');
         }

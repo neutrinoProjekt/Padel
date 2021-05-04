@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 
 const MainFormInput = (props) => {
-
     return (
         <View style={{
             marginTop: 30,
             width: props.inputWidth,
-            marginRight: props.marginRight
+            marginRight: props.marginRight,
         }}>
             <Text style={styles.formTitle}>{props.inputTitle}</Text>
             <TextInput

@@ -13,7 +13,7 @@ import {useAuth} from '../../contexts/auth';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
-    
+
     // state hooks for inputs
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');

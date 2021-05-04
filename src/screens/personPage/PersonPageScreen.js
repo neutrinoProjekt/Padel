@@ -6,7 +6,7 @@ import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
 import {getUser} from '../../models/User';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import CardHeader from '../../components/CardHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -19,58 +19,58 @@ export default function PersonPageScreen({navigation}) {
     // if image exist, get it from firestore
     // firebase
     const {currentUser, logout} = useAuth();
-    
+
     useEffect(() => {
         getUser(currentUser.uid)
-            .then(data => {
+            .then((data) => {
                 setDescription(data.description);
                 setImage(data.photoURL);
             });
-    }, [])
+    }, []);
 
     return currentUser != null ? (
         <SafeAreaView>
-        {/* source should be equal with a function that have an image
-        
+            {/* source should be equal with a function that have an image
+
         {/**Header with title and the icon-button on the right side */}
-        <CardHeader
-         centerHeader='My Account'
-         rightComponent={
-            <MaterialCommunityIcons 
-                name="podium-gold" 
-                size={24} 
-                onPress={()=> navigation.navigate('RankView')} /> 
-            }/>
+            <CardHeader
+                centerHeader='My Account'
+                rightComponent={
+                    <MaterialCommunityIcons
+                        name="podium-gold"
+                        size={24}
+                        onPress={()=> navigation.navigate('RankView')} />
+                }/>
 
-        <View style={styles.container}>
+            <View style={styles.container}>
 
-          {/**Profile picture */}
-            <Avatar
-                rounded
-                size="xlarge"
-                source={image}
-                activeOpacity={0.7}
-            />
+                {/** Profile picture */}
+                <Avatar
+                    rounded
+                    size="xlarge"
+                    source={image}
+                    activeOpacity={0.7}
+                />
 
-            {/* Firebase issue. Get the user' peofile pic from the database*/}
-            <Text style={styles.text}>{currentUser.displayName}</Text>
-            <View style={{marginBottom: 20}}>
-                <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
+                {/* Firebase issue. Get the user' peofile pic from the database*/}
+                <Text style={styles.text}>{currentUser.displayName}</Text>
+                <View style={{marginBottom: 20}}>
+                    <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
+                </View>
+                {/* 3 grey boxes to put user's personal info*/}
+                <View>
+                    <Text style={[styles.subtitle]}>Description:</Text>
+                    <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
+                    <Text style={styles.subtitle}> Contact info: </Text>
+                    <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
+                </View>
+
+                {/* Button to save the changes*/}
+                <MainButton title='Save' onPress={() => alert(phonenr)}/>
+                <View style={{marginTop: 10}}>
+                    <MainButton title='Sign Out' onPress={() => logout()}/>
+                </View>
             </View>
-            {/* 3 grey boxes to put user's personal info*/}
-            <View>
-                <Text style={[styles.subtitle]}>Description:</Text>
-                <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
-                <Text style={styles.subtitle}> Contact info: </Text>
-                <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
-            </View>
-
-            {/* Button to save the changes*/}
-            <MainButton title='Save' onPress={() => alert(phonenr)}/>
-            <View style={{marginTop: 10}}>
-                <MainButton title='Sign Out' onPress={() => logout()}/>
-            </View>
-        </View>
         </SafeAreaView>
     ) : (<Text></Text>);
 }
