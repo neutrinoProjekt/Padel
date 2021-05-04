@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import StartScreen from './screens/home/StartScreen';
+import StartScreen from './screens/landing/StartScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import Error from './screens/error/ErrorScreen';
-import BottomNavigation from './screens/bottomNav/BottomNavigation';
+import BottomNavigation from './navigators/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
 import {useAuth} from './contexts/auth';
 
@@ -43,7 +43,7 @@ export default function Routes() {
             <Stack.Screen
                 name="PaddlePal"
                 component={BottomNavigation}
-                options={{headerTintColor: '#707070'}}
+                options={{headerTintColor: '#707070', headerShown: false}}
             />
         </Stack.Navigator>
     );
