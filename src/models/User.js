@@ -1,13 +1,14 @@
 import {db} from '../modules/firebase/firebase';
 
 const INITIAL_RATING = 1000;
+const collectionName = 'users';
 
 export function updateUser(id, data) {
-    return db.collection('users').doc(id).set(data);
+    return db.collection(collectionName).doc(id).set(data);
 }
 
 export function createUser(id, fullname, displayName) {
-    return db.collection('users').doc(id).set({
+    return db.collection(collectionName).doc(id).set({
         fullname: fullname,
         displayName: displayName,
         rating: INITIAL_RATING,
@@ -17,5 +18,5 @@ export function createUser(id, fullname, displayName) {
 }
 
 export function getUser(id) {
-    return db.collection('users').doc(id).get().then(u => u.data());
+    return db.collection(collectionName).doc(id).get().then(u => u.data());
 }

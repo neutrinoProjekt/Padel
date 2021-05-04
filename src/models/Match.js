@@ -36,8 +36,6 @@ export default class Match {
 
     static async create({owner = null, city = null, court = null, from = null, to = null, date = null}) {
         try {
-            console.log('owner object');
-            console.dir(owner);
             
             const documentReference = await db
                 .collection(collectionName)
