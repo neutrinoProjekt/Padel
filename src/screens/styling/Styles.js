@@ -58,7 +58,10 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#ff0f0f',
-        padding: 10,
+        height: 60,
+        width: 300,
+        textAlign: 'center',
+        alignSelf: 'center',
     },
     image: {
         flex: 1,
@@ -74,6 +77,25 @@ export const styles = StyleSheet.create({
     titleAlignment: {
         paddingTop: 100,
         alignSelf: 'center',
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+    },
+    textCon: {
+        width: 320,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    textInput: {
+        height: 50,
+        borderColor: '#BFBFBF',
+        borderRadius: 10,
+        backgroundColor: '#F7F7F7',
+        fontSize: 20,
+        width: 145,
     },
     progressbar: {
         alignSelf: 'center',

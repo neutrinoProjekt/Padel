@@ -98,17 +98,22 @@ const NotificationDetails = (props) => {
 
     // when notification is expanded
     if (props.enabled) {
+        console.log(item.type);
         switch (item.type) {
-        case ('match invite'):
+        case 'text':
+            return(
+                <Text style={styles.nText}>{item.detailText}</Text>
+            );
             // to be added to when the relevant page has been made
-        case ('tournament resaults'):
+        case 'matchJoinRequest':
+            return(
+                matchJoinRequest(item)
+            );
             // to be added to when the relevant page has been made
-        case ('friend request'):
+        case 'friend request':
             // to be added to when the relevant page has been made
 
             // more to be added
-
-
         default:
             return (
                 <View>
@@ -126,6 +131,24 @@ const NotificationDetails = (props) => {
     );
 };
 
+//måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
+const matchJoinRequest = (item) => {
+    console.log(item);
+    return(
+        <View>
+            <Text style={styles.nText}>{item.detailText}</Text>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin:20}}>
+                <TouchableHighlight onPress={() => {console.log('denied!')}} >
+                    <Text style={{color:'#707070', fontWeight:'bold', fontSize:'1.5rem'}}>Deny</Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {console.log('Aproved!')}} >
+                    <Text style={{color:'#707070', fontWeight:'bold', fontSize:'1.5rem'}}>Accept</Text>
+                </TouchableHighlight>
+            </View>
+        </View>
+    );
+};
+
 // collect data from item obdject to send to NotificationView
 const RenderNotification = ({item}) => {
     return (
@@ -140,22 +163,32 @@ const Notifications = () => {
     const [notificationData, setNotificationData] = useState();
 
     useEffect(() => {
-        currentUserDoc.onNotificationUpdate((updatedNotifications) => {
+        const unsubscribe = currentUserDoc.onNotificationUpdate((updatedNotifications) => {
             console.dir(updatedNotifications);
             setNotificationData(updatedNotifications);
         }, () => {
             console.error('failed with ze notifications');
         });
+
+        // cleanup
+        return async () => {
+            await (await unsubscribe)();
+        };
     }, []);
 
     return (
         <View>
             <TouchableHighlight onPress={() => currentUserDoc.addNotification({
-                header: 'Third Notification',
-                description: 'this is the third item',
+                header: 'Gotta request to join',
+                description: 'A request to join! now?',
                 image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
                 date: '2014-02-02-14.44',
                 isnew: false,
+                detailText: 'urban would like to join your match!',
+                type: 'matchJoinRequest',
+                typeDetails:{
+                    joinerId:'temptemp'
+                }
             })}>
                 <Text>Press to add notidication</Text>
             </TouchableHighlight>

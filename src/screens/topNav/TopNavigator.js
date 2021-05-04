@@ -26,7 +26,7 @@ const TopNavigator = () => {
                 component={YourMatches}
             />
             <TopNav.Screen
-                name="Matches"
+                name="Find Matches"
                 component={Matches}
             />
         </TopNav.Navigator>

@@ -17,7 +17,7 @@ const UsernameScreen = ({navigation, route}) => {
             route.params.setUsername(username);
             navigation.navigate('Password');
         } else if (username.length == 0) {
-            setErrorMessage('Please enter an username');
+            setErrorMessage('Please enter a username');
         }
     };
 
@@ -37,10 +37,10 @@ const UsernameScreen = ({navigation, route}) => {
                 <View style={{paddingTop: 5}}>
                     <Text style={styles.text}> Please enter your username below</Text>
                 </View>
-                <View>
+                <View style={{paddingTop: 10}}>
                     <Text style={styles.error}>{errorMessage}</Text>
                 </View>
-                <View style={{marginTop: 30}}>
+                <View style={{marginTop: 20}}>
                     <TextInput placeholder="Username"
                         autoFocus
                         placeholderTextColor={'rgba(0, 0, 0, 0.5)'}

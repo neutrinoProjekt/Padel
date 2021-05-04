@@ -10,7 +10,6 @@ import {useAuth} from './contexts/auth';
 const Stack = createStackNavigator();
 
 export default function Routes() {
-    
     const {currentUser, currentUserDoc} = useAuth();
 
     return currentUser === null ? (
