@@ -4,9 +4,6 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import CardHeader from '../../components/CardHeader';
 
-
-
-
 // Front-end: (DONE DONE DONE)
 // global leaderboard (all the users)
 // 1,2,3, - winning medals >> icons
@@ -156,7 +153,6 @@ const RenderPlacment = ({item}) => (
             </View>
     </View>
 );
-
 
 const rankScreen = () => {
     return (
