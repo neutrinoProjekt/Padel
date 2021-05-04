@@ -7,11 +7,12 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
-import createMatch from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import DateTimePicker from '../../components/DateTimePicker';
 import {validateTimeInterval, validateDate} from '../styling/Validators';
+import RadioButton from '../../components/RadioButton';
+import {colors} from './../styling/Colors';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUserDoc} = useAuth();
@@ -23,13 +24,16 @@ const AddMatchScreen = ({navigation}) => {
     const [timeFrom, setTimeFrom] = useState('hh:mm');
     const [timeTo, setTimeTo] = useState('hh:mm');
     const [errorMsg, setErrorMsg] = useState('');
+    const [single, setSingle] = useState(true);
+    const [double, setDouble] = useState(false);
 
+    // Clear error messages
     useEffect(() => {
         setErrorMsg('');
     }, [date, timeFrom, timeTo]);
 
 
-    // time picker functions
+    /* Parameter handlers */
     const handleTimeFrom = (time) => {
         setTimeFrom(getTime(time));
     };
@@ -38,7 +42,7 @@ const AddMatchScreen = ({navigation}) => {
         setTimeTo(getTime(time));
     };
 
-    const handleConfirm = (date) => {
+    const handleDateConfirm = (date) => {
         setDate(getDate(date));
     };
 
@@ -56,7 +60,7 @@ const AddMatchScreen = ({navigation}) => {
         return (
             <DateTimePicker
                 placeholder={date}
-                onConfirm={handleConfirm}
+                onConfirm={handleDateConfirm}
                 subHeader='Date'
                 mode='date'
                 width={305}
@@ -89,7 +93,7 @@ const AddMatchScreen = ({navigation}) => {
         );
     };
 
-    // Getters
+    /* Getters (to be moved) */
     const getTime = (time) => {
         return time.toString().match(/\d\d:\d\d/)[0];
     };
@@ -98,7 +102,7 @@ const AddMatchScreen = ({navigation}) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
-    // Create match
+    /* Creates match if parameters are valid */
     const createMatch = () => {
         // Validate date (todo: fix same date)
         if (date == 'yyyy-mm-dd') {
@@ -120,6 +124,7 @@ const AddMatchScreen = ({navigation}) => {
         postMatch();
     };
 
+    /* Post match */
     const postMatch = async () => {
         await currentUserDoc.addMatch({city});
         navigation.goBack();
@@ -172,6 +177,27 @@ const AddMatchScreen = ({navigation}) => {
                         <View style={{marginTop: 10, width: 145}}>
                             <TimeTo />
                         </View>
+                    </View>
+                    <View style={{paddingTop: 10}}>
+                        <Text style={styles2.formTitle}>Mode</Text>
+                        <RadioButton
+                            onClick={() => {
+                                setSingle(true); setDouble(false);
+                            }}
+                            size={24}
+                            color={single ? colors.signature : 'black'}
+                            selected={single}
+                            label='Single'
+                        />
+                        <RadioButton
+                            onClick={() => {
+                                setDouble(true); setSingle(false);
+                            }}
+                            size={24}
+                            color={double ? colors.signature : 'black'}
+                            selected={double}
+                            label='Double'
+                        />
                     </View>
                 </ScrollView>
                 <View style={styles2.actionButtonContainer}>
