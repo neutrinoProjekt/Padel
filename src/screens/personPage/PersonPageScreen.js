@@ -1,11 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import {Avatar, Header} from 'react-native-elements';
+import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import CardHeader from '../../components/CardHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 // function that displays screen under the header
 export default function PersonPageScreen({navigation}) {
@@ -26,23 +28,22 @@ export default function PersonPageScreen({navigation}) {
     }, [])
 
     return currentUser != null ? (
-        // source should be equal with a function that have an image
+        <SafeAreaView>
+        {/* source should be equal with a function that have an image
         
+        {/**Header with title and the icon-button on the right side */}
+        <CardHeader
+         centerHeader='My Account'
+         rightComponent={
+            <MaterialCommunityIcons 
+                name="podium-gold" 
+                size={24} 
+                onPress={()=> navigation.navigate('RankView')} /> 
+            }/>
 
         <View style={styles.container}>
-            
-            <Header
-                backgroundColor= 'transparent'
-                placement = 'center'
-                centerComponent={<Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>}
-                rightComponent={
-                    <MaterialCommunityIcons 
-                        name="podium-gold" 
-                        size={24} 
-                        color="black"
-                        onPress={()=> navigation.navigate('RankView')} /> 
-                }
-            />
+
+          {/**Profile picture */}
             <Avatar
                 rounded
                 size="xlarge"
@@ -69,6 +70,7 @@ export default function PersonPageScreen({navigation}) {
                 <MainButton title='Sign Out' onPress={() => logout()}/>
             </View>
         </View>
+        </SafeAreaView>
     ) : (<Text></Text>);
 }
 
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 40,
     },
     image: {
         flex: 1,
