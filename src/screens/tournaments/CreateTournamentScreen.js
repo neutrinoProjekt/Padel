@@ -13,7 +13,6 @@ import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {validateDate, validateTimeInterval, validateRankInterval} from '../styling/Validators';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const CreateTournamentScreen = ({navigation}) => {
     // States interacting with slider
