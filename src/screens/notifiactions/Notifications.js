@@ -1,62 +1,8 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
-import {Avatar} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
-import {color} from 'react-native-reanimated';
 import {useAuth} from '../../contexts/auth';
-
-// TODO
-// --fire base--
-// make it possible to fetch notifications from fire base
-// make it so that new notifications are added when avalible
-// (make it so new notifications are fetched even if not in app)
-// add push notification functionality
-//
-// --non fire base--
-// add the standard CSS
-//
-
-// {
-//     id,
-//     type,
-//     header,
-//     description,
-//     image,
-//     date,
-//     isNew,
-//     other data
-// }
-
-
-// temp data
-// TODO
-// remove once data can be fetched from fire base
-const NOTIFICATIONS = [
-    {
-        id: '1',
-        header: 'First Notification',
-        description: 'this is the first item',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Crafoord_Prize_D81_9141_%2842282165922%29_%28cropped%29.jpg/800px-Crafoord_Prize_D81_9141_%2842282165922%29_%28cropped%29.jpg',
-        date: '2014-02-02-14.44',
-        isnew: true,
-    },
-    {
-        id: '2',
-        header: 'Second Notification',
-        description: 'this is the second item',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/EVER_GIVEN_%2849643352087%29.jpg/1920px-EVER_GIVEN_%2849643352087%29.jpg',
-        date: '2014-02-02-14.44',
-        isnew: false,
-    },
-    {
-        id: '3',
-        header: 'Third Notification',
-        description: 'this is the third item',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
-        date: '2014-02-02-14.44',
-        isnew: false,
-    },
-];
+import {subscribeNotifications, createNotification} from '../../models/Notification';
 
 // renders base notification, same for all types
 const NotificationView = (inData) => {
@@ -91,23 +37,28 @@ const NotificationView = (inData) => {
     );
 };
 
-
 // this shoud be added to depending on the type
 const NotificationDetails = (props) => {
     const item = props.item;
 
     // when notification is expanded
     if (props.enabled) {
+        console.log(item.type);
         switch (item.type) {
-        case ('match invite'):
+        case 'text':
+            return (
+                <Text style={styles.nText}>{item.detailText}</Text>
+            );
             // to be added to when the relevant page has been made
-        case ('tournament resaults'):
+        case 'matchJoinRequest':
+            return (
+                matchJoinRequest(item)
+            );
             // to be added to when the relevant page has been made
-        case ('friend request'):
+        case 'friend request':
             // to be added to when the relevant page has been made
 
             // more to be added
-
 
         default:
             return (
@@ -126,41 +77,58 @@ const NotificationDetails = (props) => {
     );
 };
 
+// måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
+const matchJoinRequest = (item) => {
+    console.log(item);
+    return (
+        <View>
+            <Text style={styles.nText}>{item.detailText}</Text>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
+                <TouchableHighlight onPress={() => {
+                    console.log('denied!');
+                }} >
+                    <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Deny</Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                    console.log('Aproved!');
+                }} >
+                    <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Accept</Text>
+                </TouchableHighlight>
+            </View>
+        </View>
+    );
+};
+
 // collect data from item obdject to send to NotificationView
 const RenderNotification = ({item}) => {
     return (
         <NotificationView item={item}/>
-
     );
 };
 
-
 const Notifications = () => {
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
     const [notificationData, setNotificationData] = useState();
 
     useEffect(() => {
-        const unsubscribe = currentUserDoc.onNotificationUpdate((updatedNotifications) => {
-            console.dir(updatedNotifications);
-            setNotificationData(updatedNotifications);
-        }, () => {
-            console.error('failed with ze notifications');
-        });
-
-        // cleanup
-        return async () => {
-            await (await unsubscribe)();
-        };
+        const unsubscribe = subscribeNotifications(currentUser.uid, setNotificationData);
+        return () => unsubscribe();
     }, []);
 
     return (
         <View>
-            <TouchableHighlight onPress={() => currentUserDoc.addNotification({
-                header: 'Third Notification',
-                description: 'this is the third item',
+            <TouchableHighlight onPress={() => createNotification({
+                owner: currentUser.uid,
+                header: 'Gotta request to join',
+                description: 'A request to join! now?',
                 image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
                 date: '2014-02-02-14.44',
                 isnew: false,
+                detailText: 'urban would like to join your match!',
+                type: 'matchJoinRequest',
+                typeDetails: {
+                    joinerId: 'temptemp',
+                },
             })}>
                 <Text>Press to add notidication</Text>
             </TouchableHighlight>

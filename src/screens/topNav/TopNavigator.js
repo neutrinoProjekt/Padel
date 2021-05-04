@@ -1,6 +1,6 @@
 import React from 'react';
 import YourMatches from './../home/YourMatches';
-import Matches from './../home/Matches';
+import FindMatches from '../home/FindMatches';
 import {createMaterialTopTabNavigator}
     from '@react-navigation/material-top-tabs';
 
@@ -27,7 +27,7 @@ const TopNavigator = () => {
             />
             <TopNav.Screen
                 name="Find Matches"
-                component={Matches}
+                component={FindMatches}
             />
         </TopNav.Navigator>
     );

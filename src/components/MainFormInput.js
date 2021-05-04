@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
-import { StyleSheet, Text, View, TextInput } from 'react-native'
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 
 const MainFormInput = (props) => {
-    [input, setInput] = useState('');
-
     return (
-        <View style={{marginTop: 30, width: props.inputWidth}}>
+        <View style={{
+            marginTop: 30,
+            width: props.inputWidth,
+            marginRight: props.marginRight,
+        }}>
             <Text style={styles.formTitle}>{props.inputTitle}</Text>
             <TextInput
                 style={styles.input}
@@ -13,8 +15,8 @@ const MainFormInput = (props) => {
                 placeholder={props.placeholder}
                 placeholderTextColor={'#BFBFBF'}
                 textAlign ='left'
-                value={input}
-                onChangeText={(text) => setInput(text)}
+                value={props.input}
+                onChangeText={props.setInput}
             />
         </View>
     );
