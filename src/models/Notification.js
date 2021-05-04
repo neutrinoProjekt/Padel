@@ -28,6 +28,17 @@ export function pressNotification(id) {
     return null;
  }
 
+ 
+ export function uppdateNotification({
+    description = null,
+    detailText = null},
+    id){
+        db.collection('notifications').doc(id)
+        .update({detailText: detailText, description: description, type: 'text'});
+        return null;
+ }
+ 
+
 export function createNotification({
     type = 'default',
     header = null,

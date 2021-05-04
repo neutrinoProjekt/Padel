@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
-import {subscribeNotifications, createNotification, pressNotification, deletNotification, getNotifications} from '../../models/Notification';
+import {subscribeNotifications, createNotification, pressNotification, deletNotification, uppdateNotification} from '../../models/Notification';
 import CardHeader from '../../components/CardHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { convertCompilerOptionsFromJson } from 'typescript';
@@ -46,7 +46,7 @@ const NotificationView = (inData) => {
 const DeletNotification = (props) =>   {
     if(props.enabled){
         return(
-            <View>
+            <View style = {{marginTop:20}}>
             <TouchableHighlight onPress={() => {deletNotification(props.item.id)}}>
                 <Text style={{width:'100%', textAlign:'center', padding: 10, backgroundColor:'#F67273', borderRadius:5, color:'#707070', fontWeight:'bold'}}>Remove</Text>
             </TouchableHighlight>
@@ -108,12 +108,12 @@ const matchJoinRequest = (item) => {
             <Text style={styles.nText}>{item.detailText}</Text>
             <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
                 <TouchableHighlight onPress={() => {
-                    console.log('denied!');
+                    uppdateNotification({description:'Denied!', detailText:'You denied the request'}, item.id);
                 }} >
                     <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Deny</Text>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => {
-                    console.log('Aproved!');
+                    uppdateNotification({description:'Accepted!', detailText:'You accepted the request'}, item.id);
                 }} >
                     <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Accept</Text>
                 </TouchableHighlight>
