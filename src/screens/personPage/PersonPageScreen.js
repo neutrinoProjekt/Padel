@@ -5,9 +5,12 @@ import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import CardHeader from '../../components/CardHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 // function that displays screen under the header
-export default function PersonPageScreen() {
+export default function PersonPageScreen({navigation}) {
     const [phonenr, setPhonenr] = useState('');
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
@@ -16,44 +19,58 @@ export default function PersonPageScreen() {
     // firebase
     const {currentUser, logout, currentUserDoc} = useAuth();
 
-    // let image = currentUserDoc.photoURL === null ? 
+    // let image = currentUserDoc.photoURL === null ?
     //     {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
     //     {uri: currentUserDoc.photoURL};
-    
+
     useEffect(() => {
         (async () => setImage({uri: await currentUserDoc.photoURL}))();
-    }, [])
+    }, []);
 
     return currentUser != null ? (
-        // source should be equal with a function that have an image
-        <View style={styles.container}>
-            <Text style={{color: '#707070', fontSize: 30, fontWeight: 'bold', marginBottom: 80}}>My Account</Text>
-            <Avatar
-                rounded
-                size="xlarge"
-                source={image}
-                activeOpacity={0.7}
-            />
+        <SafeAreaView>
+            {/* source should be equal with a function that have an image
 
-            {/* Firebase issue. Get the user' peofile pic from the database*/}
-            <Text style={styles.text}>{currentUser.displayName}</Text>
-            <View style={{marginBottom: 20}}>
-                <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
-            </View>
-            {/* 3 grey boxes to put user's personal info*/}
-            <View>
-                <Text style={[styles.subtitle]}>Description:</Text>
-                <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
-                <Text style={styles.subtitle}> Contact info: </Text>
-                <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
-            </View>
+        {/**Header with title and the icon-button on the right side */}
+            <CardHeader
+                centerHeader='My Account'
+                rightComponent={
+                    <MaterialCommunityIcons
+                        name="podium-gold"
+                        size={24}
+                        onPress={()=> navigation.navigate('RankView')} />
+                }/>
 
-            {/* Button to save the changes*/}
-            <MainButton title='Save' onPress={() => alert(phonenr)}/>
-            <View style={{marginTop: 10}}>
-                <MainButton title='Sign Out' onPress={() => logout()}/>
+            <View style={styles.container}>
+
+                {/** Profile picture */}
+                <Avatar
+                    rounded
+                    size="xlarge"
+                    source={image}
+                    activeOpacity={0.7}
+                />
+
+                {/* Firebase issue. Get the user' peofile pic from the database*/}
+                <Text style={styles.text}>{currentUser.displayName}</Text>
+                <View style={{marginBottom: 20}}>
+                    <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
+                </View>
+                {/* 3 grey boxes to put user's personal info*/}
+                <View>
+                    <Text style={[styles.subtitle]}>Description:</Text>
+                    <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
+                    <Text style={styles.subtitle}> Contact info: </Text>
+                    <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
+                </View>
+
+                {/* Button to save the changes*/}
+                <MainButton title='Save' onPress={() => alert(phonenr)}/>
+                <View style={{marginTop: 10}}>
+                    <MainButton title='Sign Out' onPress={() => logout()}/>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     ) : (<Text></Text>);
 }
 
@@ -62,6 +79,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 40,
     },
     image: {
         flex: 1,
