@@ -23,6 +23,10 @@ const TournamentModNav = () => {
             <ModalNavigator.Screen
                 name='Tournaments'
                 component={TournamentTopNav}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {alignSelf: 'center'},
+                }}
             />
 
             <ModalNavigator.Screen

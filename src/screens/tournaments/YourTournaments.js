@@ -4,6 +4,7 @@ import {FlatList, Text, SafeAreaView, StyleSheet, TouchableOpacity, TouchableHig
     from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
+import OverlayMenu from '../../components/OverlayMenu';
 
 
 // temporary data until fetching from firebase
@@ -92,6 +93,11 @@ const DATA = [
 
 const TournamentItem = ({item}) => {
     const [isExpanded, setExpanded] = useState(false);
+    const [isOpen, setOpen] = useState(false);
+
+    const closeMenu =() =>{
+        setOpen(false);
+    };
 
     return (
         <View>
@@ -122,7 +128,7 @@ const TournamentItem = ({item}) => {
                         Extra info if needed
                         </ListItem.Subtitle>
                     </ListItem.Content>
-                    <TouchableOpacity onPress={{}}>
+                    <TouchableOpacity onPress={() => setOpen(true)}>
                         <Ionicons
                             size={20}
                             name='ellipsis-horizontal'
@@ -130,6 +136,12 @@ const TournamentItem = ({item}) => {
                             padding={2}
                         />
                     </TouchableOpacity>
+                    <OverlayMenu
+                        close ={closeMenu}
+                        open = {isOpen}
+                        text1 = {'Forfeit Tournament'}
+                        text2 = {'More Details'}
+                    />
                 </ListItem>
 
             </TouchableHighlight>

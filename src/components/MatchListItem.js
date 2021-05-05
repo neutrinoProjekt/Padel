@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
+import OverlayMenu from '../components/OverlayMenu';
 
-const MatchListItem = ({owner, participants, city, court, from, to, date}) => {
-    const image = owner.photoURL === null ?
+
+const MatchListItem = ({owner, participants, navigation, matchData}) => {
+    const image = owner.photoURL === null ? 
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
+
+    const [isOpen, setOpen] = useState(false);
+    const closeMenu =() =>{
+        setOpen(false);
+    };
 
     return (
         <View>
@@ -30,17 +37,24 @@ const MatchListItem = ({owner, participants, city, court, from, to, date}) => {
                         {owner.fullname}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Rating: 1438
+                        {owner.rating}
                     </ListItem.Subtitle>
                 </ListItem.Content>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setOpen(true)}>
                     <Ionicons
                         size={14}
                         name='ellipsis-horizontal'
                         color='#707070'
                         padding={2}
                     />
+
                 </TouchableOpacity>
+                <OverlayMenu
+                    close ={closeMenu}
+                    open = {isOpen}
+                    text1 = {'Forfeit Match'}
+                    text2 = {'More Details'}
+                />
             </ListItem>
             <Divider/>
             <ListItem containerStyle={styles.listItemTwo}>
@@ -52,7 +66,7 @@ const MatchListItem = ({owner, participants, city, court, from, to, date}) => {
                             color='#707070'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {date + ', ' + from + '-' + to}
+                            {matchData.date + ', ' + matchData.from + '-' + matchData.to}
                         </ListItem.Subtitle>
                     </View>
                     <View style={styles.rowContainer}>
@@ -64,7 +78,7 @@ const MatchListItem = ({owner, participants, city, court, from, to, date}) => {
                             />
                         </View>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {court + ', ' + city}
+                            {matchData.court + ', ' + matchData.city}
                         </ListItem.Subtitle>
                     </View>
                     <ListItem.Subtitle style={styles.subTitle3}>

@@ -1,16 +1,15 @@
-/* eslint-disable max-len */
-/* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
+import {getUserReference} from './User';
 
 const collectionName = 'tournaments';
 
 export function subscribeTournament(id, onUpdate, onError) {
-    var unsubscribe = db.collection(collectionName)
-        .where('owner', '==', '/users/' + id)
+    const unsubscribe = db.collection(collectionName)
+        .where('owner', '==', getUserReference(id))
         .onSnapshot((snapshot) => {
             const tournaments = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(tournaments);
-        }), onError;
+        }); var onError;
     return unsubscribe;
 }
 
@@ -25,7 +24,7 @@ export function createTournament({
     maxRank = null,
     minPlayers = null}) {
     return db.collection(collectionName).add({
-        owner: '/users/' + owner,
+        owner: getUserReference(owner),
         city,
         court,
         from,
