@@ -5,12 +5,12 @@ import {db} from '../modules/firebase/firebase';
 const collectionName = 'tournaments';
 
 export function subscribeTournament(id, onUpdate, onError) {
-    var unsubscribe = db.collection(collectionName)
+    const unsubscribe = db.collection(collectionName)
         .where('owner', '==', '/users/' + id)
         .onSnapshot((snapshot) => {
             const tournaments = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(tournaments);
-        }), onError;
+        }); var onError;
     return unsubscribe;
 }
 

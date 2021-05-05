@@ -1,5 +1,5 @@
 import {db} from '../modules/firebase/firebase';
-import { getUserReference } from './User';
+import {getUserReference} from './User';
 
 
 const collectionName = 'matches';
@@ -8,29 +8,29 @@ export function subscribeMatch(id, onUpdate, onError) {
     const formatDate = (from, to) => {
         const fromDate = new Date(from.seconds * 1000);
         const toDate = new Date(to.seconds * 1000);
-        
+
         const date = `${fromDate.getFullYear()}-${fromDate.getMonth() + 1}-${fromDate.getDate()}`;
         const duration = `${fromDate.getHours()}:${fromDate.getMinutes()}-${toDate.getHours()}:${toDate.getMinutes()}`;
         return `${date}, ${duration}`;
-    }
+    };
 
     const formatLocation = (court, city) => (`${court}, ${city}`);
-    
+
     const formatDocData = async (doc) => {
         const data = doc.data();
         data.owner = (await data.owner.get()).data();
         data.id = doc.id;
         data.date = formatDate(data.from, data.to);
         data.location = formatLocation(data.court, data.city);
-        return data
-    }
+        return data;
+    };
 
-    var unsubscribe = db.collection(collectionName)
+    const unsubscribe = db.collection(collectionName)
         .where('owner', '==', getUserReference(id))
         .onSnapshot(async (snapshot) => {
             const matches = await Promise.all(snapshot.docs.map(formatDocData));
             onUpdate(matches);
-        }, onError) ;
+        }, onError);
     return unsubscribe;
 }
 

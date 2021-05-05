@@ -23,8 +23,8 @@ export function getUser(id) {
 }
 
 export function getTopRated() {
-    return db.collection(collectionName).orderBy('rating','desc').limit(20).get()
-        .then(u => u.docs.map(doc => doc.data()));
+    return db.collection(collectionName).orderBy('rating', 'desc').limit(20).get()
+        .then((u) => u.docs.map((doc) => doc.data()));
 }
 
 export function getUserReference(id) {
