@@ -6,7 +6,7 @@ const collectionName = 'tournaments';
 
 export function subscribeTournament(id, onUpdate, onError) {
     var unsubscribe = db.collection(collectionName)
-        .where('owner', '==', '/users/' + id)
+        .where('owner', '==', id)
         .onSnapshot((snapshot) => {
             const tournaments = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(tournaments);
@@ -25,7 +25,7 @@ export function createTournament({
     maxRank = null,
     minPlayers = null}) {
     return db.collection(collectionName).add({
-        owner: '/users/' + owner,
+        owner: owner,
         city,
         court,
         from,

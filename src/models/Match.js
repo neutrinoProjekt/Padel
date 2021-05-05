@@ -4,7 +4,7 @@ const collectionName = 'matches';
 
 export function subscribeMatch(id, onUpdate, onError) {
     var unsubscribe = db.collection(collectionName)
-        .where('owner', '==', '/users/' + id)
+        .where('owner', '==', id)
         .onSnapshot((snapshot) => {
             const matches = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(matches);
@@ -21,7 +21,7 @@ export function createMatch({
     date = null,
     mode = null}) {
     return db.collection(collectionName).add({
-        owner: '/users/' + owner,
+        owner: owner,
         city,
         court,
         from,
