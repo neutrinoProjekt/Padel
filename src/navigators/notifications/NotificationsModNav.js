@@ -22,6 +22,10 @@ const NotificationsModNav = () => {
             <ModalNavigator.Screen
                 name='Notifications'
                 component={Notifications}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {alignSelf: 'center'},
+                }}
             >
             </ModalNavigator.Screen>
         </ModalNavigator.Navigator>

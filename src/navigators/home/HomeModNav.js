@@ -23,6 +23,10 @@ const HomeModNav = () => {
             <ModalNavigator.Screen
                 name='PaddlePal'
                 component={HomeTopNav}
+                options={{
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {alignSelf: 'center'},
+                }}
             >
             </ModalNavigator.Screen>
             <ModalNavigator.Screen

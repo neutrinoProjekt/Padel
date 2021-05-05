@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Component, useLayoutEffect} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import CardHeader from '../../components/CardHeader';
@@ -21,17 +21,19 @@ const FinishMatchScreen = ({navigation}) => {
     const [player3, setPlayer3] = useState('');
     const [player4, setPlayer4] = useState('');
 
+
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Finish Match', // header title
+            headerTitleAlign: 'center',
+            headerTitleStyle: {alignSelf: 'center'},
+        })
+
+    }, [navigation])
+
     return (
         <SafeAreaProvider>
-
-            {/** Header */}
-            <CardHeader
-                centerHeader='Match Results'
-                leftComponent={
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Text style={{fontWeight: 'bold', fontSize: 16, color: '#707070'}}>Cancel</Text>
-                    </TouchableOpacity>
-                }/>
 
             <View style={styles.container}>
                 {/** 4 inputs to register results: my results and the oponent's */}
@@ -42,6 +44,7 @@ const FinishMatchScreen = ({navigation}) => {
                     input = {myresults}
                     setInput = {(text) => setPlayer1(text)}
                 />
+                
                 <MainFormInput
                     inputWidth = {'30%'}
                     inputTitle = {'Player 2 (username here)'}

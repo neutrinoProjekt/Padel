@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-unused-vars
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {Text, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
@@ -28,6 +28,26 @@ export default function PersonPageScreen({navigation}) {
                 setImage(data.photoURL);
             });
     }, []);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'My Account', // header title
+            headerTitleAlign: 'center',
+            headerTitleStyle: {alignSelf: 'center'},
+            headerRight: () => (
+                <View style={{  paddingRight: 15}}>
+                    <MaterialCommunityIcons
+                            name="podium-gold"
+                            size={24}
+                            color='#707070'
+                            onPress={()=> navigation.navigate('RankView')
+                        }
+                    />
+                </View>
+            )
+        })
+
+    }, [navigation])
 
     return currentUser != null ? (
         <SafeAreaView>
