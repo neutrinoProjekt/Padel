@@ -3,12 +3,13 @@ import {db} from '../modules/firebase/firebase';
 const collectionName = 'matches';
 
 export function subscribeMatch(id, onUpdate, onError) {
-    return db.collection(collectionName)
+    var unsubscribe = db.collection(collectionName)
         .where('owner', '==', '/users/' + id)
         .onSnapshot((snapshot) => {
             const matches = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(matches);
         }), onError;
+    return unsubscribe;
 }
 
 export function createMatch({
