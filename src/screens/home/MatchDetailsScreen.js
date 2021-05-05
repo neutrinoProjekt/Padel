@@ -45,10 +45,10 @@ const UserListItem = ({participant}) => {
                         {participant.fullname}
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles3.subTitle1}>
-                        0735623578
+                        {participant.displayname || '-'}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles3.subTitle2}>
-                        Rating: 1438
+                        Rating: {participant.rating || 'N/A'}
                     </ListItem.Subtitle>
                 </ListItem.Content>
             </ListItem>
