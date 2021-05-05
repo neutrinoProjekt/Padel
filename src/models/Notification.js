@@ -1,20 +1,16 @@
 import {db} from '../modules/firebase/firebase';
+import {getUserReference} from './User';
 
 const collectionName = 'notifications';
 
 export function subscribeNotifications(id, onUpdate, onError) {
     const unsubscribe = db.collection(collectionName)
-        .where('owner', '==', '/users/' + id)
+        .where('owner', '==', getUserReference(id))
         .onSnapshot((snapshot) => {
             const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(notifications);
         }); var onError;
     return unsubscribe;
-}
-
-export function getNotifications(id) {
-    return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
-        .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
 }
 
 export function pressNotification(id) {
@@ -33,7 +29,7 @@ export function deletNotification(id) {
 export function uppdateNotification({
     description = null,
     detailText = null},
-id) {
+    id) {
     db.collection('notifications').doc(id)
         .update({detailText: detailText, description: description, type: 'text'});
     return null;
@@ -53,7 +49,7 @@ export function createNotification({
     return db.collection(collectionName).add({
         type,
         title: header,
-        owner: '/users/' + owner,
+        owner: getUserReference(owner),
         header,
         description,
         image,
