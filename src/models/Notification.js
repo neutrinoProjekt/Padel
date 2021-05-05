@@ -3,12 +3,12 @@ import {db} from '../modules/firebase/firebase';
 const collectionName = 'notifications';
 
 export function subscribeNotifications(id, onUpdate, onError) {
-    var unsubscribe = db.collection(collectionName)
+    const unsubscribe = db.collection(collectionName)
         .where('owner', '==', '/users/' + id)
         .onSnapshot((snapshot) => {
             const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(notifications);
-        }), onError;
+        }); var onError;
     return unsubscribe;
 }
 
@@ -33,7 +33,7 @@ export function deletNotification(id) {
 export function uppdateNotification({
     description = null,
     detailText = null},
-    id) {
+id) {
     db.collection('notifications').doc(id)
         .update({detailText: detailText, description: description, type: 'text'});
     return null;
