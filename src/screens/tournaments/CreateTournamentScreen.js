@@ -103,6 +103,7 @@ const CreateTournamentScreen = ({navigation}) => {
         // Validate time interval
         if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
             setErrorMsg('Please enter a time interval');
+            return;
         } else if (!validateTimeInterval(timeFrom, timeTo)) {
             setErrorMsg('Invalid time interval');
             return;
