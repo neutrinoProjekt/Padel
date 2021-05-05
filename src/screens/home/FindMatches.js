@@ -6,7 +6,6 @@ import MainFormInput from '../../components/MainFormInput';
 import DateTimePicker from '../../components/DateTimePicker';
 
 const Search = ({navigation}) => {
-
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
