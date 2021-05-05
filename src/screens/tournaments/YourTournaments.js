@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
@@ -9,93 +10,13 @@ import {useAuth} from '../../contexts/auth';
 import {subscribeTournament} from '../../models/Tournament';
 import {ScrollView} from 'react-native-gesture-handler';
 
-// temporary data until fetching from firebase
-const DATA = [
-    {
-        id: 'PRT1',
-        TourName: 'Tournament with no name',
-        TourType: 'Private Knockout Tournament',
-        owner: {
-            id: 'us1',
-            name: 'Karl-Bertil Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'PUT1',
-        TourName: 'Sunday League',
-        TourType: 'Public League Tournament',
-        owner: {
-            id: 'us1',
-            name: 'Anna-Karin Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'PUT2',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'PUT3',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    }, {
-        id: 'PUT4',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    }, {
-        id: 'PUT5',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    }, {
-        id: 'PUT6',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-];
-
-
 const TournamentItem = ({navigation, matchData}) => {
     const [isExpanded, setExpanded] = useState(false);
     const [isOpen, setOpen] = useState(false);
+    const image = matchData.owner.photoURL === null ?
+        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+        {uri: matchData.owner.photoURL};
+
 
     const closeMenu =() =>{
         setOpen(false);
@@ -110,10 +31,7 @@ const TournamentItem = ({navigation, matchData}) => {
                     <Avatar
                         size={50}
                         rounded
-                        source={{
-                            uri:
-                        'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-                        }}
+                        source={image}
                     />
                     <ListItem.Content>
                         <ListItem.Title
@@ -247,15 +165,6 @@ const TournamentsList = ({navigation}) => {
                     ))
                 }
             </ScrollView>
-            {/* <FlatList
-                data={DATA}
-                renderItem={({item}) => (
-                    <TournamentItem
-                        item={item}
-                    />
-                )}
-                keyExtractor={(item) => item.id}
-                />*/}
             <View style={styles.actionButtonContainer}>
                 <TouchableOpacity
                     style={styles.actionButton}
