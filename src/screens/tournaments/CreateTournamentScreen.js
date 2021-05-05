@@ -67,7 +67,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
     // Set rank slider color
     const setRankSliderColor = () => {
-        if (validRankInterval()) {
+        if (validateRankInterval(rank1, rank2)) {
             setRankColor(colors.colorYellow);
         } else {
             setRankColor('red');
