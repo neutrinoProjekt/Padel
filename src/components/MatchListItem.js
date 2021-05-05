@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
-import { constants } from 'buffer';
+import OverlayMenu from '../components/OverlayMenu';
+
 
 const MatchListItem = ({owner, participants, navigation, matchData}) => {
     const image = owner.photoURL === null ? 
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
+
+    const [isOpen, setOpen] = useState(false);
+    const closeMenu =() =>{
+        setOpen(false);
+    };
 
     return (
         <View>
@@ -34,16 +40,21 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                         Rating: 1438
                     </ListItem.Subtitle>
                 </ListItem.Content>
-                <TouchableOpacity
-                    onPress={() => {navigation.navigate('MatchDetailsScreen', matchData)}}
-                >
+                <TouchableOpacity onPress={() => setOpen(true)}>
                     <Ionicons
                         size={14}
                         name='ellipsis-horizontal'
                         color='#707070'
                         padding={2}
                     />
+
                 </TouchableOpacity>
+                <OverlayMenu
+                    close ={closeMenu}
+                    open = {isOpen}
+                    text1 = {'Forfeit Match'}
+                    text2 = {'More Details'}
+                />
             </ListItem>
             <Divider/>
             <ListItem containerStyle={styles.listItemTwo}>
