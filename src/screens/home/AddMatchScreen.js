@@ -15,6 +15,7 @@ import {validateTimeInterval, validateDate} from '../styling/Validators';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
 import {getUser} from '../../models/User';
+import {createNotification} from '../../models/Notification';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -153,7 +154,10 @@ const AddMatchScreen = ({navigation}) => {
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
         
-        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode})
+            .then((match) => {
+                createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: 'i1yjmqDKHPggHzOmt6jAxhNdXJe2', description: '', image: '', detailText: '', detailData: {matchId: match.id}});
+            })
         navigation.goBack();
     };
 

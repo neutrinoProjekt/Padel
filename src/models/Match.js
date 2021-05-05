@@ -45,6 +45,7 @@ export function createMatch({
     mode = null}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
+        participants: [getUserReference(owner)],
         city,
         court,
         from,
@@ -55,6 +56,7 @@ export function createMatch({
 
 export function joinMatch(matchId, playerId) {
     return db.collection(collectionName).doc(matchId).update({
-        players: firebase.firestore.FieldValue.arrayUnion(playerId)
+        participants: firebase.firestore.FieldValue.arrayUnion(getUserReference(playerId))
     });
 }
+
