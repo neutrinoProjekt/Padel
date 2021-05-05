@@ -1,6 +1,6 @@
 import {db} from '../modules/firebase/firebase';
 import {getUserReference} from './User';
-
+import firebase from 'firebase/app';
 
 const collectionName = 'matches';
 
@@ -48,5 +48,11 @@ export function createMatch({
         from,
         to,
         mode,
+    });
+}
+
+export function joinMatch(matchId, playerId) {
+    return db.collection(collectionName).doc(matchId).update({
+        players: firebase.firestore.FieldValue.arrayUnion(playerId)
     });
 }
