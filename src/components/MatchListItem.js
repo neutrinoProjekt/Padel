@@ -5,8 +5,8 @@ import {Ionicons} from '@expo/vector-icons';
 import OverlayMenu from '../components/OverlayMenu';
 
 
-const MatchListItem = ({owner, participants}) => {
-    const image = owner.photoURL === null ?
+const MatchListItem = ({owner, participants, navigation, matchData}) => {
+    const image = owner.photoURL === null ? 
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
 
@@ -31,13 +31,13 @@ const MatchListItem = ({owner, participants}) => {
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
-                        Created By: {owner.fullname}
+                        Created By:
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles.subTitle1}>
-                        0735623578
+                        {owner.fullname}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Rating: 1438
+                        {owner.rating}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity onPress={() => setOpen(true)}>
@@ -54,6 +54,7 @@ const MatchListItem = ({owner, participants}) => {
                     open = {isOpen}
                     text1 = {'Forfeit Match'}
                     text2 = {'More Details'}
+                    onPress2={() => navigation.navigate('MatchDetailsScreen', matchData)}
                 />
             </ListItem>
             <Divider/>
@@ -66,7 +67,7 @@ const MatchListItem = ({owner, participants}) => {
                             color='#707070'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            2021-06-11, 17:00-20:00
+                            {matchData.date}
                         </ListItem.Subtitle>
                     </View>
                     <View style={styles.rowContainer}>
@@ -78,7 +79,7 @@ const MatchListItem = ({owner, participants}) => {
                             />
                         </View>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            Södertälje Padelhall, Stockholm
+                            {matchData.court + ', ' + matchData.city}
                         </ListItem.Subtitle>
                     </View>
                     <ListItem.Subtitle style={styles.subTitle3}>

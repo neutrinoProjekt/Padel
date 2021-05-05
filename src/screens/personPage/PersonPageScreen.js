@@ -25,7 +25,7 @@ export default function PersonPageScreen({navigation}) {
         getUser(currentUser.uid)
             .then((data) => {
                 setDescription(data.description);
-                setImage(data.photoURL);
+                setImage({uri: data.photoURL});
             });
     }, []);
 
