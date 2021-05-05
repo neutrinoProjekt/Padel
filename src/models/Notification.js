@@ -10,7 +10,7 @@ export function subscribeNotifications(id, onUpdate, onError) {
     return db.collection(collectionName)
         .where('owner', '==', '/users/' + id)
         .onSnapshot((snapshot) => {
-            const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})); //.orderBy('date','desc')
+            const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})); //.orderBy('date','desc') .orderByChild('date')
             onUpdate(notifications);
         }), onError;
 }

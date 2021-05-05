@@ -1,4 +1,7 @@
 /* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
@@ -11,7 +14,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 const NotificationView = (inData) => {
     const item = inData.item;
     const [extend, setExtend] = useState('');
-    //console.log(item);
     const fixedDate = (new Date(item.date.seconds*1000 + item.date.nanoseconds/1000000));
 
     return (
