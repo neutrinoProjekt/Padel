@@ -2,12 +2,13 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, Image} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import {ProgressBar} from 'react-native-paper';
 import {Ionicons} from '@expo/vector-icons';
+import {getForvictory} from '../../models/Tournament';
 
 
 // --fire base--
@@ -93,6 +94,17 @@ const RenderPlacment = ({item}) => (
 
 const VictoryScreen = () => {
     const winrate=TOURNAMENTRESULTS.playerwins/TOURNAMENTRESULTS.totalmatches;
+    const tournamentId = 'jAaZUKeVVvdWviYXqrta';
+    const [tournamentinfo, setTournamentinfo] = useState({});
+
+    const updateTournament = async () => {
+        let tournamentinfo = await getForvictory(tournamentId);
+        setTournamentinfo(tournamentinfo);
+    };
+
+    useEffect(()=> {
+        updateTournament();
+    }, []);
 
     return (
         <SafeAreaProvider>
@@ -109,7 +121,8 @@ const VictoryScreen = () => {
                         fontWeight: 'bold',
                         fontSize: 40, color: '#fff',
                         textAlign: 'center'}}>
-                            You came {TOURNAMENTRESULTS.results}, well done!
+                        {/* ex "you came shared 5th!" */}
+                            Add some kind of resault here!
                     </Text>
                 </View>
             </View>
@@ -126,7 +139,8 @@ const VictoryScreen = () => {
                         color: '#707070',
                     }}
                 >
-                    {TOURNAMENTRESULTS.titel}
+                    {/* change to the player who opens this screen */}
+                    {tournamentinfo.owner}
                 </Text>
                 <View style={{
                     flexDirection: 'row',
@@ -151,13 +165,13 @@ const VictoryScreen = () => {
                             height: 15,
                             color: '#707070',
                         }}>
-                            {TOURNAMENTRESULTS.place}
+                            {tournamentinfo.city + ', ' + tournamentinfo.court}
                         </Text>
                         <Text style={{
                             margin: 5,
                             height: 15,
                             color: '#707070'}}>
-                            {TOURNAMENTRESULTS.time}
+                            {tournamentinfo.date + ',  from ' + tournamentinfo.from + ' to ' + tournamentinfo.to}
                         </Text>
                     </View>
                 </View>
@@ -168,24 +182,26 @@ const VictoryScreen = () => {
                             alignSelf: 'center',
                             color: '#707070'}}
                     >
-                        You won {TOURNAMENTRESULTS.playerwins}/
-                        {TOURNAMENTRESULTS.totalmatches} matches
+                        You won {tournamentinfo.playerwins}/
+                        {/**get from firebase how many matches won this current user */}
+                        {tournamentinfo.totalmatches} matches 
+                        {/**get total nr of matches played during this tournament (firebase) */}
                     </Text>
-                    <ProgressBar style={{
+                    <ProgressBar style={{ 
                         height: 20,
                         borderColor: '#707070',
                         borderRadius: 10,
                         borderWidth: 2,
                         position: 'relative',
                         opacity: 0.6}}
-                    progress={winrate}
+                    progress={winrate} // get info from firebase and show winrate
                     color={'#00ceb4'}/>
                 </View>
             </View>
             <View>
                 {/* shows only specific match but you're also able to scroll*/}
                 <FlatList
-                    data={TOURNAMENTRESULTS.history}
+                    data={updateTournament}
                     renderItem={RenderPlacment}
                     keyExtractor={(item) => item.id}
                 />

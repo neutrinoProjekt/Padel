@@ -14,6 +14,13 @@ export function subscribeTournament(id, onUpdate, onError) {
     return unsubscribe;
 }
 
+//Fetch data for victory screen
+//will have to be updated
+export function getForvictory(id) {
+    return db.collection(collectionName).doc(id).get()
+        .then((u) => (u.data()));
+}
+
 export function createTournament({
     owner = null,
     city = null,
