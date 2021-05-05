@@ -13,8 +13,12 @@ import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {validateDate, validateTimeInterval, validateRankInterval} from '../styling/Validators';
+import {createTournament} from '../../models/Tournament';
+import {useAuth} from '../../contexts/auth';
+
 
 const CreateTournamentScreen = ({navigation}) => {
+    const {currentUser} = useAuth();
     // States interacting with slider
     const [rank1, setRank1] = useState(10); // used for Minimum rank slider
     const [rank2, setRank2] = useState(10); // used for Maximum rank slider
@@ -67,7 +71,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
     // Set rank slider color
     const setRankSliderColor = () => {
-        if (validRankInterval()) {
+        if (validateRankInterval(rank1, rank2)) {
             setRankColor(colors.colorYellow);
         } else {
             setRankColor('red');
@@ -82,7 +86,7 @@ const CreateTournamentScreen = ({navigation}) => {
     // Create tournament
     const createTrnmnt = () => {
         // Validate rank interval
-        if (toggle1 && toggle2 && !validateRankInterval()) {
+        if (toggle1 && toggle2 && !validateRankInterval(rank1, rank2)) {
             setErrorMsg('Invalid rank interval');
             return;
         };
@@ -103,7 +107,17 @@ const CreateTournamentScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
-        // timeFrom, timeTo, date, minplayers, minrank, maxrank
+        createTournament({
+            owner: currentUser.uid,
+            from: timeFrom,
+            to: timeTo,
+            date: date,
+            minPlayers: players,
+            minRank: rank1,
+            maxRank: rank2,
+            date: date,
+        });
+        navigation.goBack();
     };
 
     /* Local date picker component*/
@@ -143,11 +157,6 @@ const CreateTournamentScreen = ({navigation}) => {
             />
         );
     };
-    /*
-    text: props.leftHeader,
-    onPress: props.leftOnPress,
-    style: styles.leftComponentStyle,
-    */
 
     // Ignore native driver message for now...
     useEffect(() => {
@@ -156,7 +165,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
     return (
         <Modal presentationStyle = 'pageSheet'animationType= 'slide'>
-            <SafeAreaView>
+            <SafeAreaView style={styles.safeContainer}>
                 <CardHeader
                     centerHeader='Create Tournament'
                     leftComponent={
@@ -305,5 +314,10 @@ const styling = StyleSheet.create({
         backgroundColor: '#F7F7F7',
         fontSize: 20,
         width: 145,
+    },
+    safeContainer: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
 });

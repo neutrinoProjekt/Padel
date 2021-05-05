@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View, TextInput} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 /* Custom date, time or date&time picker
@@ -8,7 +9,6 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 /*
 /*
 */
-
 
 const DateTimePicker = (props) => {
     const [visible, setVisibility] = useState(false);
@@ -25,16 +25,15 @@ const DateTimePicker = (props) => {
                 <Text style={styles.subHeader}>{props.subHeader}</Text>
                 <TextInput
                     placeholder={props.placeholder}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     style={[styles.textInput, {width: props.width}]}
-                    textAlign = 'center'
+                    textAlign={'center'}
                 />
                 <DateTimePickerModal
                     isVisible={visible}
                     mode={props.mode}
                     onConfirm={props.onConfirm}
                     onCancel={hidePicker}
-                    isDarkModeEnabled={true}
+                    isDarkModeEnabled={false}
                     locale='sv_SE'
                 />
             </View>
@@ -56,7 +55,6 @@ const styles = StyleSheet.create({
         borderColor: '#BFBFBF',
         borderRadius: 10,
         backgroundColor: '#F7F7F7',
-        fontSize: 16,
+        fontSize: 14,
     },
-
 });

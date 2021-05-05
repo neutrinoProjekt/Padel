@@ -134,9 +134,7 @@ const AddMatchScreen = ({navigation}) => {
             return;
         }
         let mode = single ? 'single' : 'double';
-        console.log(mode);
-        // params
-        createMatch({owner: currentUser.uid, city, court});
+        createMatch({owner: currentUser.uid, city: city, court: court, from: timeFrom, to: timeTo, date: date, mode: mode});
         navigation.goBack();
     };
 
