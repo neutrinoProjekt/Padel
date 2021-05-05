@@ -3,11 +3,7 @@ import {StyleSheet, Text, View, TextInput} from 'react-native';
 
 const MainFormInput = (props) => {
     return (
-        <View style={{
-            marginTop: 30,
-            width: props.inputWidth,
-            marginRight: props.marginRight,
-        }}>
+        <View>
             <Text style={styles.formTitle}>{props.inputTitle}</Text>
             <TextInput
                 style={styles.input}
@@ -34,17 +30,6 @@ const styles = StyleSheet.create({
     input: {
         textAlign: 'center',
         height: 50,
-        borderColor: '#BFBFBF',
-        borderRadius: 10,
-        backgroundColor: '#F7F7F7',
-        fontSize: 14,
-        paddingLeft: 15,
-        alignSelf: 'center',
-    },
-    narrowInput: {
-        textAlign: 'center',
-        height: 50,
-        borderColor: '#BFBFBF',
         borderRadius: 10,
         backgroundColor: '#F7F7F7',
         fontSize: 14,
