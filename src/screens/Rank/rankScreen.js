@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -90,7 +90,7 @@ const RenderPlacment = ({item}) => (
     </View>
 );
 
-const rankScreen = () => {
+const rankScreen = ({navigation}) => {
 
     const [leaders, setLeaders] = useState({});
     
@@ -106,17 +106,27 @@ const rankScreen = () => {
         updateLeaders();
     }, []);
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Leaderboard', // header title
+            headerTitleAlign: 'center',
+            headerTitleStyle: {alignSelf: 'center'},
+            headerRight: () => (
+                <View style={{  paddingRight: 15}}>
+                    <Feather 
+                        onPress={updateLeaders}
+                        name="refresh-cw" 
+                        size={20}
+                        color='#707070'
+                    />
+                </View>
+            )
+        })
+
+    }, [navigation])
+
     return (
-        <SafeAreaProvider> 
-            <CardHeader 
-             centerHeader='Leaderboard'
-             rightComponent={
-                 <Feather 
-                 onPress={updateLeaders}
-                 name="refresh-cw" 
-                 size={20}
-                 color='#707070'/>
-            }/>
+        <SafeAreaProvider>
             <View>
                 {/* shows only specific match but you're also able to scroll*/}
                 <FlatList
