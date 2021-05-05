@@ -67,7 +67,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                             color='#707070'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {matchData.date + ', ' + matchData.from + '-' + matchData.to}
+                            {matchData.date}
                         </ListItem.Subtitle>
                     </View>
                     <View style={styles.rowContainer}>

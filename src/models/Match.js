@@ -4,13 +4,15 @@ import firebase from 'firebase/app';
 
 const collectionName = 'matches';
 
-export function subscribeMatch(id, onUpdate, onError) {
+export function subscribeMatch(id, onUpdate, onError) {    
     const formatDate = (from, to) => {
         const fromDate = new Date(from.seconds * 1000);
         const toDate = new Date(to.seconds * 1000);
+        
+        const zeroPadd = (num) => (num < 10 ? '0' + num : num);
 
-        const date = `${fromDate.getFullYear()}-${fromDate.getMonth() + 1}-${fromDate.getDate()}`;
-        const duration = `${fromDate.getHours()}:${fromDate.getMinutes()}-${toDate.getHours()}:${toDate.getMinutes()}`;
+        const date = `${fromDate.getFullYear()}-${zeroPadd(fromDate.getMonth() + 1)}-${zeroPadd(fromDate.getDate())}`;
+        const duration = `${zeroPadd(fromDate.getHours())}:${zeroPadd(fromDate.getMinutes())}-${zeroPadd(toDate.getHours())}:${zeroPadd(toDate.getMinutes())}`;
         return `${date}, ${duration}`;
     };
 
