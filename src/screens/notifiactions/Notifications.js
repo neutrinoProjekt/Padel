@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
@@ -5,12 +6,13 @@ import {useAuth} from '../../contexts/auth';
 import {subscribeNotifications, createNotification, pressNotification, deletNotification, uppdateNotification} from '../../models/Notification';
 import CardHeader from '../../components/CardHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 // renders base notification, same for all types
 const NotificationView = (inData) => {
     const item = inData.item;
     const [extend, setExtend] = useState('');
+    //console.log(item);
+    const fixedDate = (new Date(item.date.seconds*1000 + item.date.nanoseconds/1000000));
 
     return (
         <TouchableHighlight onPress={() => {
@@ -18,7 +20,7 @@ const NotificationView = (inData) => {
         }} >
             <View>
                 <View style={styles.nBox} >
-                    <View style={{flexDirection: 'row', width: '98%', justifyContent: 'space-around', padding: '1%',}}>
+                    <View style={{flexDirection: 'row', width: '98%', justifyContent: 'space-around', padding: '1%'}}>
                         <View style={{width: 90}}>
                             <Image
                                 style={styles.nPicture}
@@ -32,10 +34,10 @@ const NotificationView = (inData) => {
                             </View>
                         </View>
                         <View style={{margin: 10, width: '10%', minWidth: 60}}>
-                            <Text style={styles.nText}>{item.date}</Text>
+                            <Text style={styles.nText}>{(fixedDate.toDateString())}</Text>
                         </View>
                     </View>
-                    <View style={{width:8, backgroundColor: item.isnew ? '#00CEB4':'#f7f7f7'}}></View>
+                    <View style={{width: 8, backgroundColor: item.isnew ? '#00CEB4':'#f7f7f7'}}></View>
                 </View>
             </View>
         </TouchableHighlight>
@@ -43,22 +45,23 @@ const NotificationView = (inData) => {
 };
 
 
-const DeletNotification = (props) =>   {
-    if(props.enabled){
-        return(
-            <View style = {{marginTop:20}}>
-            <TouchableHighlight onPress={() => {deletNotification(props.item.id)}}>
-                <Text style={{width:'100%', textAlign:'center', padding: 10, backgroundColor:'#F67273', borderRadius:5, color:'#707070', fontWeight:'bold'}}>Remove</Text>
-            </TouchableHighlight>
+const DeletNotification = (props) => {
+    if (props.enabled) {
+        return (
+            <View style = {{marginTop: 20}}>
+                <TouchableHighlight onPress={() => {
+                    deletNotification(props.item.id);
+                }}>
+                    <Text style={{width: '100%', textAlign: 'center', padding: 10, backgroundColor: '#F67273', borderRadius: 5, color: '#707070', fontWeight: 'bold'}}>Remove</Text>
+                </TouchableHighlight>
             </View>
         );
-    }
-    else{
-        return(
+    } else {
+        return (
             <View></View>
         );
-    }   
-}
+    }
+};
 
 
 // this shoud be added to depending on the type
@@ -108,12 +111,12 @@ const matchJoinRequest = (item) => {
             <Text style={styles.nText}>{item.detailText}</Text>
             <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
                 <TouchableHighlight onPress={() => {
-                    uppdateNotification({description:'Denied!', detailText:'You denied the request'}, item.id);
+                    uppdateNotification({description: 'Denied!', detailText: 'You denied the request'}, item.id);
                 }} >
                     <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Deny</Text>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => {
-                    uppdateNotification({description:'Accepted!', detailText:'You accepted the request'}, item.id);
+                    uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
                 }} >
                     <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Accept</Text>
                 </TouchableHighlight>
@@ -150,8 +153,6 @@ const Notifications = () => {
                     header: 'Gotta request to join',
                     description: 'A request to join! now?',
                     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
-                    date: '2014-02-02-14.44',
-                    isnew: true,
                     detailText: 'urban would like to join your match!',
                     type: 'matchJoinRequest',
                     typeDetails: {

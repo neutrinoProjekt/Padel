@@ -1,3 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
 import {db} from '../modules/firebase/firebase';
 
 const collectionName = 'notifications';
@@ -6,7 +10,7 @@ export function subscribeNotifications(id, onUpdate, onError) {
     return db.collection(collectionName)
         .where('owner', '==', '/users/' + id)
         .onSnapshot((snapshot) => {
-            const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
+            const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})); //.orderBy('date','desc')
             onUpdate(notifications);
         }), onError;
 }
@@ -17,27 +21,27 @@ export function getNotifications(id) {
 }
 
 export function pressNotification(id) {
-     db.collection('notifications').doc(id)
+    db.collection('notifications').doc(id)
         .update({isnew: false});
     return null;
- }
+}
 
- export function deletNotification(id) {
+export function deletNotification(id) {
     db.collection('notifications').doc(id)
         .delete();
     return null;
- }
+}
 
- 
- export function uppdateNotification({
+
+export function uppdateNotification({
     description = null,
     detailText = null},
-    id){
-        db.collection('notifications').doc(id)
+id) {
+    db.collection('notifications').doc(id)
         .update({detailText: detailText, description: description, type: 'text'});
-        return null;
- }
- 
+    return null;
+}
+
 
 export function createNotification({
     type = 'default',
@@ -45,9 +49,10 @@ export function createNotification({
     owner = null,
     description = null,
     image = null,
-    date = new Date(),
+    date = (new Date()),
     isnew = true,
-    detailText = null}) {
+    detailText = null,
+    detailData = null}) {
     return db.collection(collectionName).add({
         type,
         title: header,
@@ -58,5 +63,6 @@ export function createNotification({
         date,
         isnew,
         detailText,
+        detailData,
     });
 }
