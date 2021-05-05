@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import VictoryScreen from '../../screens/victory/VictoryScreen';
+import Notifications from '../../screens/notifications/Notifications';
 
 const ModalNavigator = createStackNavigator();
 
@@ -21,7 +21,7 @@ const NotificationsModNav = () => {
         >
             <ModalNavigator.Screen
                 name='Notifications'
-                component={VictoryScreen}
+                component={Notifications}
                 options={{
                     headerTitleAlign: 'center',
                     headerTitleStyle: {alignSelf: 'center'},
