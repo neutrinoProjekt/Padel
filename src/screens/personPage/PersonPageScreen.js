@@ -31,21 +31,6 @@ export default function PersonPageScreen({navigation}) {
 
     return currentUser != null ? (
         <SafeAreaView>
-            <CardHeader
-                centerHeader='My Account'
-                rightComponent={
-                    <MaterialCommunityIcons
-                        name="podium-gold"
-                        size={24}
-                        color='#707070'
-                        onPress={()=> navigation.navigate('RankView')} />
-                }/>
-
-            {/* source should be equal with a function that have an image
-
-        {/**Header with title and the icon-button on the right side */}
-
-
             <View style={styles.container}>
                 {/** Profile picture */}
                 <Avatar

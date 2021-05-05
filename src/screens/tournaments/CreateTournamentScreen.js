@@ -165,7 +165,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
     return (
         <Modal presentationStyle = 'pageSheet'animationType= 'slide'>
-            <SafeAreaView>
+            <SafeAreaView style={styles.safeContainer}>
                 <CardHeader
                     centerHeader='Create Tournament'
                     leftComponent={
@@ -314,5 +314,10 @@ const styling = StyleSheet.create({
         backgroundColor: '#F7F7F7',
         fontSize: 20,
         width: 145,
+    },
+    safeContainer: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
 });
