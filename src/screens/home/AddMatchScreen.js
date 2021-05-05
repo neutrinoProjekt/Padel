@@ -14,6 +14,7 @@ import DateTimePicker from '../../components/DateTimePicker';
 import {validateTimeInterval, validateDate} from '../styling/Validators';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
+import {getUser} from '../../models/User';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -133,7 +134,7 @@ const AddMatchScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
-        let mode = single ? 'single' : 'double';
+        const mode = single ? 'single' : 'double';
         createMatch({owner: currentUser.uid, city: city, court: court, from: timeFrom, to: timeTo, date: date, mode: mode});
         navigation.goBack();
     };

@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
 
-const MatchListItem = ({owner, participants}) => {
+const MatchListItem = ({owner, participants, city, court, from, to, date}) => {
     const image = owner.photoURL === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
@@ -24,10 +24,10 @@ const MatchListItem = ({owner, participants}) => {
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
-                        Created By: {owner.fullname}
+                        Created By:
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles.subTitle1}>
-                        0735623578
+                        {owner.fullname}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
                         Rating: 1438
@@ -52,7 +52,7 @@ const MatchListItem = ({owner, participants}) => {
                             color='#707070'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            2021-06-11, 17:00-20:00
+                            {date + ', ' + from + '-' + to}
                         </ListItem.Subtitle>
                     </View>
                     <View style={styles.rowContainer}>
@@ -64,7 +64,7 @@ const MatchListItem = ({owner, participants}) => {
                             />
                         </View>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            Södertälje Padelhall, Stockholm
+                            {court + ', ' + city}
                         </ListItem.Subtitle>
                     </View>
                     <ListItem.Subtitle style={styles.subTitle3}>
