@@ -118,6 +118,7 @@ const MatchDetailsScreen = ({route, navigation}) => {
         ],
     };
 
+
     return (
         <Modal
             presentationStyle='pageSheet'
@@ -139,6 +140,7 @@ const MatchDetailsScreen = ({route, navigation}) => {
                 <Divider/>
                 <ScrollView style={styles2.scrollContainer}>
                     <View style={{display: 'flex', width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
+
                         <View style={styles2.rowContainer}>
                             <View marginLeft={-1}>
                                 <Ionicons
@@ -170,7 +172,6 @@ const MatchDetailsScreen = ({route, navigation}) => {
                         Players
                     </Text>
                     <UserListItem participant={owner}/>
-
                 </ScrollView>
                 <View style={styles2.actionButtonContainer}>
                     <TouchableOpacity>
@@ -199,9 +200,7 @@ const styles2 = StyleSheet.create({
     rowContainer: {
         display: 'flex',
         flexDirection: 'row',
-        // alignItems: 'center',
         justifyContent: 'flex-end',
-        // backgroundColor: 'blue',
         width: 250,
     },
     header: {
@@ -222,10 +221,9 @@ const styles2 = StyleSheet.create({
     },
     subheader1: {
         paddingLeft: 10,
-        // fontWeight: 'bold',
         color: '#707070',
         fontSize: 16,
         flex: 1,
-        // backgroundColor: 'red',
     },
+
 });
