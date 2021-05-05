@@ -33,7 +33,7 @@ const UserListItem = ({participant}) => {
                     size={50}
                     rounded
                     source={{
-                        uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390',
+                        uri: image.uri,
                     }}
                 />
                 <ListItem.Content>
@@ -78,8 +78,13 @@ const styles3 = StyleSheet.create({
     }
 })
 
-const MatchDetailsScreen  = ({navigation}) => {
+const MatchDetailsScreen  = ({route, navigation}) => {
     const {currentUserDoc} = useAuth();
+
+    const {owner, participants, location, date} = route.params;
+
+    console.log('fawef');
+    console.log(route.params);
 
     const currentDate = new Date();
 
@@ -88,7 +93,7 @@ const MatchDetailsScreen  = ({navigation}) => {
         owner: {
             id: 'us1',
             fullname: 'Karl-Bertil Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+            imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
         },
         city: 'Stockholm',
         court: 'idfk court ltd',
@@ -98,26 +103,19 @@ const MatchDetailsScreen  = ({navigation}) => {
             {
                 id: 'us1',
                 fullname: 'Karl-Bertil Johansson',
-                imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+                imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
             },
             {
                 id: 'us1',
                 fullname: 'Anna-Karin Johansson',
-                imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+                imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
             },
             {
                 id: 'us1',
                 fullname: 'Britt-Marie Johansson',
-                imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
+                imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
             }
         ],
-    }
-
-    const getLocation = () => `${matchData.court}, ${matchData.city}`;
-    const getDate = () => {
-        const date = `${matchData.from.getFullYear()}-${matchData.from.getMonth() + 1}-${matchData.from.getDate()}`;
-        const duration = `${matchData.from.getHours()}:${matchData.from.getMinutes()}-${matchData.to.getHours()}:${matchData.to.getMinutes()}`;
-        return `${date}, ${duration}`;
     }
 
     return (
@@ -150,7 +148,7 @@ const MatchDetailsScreen  = ({navigation}) => {
                                 />
                             </View>
                             <Text style={styles2.subheader1}>
-                                {getLocation()}
+                                {location}
                             </Text>
                         </View>
 
@@ -163,7 +161,7 @@ const MatchDetailsScreen  = ({navigation}) => {
                                 />
                             </View>
                             <Text style={styles2.subheader1}>
-                                {getDate()}
+                                {date}
                             </Text>
                         </View>
                     </View>
@@ -171,7 +169,7 @@ const MatchDetailsScreen  = ({navigation}) => {
                     <Text>
                         Players
                     </Text>
-                    <UserListItem participant={matchData.owner}/>
+                    <UserListItem participant={owner}/>
                     
                 </ScrollView>
                 <View style={styles2.actionButtonContainer}>

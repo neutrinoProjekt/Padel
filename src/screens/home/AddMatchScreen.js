@@ -28,6 +28,11 @@ const AddMatchScreen = ({navigation}) => {
     const [single, setSingle] = useState(true);
     const [double, setDouble] = useState(false);
 
+    // parameters in iso format
+    const [dateIso, setDateIso] = useState('');
+    const [test, setTest] = useState('');
+    const [test2, setTest2] = useState('');
+
     // Clear error messages
     useEffect(() => {
         setErrorMsg('');
@@ -36,14 +41,17 @@ const AddMatchScreen = ({navigation}) => {
 
     /* Parameter handlers */
     const handleTimeFrom = (time) => {
+        setTest(new Date(time));
         setTimeFrom(getTime(time));
     };
 
     const handleTimeTo = (time) => {
+        setTest2(new Date(time));
         setTimeTo(getTime(time));
     };
 
     const handleDateConfirm = (date) => {
+        setDateIso(new Date(date));
         setDate(getDate(date));
     };
 
@@ -102,6 +110,11 @@ const AddMatchScreen = ({navigation}) => {
     const getDate = (date) => {
         return new Date(date).toISOString().split('T')[0];
     };
+    // new Date(year, month, day, hours, minutes).toISOString();
+    // toIsoF
+   /* const toIso = (time) => {
+
+    }*/
 
     /* Posts match if parameters are valid */
     const postMatch = () => {
@@ -134,7 +147,12 @@ const AddMatchScreen = ({navigation}) => {
             return;
         }
         let mode = single ? 'single' : 'double';
-        createMatch({owner: currentUser.uid, city: city, court: court, from: timeFrom, to: timeTo, date: date, mode: mode});
+
+        // TODO fix this mess
+        const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
+        const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
+        
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
         navigation.goBack();
     };
 

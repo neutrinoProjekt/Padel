@@ -2,9 +2,10 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
+import { constants } from 'buffer';
 
-const MatchListItem = ({owner, participants, navigation}) => {
-    constants image = owner.photoURL === null ? 
+const MatchListItem = ({owner, participants, navigation, matchData}) => {
+    const image = owner.photoURL === null ? 
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
 
@@ -34,7 +35,7 @@ const MatchListItem = ({owner, participants, navigation}) => {
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity
-                    onPress={() => {navigation.navigate('Match Details')}}
+                    onPress={() => {navigation.navigate('MatchDetailsScreen', matchData)}}
                 >
                     <Ionicons
                         size={14}

@@ -30,6 +30,7 @@ const YourMatches = ({navigation}) => {
                             navigation={navigation}
                             key={match.id}
                             owner={match.owner}
+                            matchData={match}
                             participants={match.participants}
                         />
                     ))

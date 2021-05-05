@@ -1,5 +1,6 @@
 import {db} from '../modules/firebase/firebase';
 
+
 const INITIAL_RATING = 1000;
 const collectionName = 'users';
 
@@ -24,4 +25,8 @@ export function getUser(id) {
 export function getTopRated() {
     return db.collection(collectionName).orderBy('rating','desc').limit(20).get()
         .then(u => u.docs.map(doc => doc.data()));
+}
+
+export function getUserReference(id) {
+    return db.doc(`${collectionName}/${id}`);
 }
