@@ -2,12 +2,14 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, Image} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import {ProgressBar} from 'react-native-paper';
 import {Ionicons} from '@expo/vector-icons';
+import {getForvictory} from '../../models/Tournament';
+import {getUser} from '../../models/User';
 
 
 // --fire base--
@@ -91,8 +93,30 @@ const RenderPlacment = ({item}) => (
     </View>
 );
 
-const VictoryScreen = () => {
+const VictoryScreen = (tournamentId) => {
     const winrate=TOURNAMENTRESULTS.playerwins/TOURNAMENTRESULTS.totalmatches;
+    //const tournamentId = 'jAaZUKeVVvdWviYXqrta';
+    const [tournamentinfo, setTournamentinfo] = useState({});
+    const [ownerinfo, setOwnerinfo] = useState({});
+    //const {currentUser} = useAuth();
+
+    // get all the info of the specific tournament 
+    // promise problem solved
+    const updateTournament = async () => {
+        let tournamentinfo = await getForvictory(tournamentId);
+        setTournamentinfo(tournamentinfo);
+        let userInfo = await getUser((tournamentinfo.owner).split('/users/')[1]);
+        setOwnerinfo(userInfo);
+        //console.log((tournamentinfo.owner).split('/users/')[1]);
+        //console.log(userInfo);
+    };
+
+    // get owner of the  specific tournament 
+    // promise problem solved
+
+    useEffect(()=> {
+        updateTournament();
+    }, []);
 
     return (
         <SafeAreaProvider>
@@ -109,7 +133,8 @@ const VictoryScreen = () => {
                         fontWeight: 'bold',
                         fontSize: 40, color: '#fff',
                         textAlign: 'center'}}>
-                            You came {TOURNAMENTRESULTS.results}, well done!
+                        {/* ex "you came shared 5th!" */}
+                            Add some kind of resault here!
                     </Text>
                 </View>
             </View>
@@ -118,15 +143,20 @@ const VictoryScreen = () => {
                     alignItems: 'center',
                     borderBottomWidth: 1,
                     borderColor: '#707070',
-                    backgroundColor: '#f7f7f7'}}>
+                    backgroundColor: '#f7f7f7'}}> 
+
                 <Text
                     style={{
-                        fontWeight: 'bold',
                         fontSize: 18, margin: 5,
                         color: '#707070',
                     }}
                 >
-                    {TOURNAMENTRESULTS.titel}
+                    <Text>Created by </Text>
+                    {/* change to the player who opens this screen */}
+                    <Text style={{
+                        fontWeight: 'bold'}}>
+                        {ownerinfo.fullname}
+                    </Text>
                 </Text>
                 <View style={{
                     flexDirection: 'row',
@@ -151,13 +181,13 @@ const VictoryScreen = () => {
                             height: 15,
                             color: '#707070',
                         }}>
-                            {TOURNAMENTRESULTS.place}
+                            {tournamentinfo.city + ', ' + tournamentinfo.court}
                         </Text>
                         <Text style={{
                             margin: 5,
                             height: 15,
                             color: '#707070'}}>
-                            {TOURNAMENTRESULTS.time}
+                            {tournamentinfo.date + ',  from ' + tournamentinfo.from + ' to ' + tournamentinfo.to}
                         </Text>
                     </View>
                 </View>
@@ -168,24 +198,26 @@ const VictoryScreen = () => {
                             alignSelf: 'center',
                             color: '#707070'}}
                     >
-                        You won {TOURNAMENTRESULTS.playerwins}/
-                        {TOURNAMENTRESULTS.totalmatches} matches
+                        You won {tournamentinfo.playerwins}/
+                        {/**get from firebase how many matches won this current user */}
+                        {tournamentinfo.totalmatches} matches 
+                        {/**get total nr of matches played during this tournament (firebase) */}
                     </Text>
-                    <ProgressBar style={{
+                    <ProgressBar style={{ 
                         height: 20,
                         borderColor: '#707070',
                         borderRadius: 10,
                         borderWidth: 2,
                         position: 'relative',
                         opacity: 0.6}}
-                    progress={winrate}
+                    progress={winrate} // get info from firebase and show winrate
                     color={'#00ceb4'}/>
                 </View>
             </View>
             <View>
                 {/* shows only specific match but you're also able to scroll*/}
                 <FlatList
-                    data={TOURNAMENTRESULTS.history}
+                    data={updateTournament}
                     renderItem={RenderPlacment}
                     keyExtractor={(item) => item.id}
                 />
