@@ -54,6 +54,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                     open = {isOpen}
                     text1 = {'Forfeit Match'}
                     text2 = {'More Details'}
+                    onPress2={() => navigation.navigate('MatchDetailsScreen', matchData)}
                 />
             </ListItem>
             <Divider/>
