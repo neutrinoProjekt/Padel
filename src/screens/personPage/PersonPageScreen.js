@@ -1,6 +1,7 @@
+/* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-unused-vars
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {Text, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
@@ -28,22 +29,29 @@ export default function PersonPageScreen({navigation}) {
             });
     }, []);
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'My Account', // header title
+            headerTitleAlign: 'center',
+            headerTitleStyle: {alignSelf: 'center'},
+            headerRight: () => (
+                <View style={{  paddingRight: 15}}>
+                    <MaterialCommunityIcons
+                            name="podium-gold"
+                            size={24}
+                            color='#707070'
+                            onPress={()=> navigation.navigate('RankView')
+                        }
+                    />
+                </View>
+            )
+        })
+
+    }, [navigation])
+
     return currentUser != null ? (
         <SafeAreaView>
-            {/* source should be equal with a function that have an image
-
-        {/**Header with title and the icon-button on the right side */}
-            <CardHeader
-                centerHeader='My Account'
-                rightComponent={
-                    <MaterialCommunityIcons
-                        name="podium-gold"
-                        size={24}
-                        onPress={()=> navigation.navigate('RankView')} />
-                }/>
-
             <View style={styles.container}>
-
                 {/** Profile picture */}
                 <Avatar
                     rounded
@@ -51,7 +59,6 @@ export default function PersonPageScreen({navigation}) {
                     source={image}
                     activeOpacity={0.7}
                 />
-
                 {/* Firebase issue. Get the user' peofile pic from the database*/}
                 <Text style={styles.text}>{currentUser.displayName}</Text>
                 <View style={{marginBottom: 20}}>
@@ -77,10 +84,9 @@ export default function PersonPageScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 40,
+        marginTop: 20,
     },
     image: {
         flex: 1,
@@ -95,5 +101,6 @@ const styles = StyleSheet.create({
         color: '#707070',
         fontSize: 12,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
 });

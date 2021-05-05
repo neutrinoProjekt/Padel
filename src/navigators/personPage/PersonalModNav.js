@@ -1,18 +1,25 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import rankScreen from '../Rank/rankScreen';
-import PersonPageScreen from './PersonPageScreen';
+import rankScreen from '../../screens/Rank/rankScreen';
+import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
 
 const ModalNavigator = createStackNavigator();
 
-const PersonalPageNav = () => {
+const PersonalModNav = () => {
+
+    const globalHeaderStyle = {
+        headerStyle: {backgroundColor: 'white'},
+        headerTitleStyle: {color: '#707070'},
+        headerTintColor: '#707070',
+    }
+
     return (
         <ModalNavigator.Navigator
-            screenOptions={{headerShown: false}}
+            screenOptions={globalHeaderStyle}
             transparent={true}
         >
             <ModalNavigator.Screen
-                name='PersonalScreen'
+                name='Profile'
                 component={PersonPageScreen}
             >
             </ModalNavigator.Screen>
@@ -25,4 +32,4 @@ const PersonalPageNav = () => {
     );
 };
 
-export default PersonalPageNav;
+export default PersonalModNav;

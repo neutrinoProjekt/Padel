@@ -13,6 +13,11 @@ export const styles = StyleSheet.create({
         width: 305,
         alignSelf: 'center',
     },
+    subtitle: {
+        color: '#707070',
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
     narrowInput: {
         textAlign: 'center',
         height: 50,
@@ -78,12 +83,6 @@ export const styles = StyleSheet.create({
         paddingTop: 100,
         alignSelf: 'center',
     },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000',
-    },
     textCon: {
         width: 320,
         flexDirection: 'row',
@@ -107,4 +106,5 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: '3%',
     },
+
 });

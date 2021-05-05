@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import {StyleSheet, View, SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
