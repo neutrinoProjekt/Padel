@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, TouchableOpacity, View}
+import {SafeAreaView, StyleSheet, TouchableOpacity, View, Text}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
@@ -18,7 +18,7 @@ const YourMatches = ({navigation}) => {
     }, []);
 
     const addMatch = () => {
-        navigation.navigate('AddMatchScreen');
+        navigation.navigate('Add Match');
     };
 
     return (

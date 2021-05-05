@@ -1,28 +1,21 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import CreateTournamentScreen from '../../screens/tournaments/CreateTournamentScreen';
-import TournamentTopNav from './TournamentTopNav';
+import CreateTournamentScreen from './CreateTournamentScreen';
+import TournamentNavigator from './TournamentNavigator';
 
 const ModalNavigator = createStackNavigator();
 
-const TournamentModNav = () => {
-
-    const globalHeaderStyle = {
-        headerStyle: {backgroundColor: 'white'},
-        headerTitleStyle: {color: '#707070'},
-        headerTintColor: '#707070',
-    }
-
+const TournamentHandler = () => {
     return (
         <ModalNavigator.Navigator
-            screenOptions = {globalHeaderStyle}
+            screenOptions = {{headerShown: false}}
             mode='modal'
             transparent={true}
         >
             <ModalNavigator.Screen
-                name='Tournaments'
-                component={TournamentTopNav}
+                name='TournamentNavigator'
+                component={TournamentNavigator}
             />
 
             <ModalNavigator.Screen
@@ -33,4 +26,4 @@ const TournamentModNav = () => {
     );
 };
 
-export default TournamentModNav;
+export default TournamentHandler;
