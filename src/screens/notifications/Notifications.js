@@ -1,12 +1,14 @@
-/* eslint-disable max-len */
-/* eslint-disable require-jsdoc */
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
-import {subscribeNotifications, createNotification, pressNotification, deletNotification, uppdateNotification} from '../../models/Notification';
+import {
+    subscribeNotifications,
+    createNotification,
+    pressNotification,
+    deletNotification,
+    uppdateNotification
+    } from '../../models/Notification';
 import CardHeader from '../../components/CardHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -46,7 +48,6 @@ const NotificationView = (inData) => {
     );
 };
 
-
 const DeletNotification = (props) => {
     if (props.enabled) {
         return (
@@ -64,7 +65,6 @@ const DeletNotification = (props) => {
         );
     }
 };
-
 
 // this shoud be added to depending on the type
 const NotificationDetails = (props) => {
@@ -99,7 +99,6 @@ const NotificationDetails = (props) => {
             );
         }
     }
-
     // when notification is not expanded
     return (
         <Text style={styles.nText}>{item.description}</Text>
@@ -133,7 +132,6 @@ const RenderNotification = ({item}) => {
         <NotificationView item={item}/>
     );
 };
-
 
 const Notifications = () => {
     const {currentUser} = useAuth();
@@ -176,7 +174,6 @@ const Notifications = () => {
 
 export default Notifications;
 
-// TODO make standard styles
 const styles = StyleSheet.create({
     nBox: {
         backgroundColor: '#f7f7f7',
