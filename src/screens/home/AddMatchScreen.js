@@ -11,7 +11,7 @@ import {createMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import DateTimePicker from '../../components/DateTimePicker';
-import {validateTimeInterval, validateDate} from '../styling/Validators';
+import {validateTimeInterval, validateDate} from '../../validators/Parameters';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
 import {getUser} from '../../models/User';
@@ -111,11 +111,6 @@ const AddMatchScreen = ({navigation}) => {
     const getDate = (date) => {
         return new Date(date).toISOString().split('T')[0];
     };
-    // new Date(year, month, day, hours, minutes).toISOString();
-    // toIsoF
-   /* const toIso = (time) => {
-
-    }*/
 
     /* Posts match if parameters are valid */
     const postMatch = () => {
@@ -152,7 +147,7 @@ const AddMatchScreen = ({navigation}) => {
         // TODO fix this mess
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
-        
+
         createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
         navigation.goBack();
     };

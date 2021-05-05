@@ -12,7 +12,7 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {validateDate, validateTimeInterval, validateRankInterval} from '../styling/Validators';
+import {validateDate, validateTimeInterval, validateRankInterval} from '../../validators/Parameters';
 import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
 
@@ -30,6 +30,11 @@ const CreateTournamentScreen = ({navigation}) => {
     const [toggle2, setToggle2] = useState(false);
     const [toggle3, setToggle3] = useState(false);
 
+    // Parameters in iso
+    const [isoFrom, setIsoFrom] = useState('');
+    const [isoTo, setIsoTo] = useState('');
+    const [isoDate, setIsoDate] = useState('');
+
     // States for date and time
     const [date, setDate] = useState('yyyy-mm-dd');
     const [timeFrom, setTimeFrom] = useState('hh:mm');
@@ -46,18 +51,20 @@ const CreateTournamentScreen = ({navigation}) => {
 
     // Date confirmation
     const handleDateConfirm = (date) => {
-        date = getDate(date);
-        setDate(date);
+        setIsoDate(new Date(date));
+        setDate(getDate(date));
     };
 
     // Time confirmation (From)
-    const handleTimeFrom = (str) => {
-        setTimeFrom(getTime(str));
+    const handleTimeFrom = (time) => {
+        setIsoFrom(new Date(time));
+        setTimeFrom(getTime(time));
     };
 
     // Time confirmation (To)
-    const handleTimeTo = (str) => {
-        setTimeTo(getTime(str));
+    const handleTimeTo = (time) => {
+        setIsoTo(new Date(time));
+        setTimeTo(getTime(time));
     };
 
     // Getters
@@ -108,15 +115,18 @@ const CreateTournamentScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
+
+        const from = new Date(isoDate.getFullYear(), isoDate.getMonth(), isoDate.getDate(), isoFrom.getHours(), isoFrom.getMinutes());
+        const to = new Date(isoDate.getFullYear(), isoDate.getMonth(), isoDate.getDate(), isoTo.getHours(), isoTo.getMinutes());
+
         createTournament({
             owner: currentUser.uid,
-            from: timeFrom,
-            to: timeTo,
-            date: date,
+            from: from,
+            to: to,
+            date: isoDate,
             minPlayers: players,
             minRank: rank1,
             maxRank: rank2,
-            date: date,
         });
         navigation.goBack();
     };

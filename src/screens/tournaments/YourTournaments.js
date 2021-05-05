@@ -1,11 +1,13 @@
 /* eslint-disable max-len */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Text, SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
     from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
 import OverlayMenu from '../../components/OverlayMenu';
-
+import {useAuth} from '../../contexts/auth';
+import {subscribeTournament} from '../../models/Tournament';
+import {ScrollView} from 'react-native-gesture-handler';
 
 // temporary data until fetching from firebase
 const DATA = [
@@ -91,7 +93,7 @@ const DATA = [
 ];
 
 
-const TournamentItem = ({item}) => {
+const TournamentItem = ({navigation, matchData}) => {
     const [isExpanded, setExpanded] = useState(false);
     const [isOpen, setOpen] = useState(false);
 
@@ -115,17 +117,17 @@ const TournamentItem = ({item}) => {
                     />
                     <ListItem.Content>
                         <ListItem.Title
-                            style={styles.title}
+                            style={[styles.title, {paddingTop: 25}]}
                             numberOfLines={1}
                             ellipsizeMode='tail'
                         >
-                            {item.TourName}
+                            Tournament Name (to be added)
                         </ListItem.Title>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {item.TourType}
+                            Tournament Type (to be added)
                         </ListItem.Subtitle>
                         <ListItem.Subtitle style={styles.subTitle2}>
-                        Extra info if needed
+                            {`Min rank: ${matchData.minRank}\nMax rank: ${matchData.maxRank}`}
                         </ListItem.Subtitle>
                     </ListItem.Content>
                     <TouchableOpacity onPress={() => setOpen(true)}>
@@ -154,7 +156,7 @@ const TournamentItem = ({item}) => {
                             color='#00CEB4'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                                You, Jonas, Silvia and 10 others
+                                You, (participants are to be added)
                         </ListItem.Subtitle>
                     </View>
                 </ListItem.Content>
@@ -170,7 +172,7 @@ const TournamentItem = ({item}) => {
                                     color='#707070'
                                 />
                                 <ListItem.Subtitle style={styles.subTitle1}>
-                                2021-06-11, 17:00-20:00
+                                    {matchData.date}
                                 </ListItem.Subtitle>
                             </View>
                             <View style={styles.rowContainer}>
@@ -182,7 +184,7 @@ const TournamentItem = ({item}) => {
                                     />
                                 </View>
                                 <ListItem.Subtitle style={styles.subTitle1}>
-                                Södertälje Padelhall, Stockholm
+                                    {matchData.location}
                                 </ListItem.Subtitle>
                             </View>
                             <ListItem.Subtitle style={styles.subTitle3}>
@@ -221,13 +223,31 @@ const TournamentItem = ({item}) => {
 
 
 const TournamentsList = ({navigation}) => {
+    const [tournamentData, setTournamentData] = useState([]);
+    const {currentUser} = useAuth();
+
+    useEffect(() => {
+        const unsubscribe = subscribeTournament(currentUser.uid, setTournamentData);
+        return () => unsubscribe();
+    }, []);
+
     const addTournament = () => {
         navigation.navigate('AddTournament');
     };
-
+    console.log(tournamentData);
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
+            <ScrollView>
+                {
+                    tournamentData.map((tournament) => (
+                        <TournamentItem
+                            navigation={navigation}
+                            matchData={tournament}
+                        />
+                    ))
+                }
+            </ScrollView>
+            {/* <FlatList
                 data={DATA}
                 renderItem={({item}) => (
                     <TournamentItem
@@ -235,7 +255,7 @@ const TournamentsList = ({navigation}) => {
                     />
                 )}
                 keyExtractor={(item) => item.id}
-            />
+                />*/}
             <View style={styles.actionButtonContainer}>
                 <TouchableOpacity
                     style={styles.actionButton}
