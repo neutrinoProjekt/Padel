@@ -31,13 +31,13 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
-                        Created By: {owner.fullname}
+                        Created By:
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles.subTitle1}>
-                        0735623578
+                        {owner.fullname}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={styles.subTitle2}>
-                        Rating: 1438
+                        {owner.rating}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity onPress={() => setOpen(true)}>
@@ -67,7 +67,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                             color='#707070'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            2021-06-11, 17:00-20:00
+                            {matchData.date + ', ' + matchData.from + '-' + matchData.to}
                         </ListItem.Subtitle>
                     </View>
                     <View style={styles.rowContainer}>
@@ -79,7 +79,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                             />
                         </View>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            Södertälje Padelhall, Stockholm
+                            {matchData.court + ', ' + matchData.city}
                         </ListItem.Subtitle>
                     </View>
                     <ListItem.Subtitle style={styles.subTitle3}>

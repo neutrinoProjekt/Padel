@@ -18,13 +18,13 @@ const SubHeader1 = ({text}) => (
     <Text style={styles2.subheader1}>
         {text}
     </Text>
-)
+);
 
 const UserListItem = ({participant}) => {
-    let image = participant.photoURL === null ? 
+    const image = participant.photoURL === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: participant.photoURL};
-    
+
     return (
         <View>
             <Divider/>
@@ -54,7 +54,7 @@ const UserListItem = ({participant}) => {
             </ListItem>
 
         </View>
-    )
+    );
 };
 
 const styles3 = StyleSheet.create({
@@ -75,10 +75,10 @@ const styles3 = StyleSheet.create({
         flex: 1,
         height: 70,
         backgroundColor: '#F7F7F7',
-    }
-})
+    },
+});
 
-const MatchDetailsScreen  = ({route, navigation}) => {
+const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUserDoc} = useAuth();
 
     const {owner, participants, location, date} = route.params;
@@ -114,9 +114,10 @@ const MatchDetailsScreen  = ({route, navigation}) => {
                 id: 'us1',
                 fullname: 'Britt-Marie Johansson',
                 imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            }
+            },
         ],
-    }
+    };
+
 
     return (
         <Modal
@@ -124,21 +125,22 @@ const MatchDetailsScreen  = ({route, navigation}) => {
             animationType='slide'
         >
             <SafeAreaView style={styles2.safeContainer}>
-                <CardHeader 
-                centerHeader='Match Details' 
-                leftComponent={{
-                    text: 'Cancel',
-                    onPress: () => {
-                        navigation.goBack();
-                    },
-                    style: {
-                        color: '#707070',
-                        fontWeight: '600',
-                        fontSize: 16},
-                }}/>
+                <CardHeader
+                    centerHeader='Match Details'
+                    leftComponent={{
+                        text: 'Cancel',
+                        onPress: () => {
+                            navigation.goBack();
+                        },
+                        style: {
+                            color: '#707070',
+                            fontWeight: '600',
+                            fontSize: 16},
+                    }}/>
                 <Divider/>
                 <ScrollView style={styles2.scrollContainer}>
-                   <View style={{display: 'flex', width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
+                    <View style={{display: 'flex', width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
+
                         <View style={styles2.rowContainer}>
                             <View marginLeft={-1}>
                                 <Ionicons
@@ -165,12 +167,11 @@ const MatchDetailsScreen  = ({route, navigation}) => {
                             </Text>
                         </View>
                     </View>
-                 
+
                     <Text>
                         Players
                     </Text>
                     <UserListItem participant={owner}/>
-                    
                 </ScrollView>
                 <View style={styles2.actionButtonContainer}>
                     <TouchableOpacity>
@@ -199,9 +200,7 @@ const styles2 = StyleSheet.create({
     rowContainer: {
         display: 'flex',
         flexDirection: 'row',
-        //alignItems: 'center',
         justifyContent: 'flex-end',
-        //backgroundColor: 'blue',
         width: 250,
     },
     header: {
@@ -222,10 +221,9 @@ const styles2 = StyleSheet.create({
     },
     subheader1: {
         paddingLeft: 10,
-        //fontWeight: 'bold',
         color: '#707070',
         fontSize: 16,
         flex: 1,
-        //backgroundColor: 'red',
-    }
+    },
+
 });

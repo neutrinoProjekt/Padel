@@ -14,6 +14,7 @@ import DateTimePicker from '../../components/DateTimePicker';
 import {validateTimeInterval, validateDate} from '../styling/Validators';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
+import {getUser} from '../../models/User';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();

@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, TouchableOpacity, View}
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View}
     from 'react-native';
 import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
 import {subscribeMatch} from '../../models/Match';
+import {getUser} from '../../models/User';
 
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
@@ -20,7 +21,6 @@ const YourMatches = ({navigation}) => {
     const addMatch = () => {
         navigation.navigate('AddMatchScreen');
     };
-
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
