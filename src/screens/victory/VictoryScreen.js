@@ -9,6 +9,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {ProgressBar} from 'react-native-paper';
 import {Ionicons} from '@expo/vector-icons';
 import {getForvictory} from '../../models/Tournament';
+import {getUser} from '../../models/User';
 
 
 // --fire base--
@@ -92,15 +93,26 @@ const RenderPlacment = ({item}) => (
     </View>
 );
 
-const VictoryScreen = () => {
+const VictoryScreen = (tournamentId) => {
     const winrate=TOURNAMENTRESULTS.playerwins/TOURNAMENTRESULTS.totalmatches;
-    const tournamentId = 'jAaZUKeVVvdWviYXqrta';
+    //const tournamentId = 'jAaZUKeVVvdWviYXqrta';
     const [tournamentinfo, setTournamentinfo] = useState({});
+    const [ownerinfo, setOwnerinfo] = useState({});
+    //const {currentUser} = useAuth();
 
+    // get all the info of the specific tournament 
+    // promise problem solved
     const updateTournament = async () => {
         let tournamentinfo = await getForvictory(tournamentId);
         setTournamentinfo(tournamentinfo);
+        let userInfo = await getUser((tournamentinfo.owner).split('/users/')[1]);
+        setOwnerinfo(userInfo);
+        //console.log((tournamentinfo.owner).split('/users/')[1]);
+        //console.log(userInfo);
     };
+
+    // get owner of the  specific tournament 
+    // promise problem solved
 
     useEffect(()=> {
         updateTournament();
@@ -131,16 +143,20 @@ const VictoryScreen = () => {
                     alignItems: 'center',
                     borderBottomWidth: 1,
                     borderColor: '#707070',
-                    backgroundColor: '#f7f7f7'}}>
+                    backgroundColor: '#f7f7f7'}}> 
+
                 <Text
                     style={{
-                        fontWeight: 'bold',
                         fontSize: 18, margin: 5,
                         color: '#707070',
                     }}
                 >
+                    <Text>Created by </Text>
                     {/* change to the player who opens this screen */}
-                    {tournamentinfo.owner}
+                    <Text style={{
+                        fontWeight: 'bold'}}>
+                        {ownerinfo.fullname}
+                    </Text>
                 </Text>
                 <View style={{
                     flexDirection: 'row',
