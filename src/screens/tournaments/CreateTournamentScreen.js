@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Modal, Pressable} from 'react-native';
+import {Text, View, StyleSheet, Modal} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
@@ -11,9 +11,14 @@ import CardHeader from '../../components/CardHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {validateDate, validateTimeInterval, validateRankInterval} from '../styling/Validators';
+import {createTournament} from '../../models/Tournament';
+import {useAuth} from '../../contexts/auth';
+
 
 const CreateTournamentScreen = ({navigation}) => {
+    const {currentUser} = useAuth();
     // States interacting with slider
     const [rank1, setRank1] = useState(10); // used for Minimum rank slider
     const [rank2, setRank2] = useState(10); // used for Maximum rank slider
@@ -27,8 +32,8 @@ const CreateTournamentScreen = ({navigation}) => {
 
     // States for date and time
     const [date, setDate] = useState('yyyy-mm-dd');
-    const [timeFrom, setTimeFrom] = useState('00:00');
-    const [timeTo, setTimeTo] = useState('00:00');
+    const [timeFrom, setTimeFrom] = useState('hh:mm');
+    const [timeTo, setTimeTo] = useState('hh:mm');
     const [errorMsg, setErrorMsg] = useState('');
 
     // Relevant constants
@@ -64,15 +69,9 @@ const CreateTournamentScreen = ({navigation}) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
-
-    // Validators
-    const validRankInterval = () => {
-        return rank1 <= rank2;
-    };
-
     // Set rank slider color
     const setRankSliderColor = () => {
-        if (validRankInterval()) {
+        if (validateRankInterval(rank1, rank2)) {
             setRankColor(colors.colorYellow);
         } else {
             setRankColor('red');
@@ -87,7 +86,7 @@ const CreateTournamentScreen = ({navigation}) => {
     // Create tournament
     const createTrnmnt = () => {
         // Validate rank interval
-        if (toggle1 && toggle2 && !validRankInterval()) {
+        if (toggle1 && toggle2 && !validateRankInterval(rank1, rank2)) {
             setErrorMsg('Invalid rank interval');
             return;
         };
@@ -96,17 +95,29 @@ const CreateTournamentScreen = ({navigation}) => {
         if (date == 'yyyy-mm-dd') {
             setErrorMsg('Please suggest a date');
             return;
-        } else if (new Date(date) < new Date()) {
+        } else if (!validateDate(date)) {
             setErrorMsg('Date has already passed');
             return;
         }
 
-        // Validate time
-        const arbDate = time => new Date(6969, 6, 6, time.substring(0, 2), time.substring(3, 5), 0, 0);
-        if (arbDate(timeFrom) < arbDate(timeTo)) {
+        // Validate time interval
+        if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
+            setErrorMsg('Please enter a time interval');
+        } else if (!validateTimeInterval(timeFrom, timeTo)) {
             setErrorMsg('Invalid time interval');
+            return;
         }
-        // timeFrom, timeTo, date, minplayers, minrank, maxrank
+        createTournament({
+            owner: currentUser.uid,
+            from: timeFrom,
+            to: timeTo,
+            date: date,
+            minPlayers: players,
+            minRank: rank1,
+            maxRank: rank2,
+            date: date,
+        });
+        navigation.goBack();
     };
 
     /* Local date picker component*/
@@ -146,11 +157,6 @@ const CreateTournamentScreen = ({navigation}) => {
             />
         );
     };
-    /*
-    text: props.leftHeader,
-    onPress: props.leftOnPress,
-    style: styles.leftComponentStyle,
-    */
 
     // Ignore native driver message for now...
     useEffect(() => {
@@ -159,7 +165,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
     return (
         <Modal presentationStyle = 'pageSheet'animationType= 'slide'>
-            <SafeAreaView>
+            <SafeAreaView style={styles.safeContainer}>
                 <CardHeader
                     centerHeader='Create Tournament'
                     leftComponent={
@@ -271,8 +277,8 @@ const CreateTournamentScreen = ({navigation}) => {
                     </View>
                     {/* Time picker*/}
                     <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
-                        <TimeTo />
                         <TimeFrom />
+                        <TimeTo />
                     </View>
                     {/* Button*/}
                     <View style={{marginBottom: -10}}>
@@ -308,5 +314,10 @@ const styling = StyleSheet.create({
         backgroundColor: '#F7F7F7',
         fontSize: 20,
         width: 145,
+    },
+    safeContainer: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
 });
