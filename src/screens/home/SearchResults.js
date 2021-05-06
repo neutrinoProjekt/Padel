@@ -23,6 +23,7 @@ const SearchResults = ({navigation, route}) => {
                             matchData={match}
                             owner={match.owner}
                             participants={match.participants}
+                            navigation={navigation}
                         />
                     ))
                 }
