@@ -16,6 +16,12 @@ import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
 import MainFormInput from '../../components/MainFormInput';
 
+
+const AddMatchScreen = ({jamen}) =>(
+    <Text>hej</Text>
+);
+
+/*
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
 
@@ -40,7 +46,7 @@ const AddMatchScreen = ({navigation}) => {
     }, [date, timeFrom, timeTo, city, court]);
 
 
-    /* Parameter handlers */
+    /* Parameter handlers 
     const handleTimeFrom = (time) => {
         setTest(new Date(time));
         setTimeFrom(getTime(time));
@@ -65,7 +71,7 @@ const AddMatchScreen = ({navigation}) => {
         );
     };
 
-    /* Local date picker component*/
+    /* Local date picker component
     const DatePicker = () => {
         return (
             <DateTimePicker
@@ -78,7 +84,7 @@ const AddMatchScreen = ({navigation}) => {
         );
     };
 
-    /* Local time picker components*/
+    /* Local time picker components
     const TimeFrom = () => {
         return (
             <DateTimePicker
@@ -103,7 +109,7 @@ const AddMatchScreen = ({navigation}) => {
         );
     };
 
-    /* Getters (to be moved) */
+    /* Getters (to be moved) 
     const getTime = (time) => {
         return time.toString().match(/\d\d:\d\d/)[0];
     };
@@ -112,7 +118,7 @@ const AddMatchScreen = ({navigation}) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
-    /* Posts match if parameters are valid */
+    /* Posts match if parameters are valid 
     const postMatch = () => {
         // Validate City input (todo: actually validate that it's a city)
         if (city == '') {
@@ -231,9 +237,11 @@ const AddMatchScreen = ({navigation}) => {
         </Modal>
     );
 };
+*/
 
 export default AddMatchScreen;
 
+/*
 const styles2 = StyleSheet.create({
     safeContainer: {
         flex: 1,
@@ -264,3 +272,4 @@ const styles2 = StyleSheet.create({
         fontSize: 12,
     },
 });
+*/
