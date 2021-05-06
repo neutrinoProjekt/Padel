@@ -96,7 +96,7 @@ const VictoryScreen = (tournamentId) => {
 
     // get all the info of the specific tournament
     const updateTournament = async () => {
-        const tournamentinfo = await getForvictory(tournamentId);
+        const tournamentinfo = await getTournament(tournamentId);
         setTournamentinfo(tournamentinfo);
         const userInfo = await getUser((tournamentinfo.owner).split('/users/')[1]);
         setOwnerinfo(userInfo);

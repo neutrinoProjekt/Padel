@@ -13,7 +13,7 @@ export function subscribeTournament(id, onUpdate, onError) {
     return unsubscribe;
 }
 
-export function getTorunament(id) {
+export function getTournament(id) {
     return db.collection(collectionName).doc(id).get()
         .then((u) => (u.data()));
 }
