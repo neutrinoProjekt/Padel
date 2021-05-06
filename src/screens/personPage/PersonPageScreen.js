@@ -1,14 +1,13 @@
 /* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-unused-vars
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import GreyBoxToWrite from '../../components/GreyBoxToWrite';
 import {useAuth} from '../../contexts/auth';
 import {getUser} from '../../models/User';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import CardHeader from '../../components/CardHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 // function that displays screen under the header
@@ -16,36 +15,50 @@ export default function PersonPageScreen({navigation}) {
     const [phonenr, setPhonenr] = useState('');
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
+    const [deleteWarning, setDeleteWarning] = useState(false);
     // this should be a function that checks if the image exist,
     // if image exist, get it from firestore
     // firebase
-    const {currentUser, logout} = useAuth();
+    const {currentUser, logout, deleteUser} = useAuth();
 
     useEffect(() => {
         getUser(currentUser.uid)
             .then((data) => {
                 setDescription(data.description);
-                setImage(data.photoURL);
+                setImage({uri: data.photoURL});
             });
     }, []);
 
-    return currentUser != null ? (
-        <SafeAreaView>
-            <CardHeader
-                centerHeader='My Account'
-                rightComponent={
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'My Account', // header title
+            headerTitleAlign: 'center',
+            headerTitleStyle: {alignSelf: 'center'},
+            headerRight: () => (
+                <View style={{paddingRight: 15}}>
                     <MaterialCommunityIcons
                         name="podium-gold"
                         size={24}
                         color='#707070'
-                        onPress={()=> navigation.navigate('RankView')} />
-                }/>
+                        onPress={()=> navigation.navigate('RankView')
+                        }
+                    />
+                </View>
+            ),
+        });
+    }, [navigation]);
 
-            {/* source should be equal with a function that have an image
+    function handleDelete() {
+        if (deleteWarning) {
+            deleteUser();
+        } else {
+            alert('ARE YOU SURE?????, press delete again if you are');
+            setDeleteWarning(true);
+        }
+    }
 
-        {/**Header with title and the icon-button on the right side */}
-
-
+    return currentUser != null ? (
+        <SafeAreaView>
             <View style={styles.container}>
                 {/** Profile picture */}
                 <Avatar
@@ -71,6 +84,9 @@ export default function PersonPageScreen({navigation}) {
                 <MainButton title='Save' onPress={() => alert(phonenr)}/>
                 <View style={{marginTop: 10}}>
                     <MainButton title='Sign Out' onPress={() => logout()}/>
+                </View>
+                <View style={{marginTop: 10}}>
+                    <MainButton title='DELETE USER' onPress={() => handleDelete()}/>
                 </View>
             </View>
         </SafeAreaView>
