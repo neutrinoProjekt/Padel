@@ -38,6 +38,11 @@ export function subscribeMatch(id, onUpdate, onError) {
     return unsubscribe;
 }
 
+export function getMatches(id) {
+    return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
+        .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
+}
+
 export function createMatch({
     owner = null,
     city = null,
