@@ -8,7 +8,7 @@ import OverlayMenu from '../components/OverlayMenu';
 const MatchListItem = ({owner, participants, navigation, matchData}) => {
     const image = owner.photoURL === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-        {uri: match.owner.photoURL};
+        {uri: matchData.owner.photoURL};
 
     const [isOpen, setOpen] = useState(false);
     const closeMenu =() =>{

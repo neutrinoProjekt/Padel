@@ -3,7 +3,9 @@ import {StyleSheet, SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import MatchListItem from '../../components/MatchListItem';
 
-const SearchResults = ({navigation, matchData}) => {
+const SearchResults = ({navigation, route}) => {
+    const { matchData } = route.params;
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Search Results',
@@ -18,7 +20,9 @@ const SearchResults = ({navigation, matchData}) => {
                     matchData.map((match) => (
                         <MatchListItem
                             key={match.id}
-                            match={match}
+                            matchData={match}
+                            owner={match.owner}
+                            participants={match.participants}
                         />
                     ))
                 }
