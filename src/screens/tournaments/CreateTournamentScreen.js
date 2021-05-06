@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Modal} from 'react-native';
+import {Text, View, StyleSheet, Modal, ScrollView} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
@@ -12,9 +12,10 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {validateDate, validateTimeInterval, validateRankInterval} from '../../validators/Parameters';
+import {validateDate, validateRankInterval} from '../../validators/Parameters';
 import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
+import MainFormInput from '../../components/MainFormInput';
 
 
 const CreateTournamentScreen = ({navigation}) => {
@@ -31,15 +32,13 @@ const CreateTournamentScreen = ({navigation}) => {
     const [toggle3, setToggle3] = useState(false);
 
     // Parameters in iso
-    const [isoFrom, setIsoFrom] = useState('');
-    const [isoTo, setIsoTo] = useState('');
     const [isoDate, setIsoDate] = useState('');
 
-    // States for date and time
+    // States for date, time and location
     const [date, setDate] = useState('yyyy-mm-dd');
-    const [timeFrom, setTimeFrom] = useState('hh:mm');
-    const [timeTo, setTimeTo] = useState('hh:mm');
     const [errorMsg, setErrorMsg] = useState('');
+    const [city, setCity] = useState('');
+    const [tournamentName, setTournamentName] = useState('');
 
     // Relevant constants
     const minPlayers = 1;
@@ -55,30 +54,14 @@ const CreateTournamentScreen = ({navigation}) => {
         setDate(getDate(date));
     };
 
-    // Time confirmation (From)
-    const handleTimeFrom = (time) => {
-        setIsoFrom(new Date(time));
-        setTimeFrom(getTime(time));
-    };
-
-    // Time confirmation (To)
-    const handleTimeTo = (time) => {
-        setIsoTo(new Date(time));
-        setTimeTo(getTime(time));
-    };
-
     // Getters
-    const getTime = (time) => {
-        return time.toString().match(/\d\d:\d\d/)[0];
-    };
-
     const getDate = (date) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
     // Set rank slider color
     const setRankSliderColor = () => {
-        if (validateRankInterval(rank1, rank2)) {
+        if (validateRankInterval(rank1, rank2) || !toggle2) {
             setRankColor(colors.colorYellow);
         } else {
             setRankColor('red');
@@ -88,7 +71,7 @@ const CreateTournamentScreen = ({navigation}) => {
     // Hook for clearing error message
     useEffect(() => {
         setErrorMsg('');
-    }, [rank1, rank2, date, timeFrom, timeTo]);
+    }, [rank1, rank2, date]);
 
     // Create tournament
     const createTrnmnt = () => {
@@ -107,26 +90,14 @@ const CreateTournamentScreen = ({navigation}) => {
             return;
         }
 
-        // Validate time interval
-        if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
-            setErrorMsg('Please enter a time interval');
-            return;
-        } else if (!validateTimeInterval(timeFrom, timeTo)) {
-            setErrorMsg('Invalid time interval');
-            return;
-        }
-
-        const from = new Date(isoDate.getFullYear(), isoDate.getMonth(), isoDate.getDate(), isoFrom.getHours(), isoFrom.getMinutes());
-        const to = new Date(isoDate.getFullYear(), isoDate.getMonth(), isoDate.getDate(), isoTo.getHours(), isoTo.getMinutes());
-
         createTournament({
             owner: currentUser.uid,
-            from: from,
-            to: to,
             date: isoDate,
-            minPlayers: players,
-            minRank: rank1,
-            maxRank: rank2,
+            minPlayers: toggle3 ? players : '-',
+            minRank: toggle1 ? rank1 : '-',
+            maxRank: toggle2 ? rank2 : '-',
+            city: city,
+            name: tournamentName,
         });
         navigation.goBack();
     };
@@ -144,38 +115,13 @@ const CreateTournamentScreen = ({navigation}) => {
         );
     };
 
-    /* Local time picker components*/
-    const TimeFrom = () => {
-        return (
-            <DateTimePicker
-                placeholder={timeFrom}
-                onConfirm={handleTimeFrom}
-                subHeader='From'
-                mode='time'
-                width={145}
-            />
-        );
-    };
-
-    const TimeTo = () => {
-        return (
-            <DateTimePicker
-                placeholder={timeTo}
-                onConfirm={handleTimeTo}
-                subHeader='To'
-                mode = 'time'
-                width={145}
-            />
-        );
-    };
-
     // Ignore native driver message for now...
     useEffect(() => {
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
     }, []);
 
     return (
-        <Modal presentationStyle = 'pageSheet'animationType= 'slide'>
+        <Modal presentationStyle = 'pageSheet' animationType= 'slide'>
             <SafeAreaView style={styles.safeContainer}>
                 <CardHeader
                     centerHeader='Create Tournament'
@@ -185,120 +131,142 @@ const CreateTournamentScreen = ({navigation}) => {
                         </TouchableOpacity>
                     }
                 />
-                <View style={{alignItems: 'center'}}>
-                    <Avatar source={imageUrl} size='xlarge'/>
-                    {/* Minimum Rank Slider */}
-                    <View style={{marginTop: 10}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                                <Text>Minimum rank</Text>
-                            </View>
-                            <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                <ToggleSwitch
-                                    onValueChange={(val) => setToggle1(val)}
-                                    value={toggle1}/>
-                            </View>
-                        </View>
-                        <ParameterSlider
-                            step={step}
-                            min={minRank}
-                            max={maxRank}
-                            value={rank1}
-                            onChange={(val) => {
-                                setRank1(val);
-                                setRankSliderColor();
-                            }}
-                            thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
-                            maxTrackColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
-                            minTrackColor={toggle1 ? rankColor : colors.colorDisabled}
-                            disabled={!toggle1}
-                        />
-                        <View style={styling.textCon}>
-                            <Text style={styling.colorGrey}>{minRank}</Text>
-                            <Text style={styling.colorYellow}>{toggle1 ? rank1 : ''}</Text>
-                            <Text style={styling.colorGrey}>{maxRank}</Text>
-                        </View>
-                    </View>
+                <ScrollView>
+                    <View style={{alignItems: 'center', marginBottom: 100}}>
+                        <Avatar source={imageUrl} size='xlarge'/>
 
-                    {/* Maximum Rank Slider */}
-                    <View style={{paddingTop: 10}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                                <Text>Maximum rank</Text>
-                            </View>
-                            <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                <ToggleSwitch onValueChange={(val) => setToggle2(val)} value={toggle2}/>
-                            </View>
+                        {/* Tournament name */}
+                        <View style={{paddingTop: 10, paddingRight: 15}}>
+                            <MainFormInput
+                                inputTitle='Name'
+                                placeholder='What is the name of your tournament?'
+                                inputWidth={305}
+                                input={tournamentName}
+                                setInput={(text) => setTournamentName(text)}
+                            />
                         </View>
-                        <ParameterSlider
-                            step={step}
-                            min={minRank}
-                            max={maxRank}
-                            value={rank2}
-                            onChange={(val) => {
-                                setRank2(val);
-                                setRankSliderColor();
-                            }}
-                            thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                            maxTrackColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
-                            minTrackColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                            disabled={!toggle2}
-                        />
-                        <View style={styling.textCon}>
-                            <Text style={colors.colorDisabled}>{minRank}</Text>
-                            <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
-                            <Text style={colors.colorDisabled}>{maxRank}</Text>
-                        </View>
-                    </View>
 
-                    {/* Minimum Players Slider */}
-                    <View style={{paddingTop: 10}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={{paddingLeft: 101, alignSelf: 'center'}}>
-                                <Text>Minimum players</Text>
-                            </View>
-                            <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                <ToggleSwitch
-                                    onValueChange={(val) => setToggle3(val)}
-                                    value={toggle3}
-                                />
-                            </View>
+                        {/* Location */}
+                        <View style={{paddingTop: 10, paddingRight: 15}}>
+                            <MainFormInput
+                                inputTitle='City'
+                                placeholder='What city would you like to play in?'
+                                inputWidth={305}
+                                input={city}
+                                setInput={(text) => setCity(text)}
+                            />
                         </View>
-                        <ParameterSlider
-                            step={1}
-                            min={minPlayers}
-                            max={maxPlayers}
-                            value={players}
-                            onChange={(val) => setPlayers(val)}
-                            thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
-                            maxTrackColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
-                            minTrackColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
-                            disabled={!toggle3}
-                        />
-                        <View style={styling.textCon}>
-                            <Text style={colors.colorDisabled}>{minPlayers}</Text>
-                            <Text style={colors.colorYellow}>{toggle3 ? players : ''}</Text>
-                            <Text style={styling.colorGrey}>{maxPlayers}</Text>
-                        </View>
-                    </View>
 
-                    {/* Date picker*/}
-                    <View style={{paddingTop: 10}}>
-                        <DatePicker />
+                        {/* Date picker (start date)*/}
+                        <View style={{paddingTop: 10}}>
+                            <DatePicker />
+                        </View>
+
+                        {/* Minimum Rank Slider */}
+                        <View style={{marginTop: 20}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                    <Text>Minimum rank</Text>
+                                </View>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <ToggleSwitch
+                                        onValueChange={(val) => setToggle1(val)}
+                                        value={toggle1}/>
+                                </View>
+                            </View>
+                            <ParameterSlider
+                                step={step}
+                                min={minRank}
+                                max={maxRank}
+                                value={rank1}
+                                onChange={(val) => {
+                                    setRank1(val);
+                                    setRankSliderColor();
+                                }}
+                                thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
+                                maxTrackColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
+                                minTrackColor={toggle1 ? rankColor : colors.colorDisabled}
+                                disabled={!toggle1}
+                            />
+                            <View style={styling.textCon}>
+                                <Text style={styling.colorGrey}>{minRank}</Text>
+                                <Text style={styling.colorYellow}>{toggle1 ? rank1 : ''}</Text>
+                                <Text style={styling.colorGrey}>{maxRank}</Text>
+                            </View>
+                        </View>
+
+
+                        {/* Maximum Rank Slider */}
+                        <View style={{paddingTop: 10}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                    <Text>Maximum rank</Text>
+                                </View>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <ToggleSwitch onValueChange={(val) => setToggle2(val)} value={toggle2}/>
+                                </View>
+                            </View>
+                            <ParameterSlider
+                                step={step}
+                                min={minRank}
+                                max={maxRank}
+                                value={rank2}
+                                onChange={(val) => {
+                                    setRank2(val);
+                                    setRankSliderColor();
+                                }}
+                                thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                                maxTrackColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
+                                minTrackColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                                disabled={!toggle2}
+                            />
+                            <View style={styling.textCon}>
+                                <Text style={colors.colorDisabled}>{minRank}</Text>
+                                <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
+                                <Text style={colors.colorDisabled}>{maxRank}</Text>
+                            </View>
+                        </View>
+
+                        {/* Minimum Players Slider */}
+                        <View style={{paddingTop: 10}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{paddingLeft: 101, alignSelf: 'center'}}>
+                                    <Text>Minimum players</Text>
+                                </View>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <ToggleSwitch
+                                        onValueChange={(val) => setToggle3(val)}
+                                        value={toggle3}
+                                    />
+                                </View>
+                            </View>
+                            <ParameterSlider
+                                step={1}
+                                min={minPlayers}
+                                max={maxPlayers}
+                                value={players}
+                                onChange={(val) => setPlayers(val)}
+                                thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
+                                maxTrackColor={toggle3 ? colors.colorLightGrey : colors.colorDisabled}
+                                minTrackColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
+                                disabled={!toggle3}
+                            />
+                            <View style={styling.textCon}>
+                                <Text style={colors.colorDisabled}>{minPlayers}</Text>
+                                <Text style={colors.colorYellow}>{toggle3 ? players : ''}</Text>
+                                <Text style={styling.colorGrey}>{maxPlayers}</Text>
+                            </View>
+                        </View>
+
+                        {/* Button*/}
+                        <View style={{marginBottom: -10}}>
+                            <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
+                        </View>
+                        <View style={{marginTop: -15}}>
+                            <MainButton title="Create tournament" onPress={createTrnmnt}/>
+                        </View>
                     </View>
-                    {/* Time picker*/}
-                    <View style={{flexDirection: 'row', paddingTop: 5, justifyContent: 'center'}}>
-                        <TimeFrom />
-                        <TimeTo />
-                    </View>
-                    {/* Button*/}
-                    <View style={{marginBottom: -10}}>
-                        <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
-                    </View>
-                    <View style={{marginTop: -15}}>
-                        <MainButton title="Create tournament" onPress={createTrnmnt}/>
-                    </View>
-                </View>
+                </ScrollView>
             </SafeAreaView>
         </Modal>
     );
@@ -308,7 +276,6 @@ export default CreateTournamentScreen;
 
 const styling = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#000',

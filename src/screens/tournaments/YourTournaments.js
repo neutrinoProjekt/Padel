@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
+import {SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
     from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
@@ -39,10 +39,10 @@ const TournamentItem = ({navigation, matchData}) => {
                             numberOfLines={1}
                             ellipsizeMode='tail'
                         >
-                            Tournament Name (to be added)
+                            {matchData.name}
                         </ListItem.Title>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            Tournament Type (to be added)
+                            Tournament
                         </ListItem.Subtitle>
                         <ListItem.Subtitle style={styles.subTitle2}>
                             {`Min rank: ${matchData.minRank}\nMax rank: ${matchData.maxRank}`}
