@@ -30,7 +30,6 @@ const formatDocData = async (doc) => {
 
 export function subscribeMatch(id, onUpdate, onError) {
     const unsubscribe = db.collection(collectionName)
-        //.where('owner', '==', getUserReference(id))
         .where('participants', 'array-contains', getUserReference(id))
         .onSnapshot(async (snapshot) => {
             const matches = await Promise.all(snapshot.docs.map(formatDocData));
@@ -44,8 +43,6 @@ export async function getMatches(id) {
         .where('owner', '!=', getUserReference(id))
         .get();
     matches = await Promise.all(matches.docs.map(formatDocData));
-    console.log('matches ');
-    console.log(matches);
     return matches;
 }
 
