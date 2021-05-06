@@ -69,7 +69,6 @@ const ExpandableItem = (props) => {
                         text2 = {'More Details'}
                     />
                 </ListItem>
-
             </TouchableHighlight>
             <ListItem containerStyle={styles.listItemTwo}>
                 <ListItem.Content>
@@ -80,7 +79,7 @@ const ExpandableItem = (props) => {
                             color='#00CEB4'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {props.participants}
+                            {props.participants.map(p => p.fullname + ' ')}
                         </ListItem.Subtitle>
                     </View>
                 </ListItem.Content>
@@ -114,25 +113,17 @@ const ExpandableItem = (props) => {
                             <ListItem.Subtitle style={styles.subTitle3}>
                             Players attending so far:
                             </ListItem.Subtitle>
-                            <View style={styles.rowContainer}>
-                                <View style={styles.columnContainer}>
-                                    <ListItem.Subtitle style={styles.name}>
-                                    Johan Petersson
-                                    </ListItem.Subtitle>
-                                    <ListItem.Subtitle style={styles.name}>
-                                    Johan Persson
-                                    </ListItem.Subtitle>
-
-                                </View>
-                                <View style={styles.columnContainer}>
-                                    <ListItem.Subtitle style={styles.ranking}>
-                                    Ranking: 1048
-                                    </ListItem.Subtitle>
-                                    <ListItem.Subtitle style={styles.ranking}>
-                                    Ranking: 2034
-                                    </ListItem.Subtitle>
-
-                                </View>
+                            <View style={styles.columnContainer}>
+                                {props.participants.map(p => (
+                                    <View style={styles.rowContainer} key={p.id}>
+                                        <ListItem.Subtitle style={styles.name}>
+                                            {p.fullname}
+                                        </ListItem.Subtitle>
+                                        <ListItem.Subtitle style={styles.ranking}>
+                                            {p.rating}
+                                        </ListItem.Subtitle>
+                                    </View>
+                                ))}
                             </View>
                         </ListItem.Content>
                     </ListItem>
@@ -141,7 +132,6 @@ const ExpandableItem = (props) => {
             }
             <Divider/>
         </View>
-
     );
 };
 

@@ -25,6 +25,7 @@ const formatDocData = async (doc) => {
     data.id = doc.id;
     data.date = formatDate(data.from, data.to);
     data.location = formatLocation(data.court, data.city);
+    data.participants = await (await Promise.all(data.participants.map(p => p.get()))).map(p => ({...p.data(),id: p.id}));
     return data;
 };
 
@@ -37,7 +38,7 @@ export function subscribeMatch(id, onUpdate, onError) {
         }, onError);
     return unsubscribe;
 }
-// getMatches
+
 export async function getMatches(id) {
     let matches = await db.collection(collectionName)
         .where('owner', '!=', getUserReference(id))
