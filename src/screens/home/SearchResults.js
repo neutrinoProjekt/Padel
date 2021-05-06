@@ -1,23 +1,32 @@
-import React, {useLayoutEffect} from 'react';
-import {StyleSheet, Text, SafeAreaView} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import BackButton from '../../components/BackButton';
+import MatchListItem from '../../components/MatchListItem';
 
-const SearchResults = ({navigation}) => {
+const SearchResults = ({navigation, route}) => {
+    const { matchData } = route.params;
+
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: 'Search',
+            title: 'Search Results',
             headerBackTitle: 'Find Matches',
         });
     }, [navigation]);
 
     return (
-        <SafeAreaView style={styles.safeContainer}>
-            <ScrollView style={styles.scrollContainer}>
-                <BackButton
-                    title='Back to search'
-                    onPress={() => navigation.goBack()}
-                />
+        <SafeAreaView>
+            <ScrollView style={styles.container}>
+                {
+                    matchData.map((match) => (
+                        <MatchListItem
+                            key={match.id}
+                            matchData={match}
+                            owner={match.owner}
+                            participants={match.participants}
+                            navigation={navigation}
+                        />
+                    ))
+                }
             </ScrollView>
         </SafeAreaView>
     );

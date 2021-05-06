@@ -14,7 +14,6 @@ import DateTimePicker from '../../components/DateTimePicker';
 import {validateTimeInterval, validateDate, validateRankInterval} from '../../validators/Parameters';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
-import {createNotification} from '../../models/Notification';
 import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, STEP} from '../../config';
 import ToggleSwitch from '../../components/ToggleSwitch';

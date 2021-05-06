@@ -10,8 +10,6 @@ import {useAuth} from '../../contexts/auth';
 const FindMatches = ({navigation}) => {
     const {currentUser} = useAuth();
 
-    const matchData = getMatches(currentUser.uid);
-
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
@@ -89,7 +87,7 @@ const FindMatches = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
-        navigation.navigate('SearchResults');
+        navigation.navigate('SearchResults', {matchData});
     };
 
     return (
@@ -124,7 +122,11 @@ const FindMatches = ({navigation}) => {
             <View style={styles.actionButtonContainer}>
                 <MainButton
                     title='Search'
-                    onPress={() => navigation.navigate('SearchResults', matchData={matchData})}
+                    onPress={async () => {
+                        // TODO might mess up if you spam the button
+                        const matchData = await getMatches(currentUser.uid);
+                        navigation.navigate('SearchResults', {matchData});
+                    }}
                 />
             </View>
         </SafeAreaView>
