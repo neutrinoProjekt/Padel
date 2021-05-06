@@ -28,8 +28,7 @@ const YourMatches = ({navigation}) => {
                     matchData.map((match) => (
                         <MatchListItem
                             key={match.id}
-                            owner={match.owner}
-                            participants={match.participants}
+                            match={match}
                         />
                     ))
                 }
