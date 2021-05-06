@@ -38,6 +38,11 @@ export function subscribeMatch(id, onUpdate, onError) {
     return unsubscribe;
 }
 
+export function getMatches(id) {
+    return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
+        .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
+}
+
 export function createMatch({
     owner = null,
     city = null,
@@ -47,6 +52,7 @@ export function createMatch({
     mode = null}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
+        participants: [getUserReference(owner)],
         city,
         court,
         from,
@@ -57,6 +63,7 @@ export function createMatch({
 
 export function joinMatch(matchId, playerId) {
     return db.collection(collectionName).doc(matchId).update({
-        players: firebase.firestore.FieldValue.arrayUnion(playerId),
+        participants: firebase.firestore.FieldValue.arrayUnion(getUserReference(playerId))
     });
 }
+
