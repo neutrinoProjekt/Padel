@@ -37,7 +37,7 @@ export function subscribeMatch(id, onUpdate, onError) {
         }, onError);
     return unsubscribe;
 }
-
+// getMatches
 export function getMatches(id) {
     return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
         .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
