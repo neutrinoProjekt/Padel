@@ -22,10 +22,10 @@ import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
 const CreateTournamentScreen = ({navigation}) => {
     const {currentUser} = useAuth();
     // States interacting with slider
-    const [rank1, setRank1] = useState(10); // used for Minimum rank slider
-    const [rank2, setRank2] = useState(10); // used for Maximum rank slider
+    const [rank1, setRank1] = useState(MIN_RANK); // used for Minimum rank slider
+    const [rank2, setRank2] = useState(MIN_RANK); // used for Maximum rank slider
     const [players, setPlayers] = useState(1);
-    const [rankColor, setRankColor] = useState(styling.colorYellow);
+    const [rankColor, setRankColor] = useState(colors.colorYellow);
 
     // States for switches
     const [toggle1, setToggle1] = useState(false);
@@ -118,7 +118,7 @@ const CreateTournamentScreen = ({navigation}) => {
 
     return (
         <Modal presentationStyle = 'pageSheet' animationType= 'slide'>
-            <SafeAreaView style={styles.safeContainer}>
+            <SafeAreaView>
                 <CardHeader
                     centerHeader='Create Tournament'
                     leftComponent={
@@ -185,9 +185,9 @@ const CreateTournamentScreen = ({navigation}) => {
                                 disabled={!toggle1}
                             />
                             <View style={styling.textCon}>
-                                <Text style={styling.colorGrey}>{MIN_RANK}</Text>
-                                <Text style={styling.colorYellow}>{toggle1 ? rank1 : ''}</Text>
-                                <Text style={styling.colorGrey}>{MAX_RANK}</Text>
+                                <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
+                                <Text style={colors.colorYellow}>{toggle1 ? rank1 : ''}</Text>
+                                <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
                             </View>
                         </View>
 
@@ -250,7 +250,7 @@ const CreateTournamentScreen = ({navigation}) => {
                             <View style={styling.textCon}>
                                 <Text style={colors.colorDisabled}>{MIN_PLAYERS}</Text>
                                 <Text style={colors.colorYellow}>{toggle3 ? players : ''}</Text>
-                                <Text style={styling.colorGrey}>{MAX_PLAYERS}</Text>
+                                <Text style={colors.colorDisabled}>{MAX_PLAYERS}</Text>
                             </View>
                         </View>
 

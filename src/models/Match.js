@@ -52,7 +52,9 @@ export function createMatch({
     court = null,
     from = null,
     to = null,
-    mode = null}) {
+    mode = null,
+    minRank = null,
+    maxRank = null,}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
         participants: [getUserReference(owner)],
@@ -61,6 +63,8 @@ export function createMatch({
         from,
         to,
         mode,
+        minRank,
+        maxRank,
     });
 }
 
