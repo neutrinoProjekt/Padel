@@ -79,7 +79,7 @@ const ExpandableItem = (props) => {
                             color='#00CEB4'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {props.participants.map(p => p.fullname + ' ')}
+                            {props.participants != null ? props.participants.map(p => p.fullname + ' ') : <View></View>}
                         </ListItem.Subtitle>
                     </View>
                 </ListItem.Content>
@@ -114,7 +114,7 @@ const ExpandableItem = (props) => {
                             Players attending so far:
                             </ListItem.Subtitle>
                             <View style={styles.columnContainer}>
-                                {props.participants.map(p => (
+                                {props.participants != null ? props.participants.map(p => (
                                     <View style={styles.rowContainer} key={p.id}>
                                         <ListItem.Subtitle style={styles.name}>
                                             {p.fullname}
@@ -123,7 +123,7 @@ const ExpandableItem = (props) => {
                                             {p.rating}
                                         </ListItem.Subtitle>
                                     </View>
-                                ))}
+                                )) : <View></View>}
                             </View>
                         </ListItem.Content>
                     </ListItem>
