@@ -1,19 +1,34 @@
 import {db} from '../modules/firebase/firebase';
+import {getUserReference} from './User';
 
 const collectionName = 'notifications';
 
 export function subscribeNotifications(id, onUpdate, onError) {
-    return db.collection(collectionName)
-        .where('owner', '==', '/users/' + id)
+    const unsubscribe = db.collection(collectionName)
+        .where('owner', '==', getUserReference(id))
         .onSnapshot((snapshot) => {
             const notifications = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
             onUpdate(notifications);
-        }), onError;
+        }); var onError;
+    return unsubscribe;
 }
 
-export function getNotifications(id) {
-    return db.collection(collectionName).where('owner', '==', '/users/' + id).get()
-        .then((n) => n.docs.map((doc) => ({...doc.data(), id: doc.id})));
+export function pressNotification(id) {
+    return db.collection('notifications').doc(id)
+        .update({isnew: false});
+}
+
+export function deletNotification(id) {
+    return db.collection('notifications').doc(id)
+        .delete();
+}
+
+export function uppdateNotification({
+    description = null,
+    detailText = null},
+id) {
+    return db.collection('notifications').doc(id)
+        .update({detailText: detailText, description: description, type: 'text'});
 }
 
 export function createNotification({
@@ -22,16 +37,20 @@ export function createNotification({
     owner = null,
     description = null,
     image = null,
-    date = null,
-    isnew = null}) {
+    date = (new Date()),
+    isnew = true,
+    detailText = null,
+    detailData = null}) {
     return db.collection(collectionName).add({
         type,
         title: header,
-        owner: '/users/' + owner,
+        owner: getUserReference(owner),
         header,
         description,
         image,
         date,
         isnew,
+        detailText,
+        detailData,
     });
 }

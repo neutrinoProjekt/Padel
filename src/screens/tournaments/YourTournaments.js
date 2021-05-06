@@ -1,97 +1,26 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable max-len */
-import React, {useState} from 'react';
-import {FlatList, Text, SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
     from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
+import OverlayMenu from '../../components/OverlayMenu';
+import {useAuth} from '../../contexts/auth';
+import {subscribeTournament} from '../../models/Tournament';
+import {ScrollView} from 'react-native-gesture-handler';
 
-
-// temporary data until fetching from firebase
-const DATA = [
-    {
-        id: 'PRT1',
-        TourName: 'Tournament with no name',
-        TourType: 'Private Knockout Tournament',
-        owner: {
-            id: 'us1',
-            name: 'Karl-Bertil Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'PUT1',
-        TourName: 'Sunday League',
-        TourType: 'Public League Tournament',
-        owner: {
-            id: 'us1',
-            name: 'Anna-Karin Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'PUT2',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-    {
-        id: 'PUT3',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    }, {
-        id: 'PUT4',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    }, {
-        id: 'PUT5',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    }, {
-        id: 'PUT6',
-        TourName: 'Hunger Games',
-        TourType: 'Public Knockout Tournament',
-
-        owner: {
-            id: 'us1',
-            name: 'Britt-Marie Johansson',
-            imageUri: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        participants: [],
-    },
-];
-
-
-const TournamentItem = ({item}) => {
+const TournamentItem = ({navigation, matchData}) => {
     const [isExpanded, setExpanded] = useState(false);
+    const [isOpen, setOpen] = useState(false);
+    const image = matchData.owner.photoURL === null ?
+        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
+        {uri: matchData.owner.photoURL};
+
+
+    const closeMenu =() =>{
+        setOpen(false);
+    };
 
     return (
         <View>
@@ -102,27 +31,24 @@ const TournamentItem = ({item}) => {
                     <Avatar
                         size={50}
                         rounded
-                        source={{
-                            uri:
-                        'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-                        }}
+                        source={image}
                     />
                     <ListItem.Content>
                         <ListItem.Title
-                            style={styles.title}
+                            style={[styles.title, {paddingTop: 25}]}
                             numberOfLines={1}
                             ellipsizeMode='tail'
                         >
-                            {item.TourName}
+                            {matchData.name}
                         </ListItem.Title>
                         <ListItem.Subtitle style={styles.subTitle1}>
-                            {item.TourType}
+                            Tournament
                         </ListItem.Subtitle>
                         <ListItem.Subtitle style={styles.subTitle2}>
-                        Extra info if needed
+                            {`Min rank: ${matchData.minRank}\nMax rank: ${matchData.maxRank}`}
                         </ListItem.Subtitle>
                     </ListItem.Content>
-                    <TouchableOpacity onPress={{}}>
+                    <TouchableOpacity onPress={() => setOpen(true)}>
                         <Ionicons
                             size={20}
                             name='ellipsis-horizontal'
@@ -130,6 +56,12 @@ const TournamentItem = ({item}) => {
                             padding={2}
                         />
                     </TouchableOpacity>
+                    <OverlayMenu
+                        close ={closeMenu}
+                        open = {isOpen}
+                        text1 = {'Forfeit Tournament'}
+                        text2 = {'More Details'}
+                    />
                 </ListItem>
 
             </TouchableHighlight>
@@ -142,7 +74,7 @@ const TournamentItem = ({item}) => {
                             color='#00CEB4'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                                You, Jonas, Silvia and 10 others
+                                You, (participants are to be added)
                         </ListItem.Subtitle>
                     </View>
                 </ListItem.Content>
@@ -158,7 +90,7 @@ const TournamentItem = ({item}) => {
                                     color='#707070'
                                 />
                                 <ListItem.Subtitle style={styles.subTitle1}>
-                                2021-06-11, 17:00-20:00
+                                    {matchData.date}
                                 </ListItem.Subtitle>
                             </View>
                             <View style={styles.rowContainer}>
@@ -170,7 +102,7 @@ const TournamentItem = ({item}) => {
                                     />
                                 </View>
                                 <ListItem.Subtitle style={styles.subTitle1}>
-                                Södertälje Padelhall, Stockholm
+                                    {matchData.location}
                                 </ListItem.Subtitle>
                             </View>
                             <ListItem.Subtitle style={styles.subTitle3}>
@@ -209,21 +141,29 @@ const TournamentItem = ({item}) => {
 
 
 const TournamentsList = ({navigation}) => {
+    const [tournamentData, setTournamentData] = useState([]);
+    const {currentUser} = useAuth();
+
+    useEffect(() => {
+        const unsubscribe = subscribeTournament(currentUser.uid, setTournamentData);
+        return () => unsubscribe();
+    }, []);
+
     const addTournament = () => {
         navigation.navigate('AddTournament');
     };
-
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={DATA}
-                renderItem={({item}) => (
-                    <TournamentItem
-                        item={item}
-                    />
-                )}
-                keyExtractor={(item) => item.id}
-            />
+            <ScrollView>
+                {
+                    tournamentData.map((tournament) => (
+                        <TournamentItem
+                            navigation={navigation}
+                            matchData={tournament}
+                        />
+                    ))
+                }
+            </ScrollView>
             <View style={styles.actionButtonContainer}>
                 <TouchableOpacity
                     style={styles.actionButton}

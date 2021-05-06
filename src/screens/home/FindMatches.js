@@ -12,7 +12,6 @@ const FindMatches = ({navigation}) => {
 
     const matchData = getMatches(currentUser.uid);
 
-
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');

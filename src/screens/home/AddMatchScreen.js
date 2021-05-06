@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
 import {
-    StyleSheet, View, Modal, TextInput,
+    StyleSheet, View, Modal,
     TouchableOpacity, SafeAreaView, Text,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -11,9 +11,10 @@ import {createMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import DateTimePicker from '../../components/DateTimePicker';
-import {validateTimeInterval, validateDate} from '../styling/Validators';
+import {validateTimeInterval, validateDate} from '../../validators/Parameters';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
+import MainFormInput from '../../components/MainFormInput';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -28,6 +29,11 @@ const AddMatchScreen = ({navigation}) => {
     const [single, setSingle] = useState(true);
     const [double, setDouble] = useState(false);
 
+    // parameters in iso format
+    const [dateIso, setDateIso] = useState('');
+    const [test, setTest] = useState('');
+    const [test2, setTest2] = useState('');
+
     // Clear error messages
     useEffect(() => {
         setErrorMsg('');
@@ -36,14 +42,17 @@ const AddMatchScreen = ({navigation}) => {
 
     /* Parameter handlers */
     const handleTimeFrom = (time) => {
+        setTest(new Date(time));
         setTimeFrom(getTime(time));
     };
 
     const handleTimeTo = (time) => {
+        setTest2(new Date(time));
         setTimeTo(getTime(time));
     };
 
     const handleDateConfirm = (date) => {
+        setDateIso(new Date(date));
         setDate(getDate(date));
     };
 
@@ -133,8 +142,13 @@ const AddMatchScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
-        let mode = single ? 'single' : 'double';
-        createMatch({owner: currentUser.uid, city: city, court: court, from: timeFrom, to: timeTo, date: date, mode: mode});
+        let mode = single ? 'Single' : 'Double';
+
+        // TODO fix this mess
+        const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
+        const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
+
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
         navigation.goBack();
     };
 
@@ -150,25 +164,21 @@ const AddMatchScreen = ({navigation}) => {
                 />
                 <ScrollView style={styles2.scrollContainer}>
                     <View style={{marginTop: 30, width: 305}}>
-                        <Text style={styles2.formTitle}>City</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'What city would you like to play in?'}
-                            placeholderTextColor={'#BFBFBF'}
-                            textAlign ='left'
-                            value={city}
-                            onChangeText={(text) => setCity(text)}
+                        <MainFormInput
+                            inputTitle='City'
+                            placeholder='What city are you going to play in?'
+                            input={city}
+                            setInput={(text) => setCity(text)}
+                            inputWidth={305}
                         />
                     </View>
                     <View style={{marginTop: 20, width: 305}}>
-                        <Text style={styles2.formTitle}>Court</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'What court are you going to play in?'}
-                            placeholderTextColor={'#BFBFBF'}
-                            textAlign ='left'
-                            value={court}
-                            onChangeText={(text) => setCourt(text)}
+                        <MainFormInput
+                            inputTitle='Court'
+                            placeholder='What court are you going to play in?'
+                            input={court}
+                            setInput={(text) => setCourt(text)}
+                            inputWidth={305}
                         />
                     </View>
                     <View style={{marginTop: 20, width: 305}}>
