@@ -13,7 +13,7 @@ import {
     pressNotification,
     deletNotification,
 } from '../../models/Notification';
-import {joinMatch, createMatch} from  '../../models/Match';
+import {joinMatch, createMatch} from '../../models/Match';
 
 
 // todo
@@ -133,15 +133,15 @@ const Notifications = () => {
                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
                     <TouchableHighlight onPress={() => {
                         deletNotification(props.item.id);
-                        //acceptedOrDenied(props.item, 'denied');
+                        // acceptedOrDenied(props.item, 'denied');
                     }} >
                         <Text style={{color: '#f67273', fontWeight: 'bold'}}>Deny</Text>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => {
-                        //uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
+                        // uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
                         props.function(); // add person to the match
                         deletNotification(props.item.id); // remove notification when added
-                        //acceptedOrDenied(props.item, 'accepted');
+                        // acceptedOrDenied(props.item, 'accepted');
                     }} >
                         <Text style={{color: '#00CEB4', fontWeight: 'bold'}}>Accept</Text>
                     </TouchableHighlight>
@@ -202,34 +202,6 @@ const Notifications = () => {
 
     return (
         <View>
-            <TouchableHighlight onPress={() => createNotification({
-                owner: 'BI4mzPVktAONN9NbQ6yZavXOrvq2', //anna
-                header: 'Join this! for real!!',
-                description: 'join augusts match',
-                detailText: 'lorem ipsum hehj hej max har goda pommes',
-                type: 'matchJoinRequest',
-                detailData: {
-                    id: 'vezBm0WiJAfTgqugRIlK', //match id
-                    owner: 'n6OzczPH8tY99YAW67i9hLmKvhx2', // August
-                },
-            })
-            }
-            >
-                <Text>Press to add notification</Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => createMatch({
-                owner: currentUser.uid,
-                city: 'Stockholm',
-                court: 'Ta inte bort, behövs för notifikations test!!!!!',
-                from: '23/06/2021',
-                to: '22/06/2022',
-                mode: 'look above!',
-            })
-            }
-            >
-                <Text>Press to add match</Text>
-            </TouchableHighlight>
             <FlatList
                 data={notificationData}
                 renderItem={RenderNotification}
