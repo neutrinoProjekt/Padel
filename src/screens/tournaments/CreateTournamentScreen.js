@@ -16,6 +16,7 @@ import {validateDate, validateRankInterval} from '../../validators/Parameters';
 import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
 import MainFormInput from '../../components/MainFormInput';
+import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
 
 
 const CreateTournamentScreen = ({navigation}) => {
@@ -41,11 +42,6 @@ const CreateTournamentScreen = ({navigation}) => {
     const [tournamentName, setTournamentName] = useState('');
 
     // Relevant constants
-    const minPlayers = 1;
-    const maxPlayers = 10;
-    const minRank = 10;
-    const maxRank = 100;
-    const step = maxRank % 9;
     const imageUrl = {uri: 'https://image.freepik.com/free-photo/golden-trophy-cup-white-background-with-clipping-path_35913-551.jpg'};
 
     // Date confirmation
@@ -175,9 +171,9 @@ const CreateTournamentScreen = ({navigation}) => {
                                 </View>
                             </View>
                             <ParameterSlider
-                                step={step}
-                                min={minRank}
-                                max={maxRank}
+                                step={STEP}
+                                min={MIN_RANK}
+                                max={MAX_RANK}
                                 value={rank1}
                                 onChange={(val) => {
                                     setRank1(val);
@@ -189,9 +185,9 @@ const CreateTournamentScreen = ({navigation}) => {
                                 disabled={!toggle1}
                             />
                             <View style={styling.textCon}>
-                                <Text style={styling.colorGrey}>{minRank}</Text>
+                                <Text style={styling.colorGrey}>{MIN_RANK}</Text>
                                 <Text style={styling.colorYellow}>{toggle1 ? rank1 : ''}</Text>
-                                <Text style={styling.colorGrey}>{maxRank}</Text>
+                                <Text style={styling.colorGrey}>{MAX_RANK}</Text>
                             </View>
                         </View>
 
@@ -207,9 +203,9 @@ const CreateTournamentScreen = ({navigation}) => {
                                 </View>
                             </View>
                             <ParameterSlider
-                                step={step}
-                                min={minRank}
-                                max={maxRank}
+                                step={STEP}
+                                min={MIN_RANK}
+                                max={MAX_RANK}
                                 value={rank2}
                                 onChange={(val) => {
                                     setRank2(val);
@@ -221,9 +217,9 @@ const CreateTournamentScreen = ({navigation}) => {
                                 disabled={!toggle2}
                             />
                             <View style={styling.textCon}>
-                                <Text style={colors.colorDisabled}>{minRank}</Text>
+                                <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
                                 <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
-                                <Text style={colors.colorDisabled}>{maxRank}</Text>
+                                <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
                             </View>
                         </View>
 
@@ -242,8 +238,8 @@ const CreateTournamentScreen = ({navigation}) => {
                             </View>
                             <ParameterSlider
                                 step={1}
-                                min={minPlayers}
-                                max={maxPlayers}
+                                min={MIN_PLAYERS}
+                                max={MAX_PLAYERS}
                                 value={players}
                                 onChange={(val) => setPlayers(val)}
                                 thumbTintColor={toggle3 ? colors.colorYellow : colors.colorDisabled}
@@ -252,9 +248,9 @@ const CreateTournamentScreen = ({navigation}) => {
                                 disabled={!toggle3}
                             />
                             <View style={styling.textCon}>
-                                <Text style={colors.colorDisabled}>{minPlayers}</Text>
+                                <Text style={colors.colorDisabled}>{MIN_PLAYERS}</Text>
                                 <Text style={colors.colorYellow}>{toggle3 ? players : ''}</Text>
-                                <Text style={styling.colorGrey}>{maxPlayers}</Text>
+                                <Text style={styling.colorGrey}>{MAX_PLAYERS}</Text>
                             </View>
                         </View>
 
