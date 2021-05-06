@@ -152,7 +152,6 @@ const TournamentsList = ({navigation}) => {
     const addTournament = () => {
         navigation.navigate('AddTournament');
     };
-    console.log(tournamentData);
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>

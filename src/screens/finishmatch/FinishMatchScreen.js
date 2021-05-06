@@ -22,15 +22,13 @@ const FinishMatchScreen = ({navigation}) => {
     const [player4, setPlayer4] = useState('');
 
 
-
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Finish Match', // header title
             headerTitleAlign: 'center',
             headerTitleStyle: {alignSelf: 'center'},
-        })
-
-    }, [navigation])
+        });
+    }, [navigation]);
 
     return (
         <SafeAreaProvider>
@@ -44,7 +42,7 @@ const FinishMatchScreen = ({navigation}) => {
                     input = {myresults}
                     setInput = {(text) => setPlayer1(text)}
                 />
-                
+
                 <MainFormInput
                     inputWidth = {'30%'}
                     inputTitle = {'Player 2 (username here)'}
