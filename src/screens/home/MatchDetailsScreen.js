@@ -7,7 +7,7 @@ import {Divider, Header, ListItem, Avatar, Image} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
-import createMatch from '../../models/Match';
+import {createMatch, joinMatch} from '../../models/Match';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
@@ -79,9 +79,9 @@ const styles3 = StyleSheet.create({
 });
 
 const MatchDetailsScreen = ({route, navigation}) => {
-    const {currentUserDoc} = useAuth();
+    const {currentUser} = useAuth();
 
-    const {owner, participants, location, date} = route.params;
+    const {owner, participants, location, date, id} = route.params;
 
     console.log('fawef');
     console.log(route.params);
@@ -178,6 +178,15 @@ const MatchDetailsScreen = ({route, navigation}) => {
                         <MainButton
                             title='Finish Match'
                             onPress={async () => alert('press')}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <MainButton
+                            title='Join Match'
+                            onPress={async () => {
+                                await joinMatch(id, currentUser.uid);
+                                navigation.goBack();
+                            }}
                         />
                     </TouchableOpacity>
                 </View>
