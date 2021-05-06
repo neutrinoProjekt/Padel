@@ -6,7 +6,7 @@ import OverlayMenu from '../components/OverlayMenu';
 
 
 const MatchListItem = ({owner, participants, navigation, matchData}) => {
-    const image = owner.photoURL === null ? 
+    const image = owner.photoURL === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: owner.photoURL};
 
@@ -27,7 +27,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                 />
                 <ListItem.Content>
                     <ListItem.Title
-                        style={styles.title}
+                        style={[styles.title, {marginTop: 10}]}
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
@@ -36,8 +36,8 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                     <ListItem.Subtitle style={styles.subTitle1}>
                         {owner.fullname}
                     </ListItem.Subtitle>
-                    <ListItem.Subtitle style={styles.subTitle2}>
-                        {owner.rating}
+                    <ListItem.Subtitle style={[styles.subTitle2, {paddingTop: 5}]}>
+                        {owner.rating+'\n'+matchData.mode}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity onPress={() => setOpen(true)}>

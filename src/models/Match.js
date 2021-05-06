@@ -1,14 +1,16 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
 import {getUserReference} from './User';
 import firebase from 'firebase/app';
 
 const collectionName = 'matches';
 
-export function subscribeMatch(id, onUpdate, onError) {    
+export function subscribeMatch(id, onUpdate, onError) {
     const formatDate = (from, to) => {
         const fromDate = new Date(from.seconds * 1000);
         const toDate = new Date(to.seconds * 1000);
-        
+
         const zeroPadd = (num) => (num < 10 ? '0' + num : num);
 
         const date = `${fromDate.getFullYear()}-${zeroPadd(fromDate.getMonth() + 1)}-${zeroPadd(fromDate.getDate())}`;
@@ -55,6 +57,6 @@ export function createMatch({
 
 export function joinMatch(matchId, playerId) {
     return db.collection(collectionName).doc(matchId).update({
-        players: firebase.firestore.FieldValue.arrayUnion(playerId)
+        players: firebase.firestore.FieldValue.arrayUnion(playerId),
     });
 }

@@ -6,6 +6,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
+import {getUser} from '../../models/User';
 import {
     subscribeNotifications,
     createNotification,
@@ -13,17 +14,12 @@ import {
     deletNotification,
 } from '../../models/Notification';
 
-//RAST:
-// 10:00
-// 11:00
-// 12:00
 
-//todo
-//allmän komponent för accept/deny
-//implementera notis för match join
-//implementera notis för tournament join
+// todo
+// implementera notis för match join
+// implementera notis för tournament join
 
-//refactora
+// refactora
 
 // renders base notification, same for all types
 const NotificationView = (inData) => {
@@ -46,7 +42,7 @@ const NotificationView = (inData) => {
                         <View style={{width: '60%'}}>
                             <Text style={styles.nHeader}>{item.header}</Text>
                             <View style={{marginTop: 10}}>
-                                <NotificationDetails enabled={extend} item={item}/>
+                                <NotificationDetails enabled={extend} item={item} currentUser={inData.currentUser}/>
                             </View>
                         </View>
                         <View style={{margin: 10, width: '10%', minWidth: 60}}>
@@ -63,6 +59,7 @@ const NotificationView = (inData) => {
 // this shoud be added to depending on the type
 const NotificationDetails = (props) => {
     const item = props.item;
+    const currentUser = props.currentUser;
 
     // when notification is expanded
     if (props.enabled) {
@@ -83,11 +80,11 @@ const NotificationDetails = (props) => {
             );
         case 'matchJoinRequest':
             return (
-                joinRequest({detailText: item.detailText, id: item.id, function: (()=>(console.log('text')))})
+                joinRequest({item: item, currentUser: currentUser, function: (()=>(console.log('text')))})
             );
         case 'tournamentJoinRequest':
             return (
-                joinRequest({detailText: item.detailText, id: item.id, function: (()=>(console.log('shoooo')))})
+                joinRequest({item: item, currentUser: currentUser, function: (()=>(console.log('shoooo')))})
             );
 
             // more to be added
@@ -109,43 +106,94 @@ const NotificationDetails = (props) => {
 };
 
 // måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
+// notification that allows user to accep or deny match/tournament
 const joinRequest = (props) => {
     return (
         <View>
-            <Text style={styles.nText}>{props.detailText}</Text>
+            <Text style={styles.nText}>{props.item.detailText}</Text>
             <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
                 <TouchableHighlight onPress={() => {
-                    deletNotification(props.id);
+                    deletNotification(props.item.id);
+                    acceptedOrDenied(props.item, props.currentUser, 'denied');
                 }} >
                     <Text style={{color: '#f67273', fontWeight: 'bold'}}>Deny</Text>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => {
                     //uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
                     props.function(); // add person to the match
-                    deletNotification(props.id); // remove notification when added
+                    deletNotification(props.item.id); // remove notification when added
+                    acceptedOrDenied(props.item, props.currentUser, 'accepted');
                 }} >
                     <Text style={{color: '#00CEB4', fontWeight: 'bold'}}>Accept</Text>
                 </TouchableHighlight>
             </View>
         </View>
-    );
+);
+};
+
+// notification that informs sender if the request was accepted or denied
+const acceptedOrDenied = (props, currentUser, reply) => {
+    // should be updated depending on match/tournament
+    let type = '';
+    switch (props.type) {
+    case 'matchJoinRequest':
+        type='Match';
+    case 'tournamentJoinRequest':
+        type='Tournament';
+    }
+
+    const [ownerId, setOwnerId] = useState({});
+
+
+     // get the owner  of the specific tournament
+     const updateOwner = async () => {
+        const tournamentinfo = await getTournament(props.detailData.id);
+        const ownerId= tournamentinfo.owner.split('/users/')[1];
+        setOwnerId(ownerId);
+    };
+
+    useEffect(()=> {
+        updateOwner();
+    }, []);
+
+    createNotification({
+        owner: ownerId, // the receiver
+        header: 'Request to join ' + type + ' was ' + reply, //tournament/match EXAMPLE: Request to join match was denied
+        description: 'Your request to join the ' + type + ' was ' + reply + ' by '+ currentUser.displayName,
+        detailText: null,
+        type: 'text',
+        typeDetails: {
+        },
+    });
 };
 
 // collect data from item obdject to send to NotificationView
-const RenderNotification = ({item}) => {
-    return (
-        <NotificationView item={item}/>
-    );
-};
+
 
 const Notifications = () => {
     const {currentUser} = useAuth();
     const [notificationData, setNotificationData] = useState();
+    const [userobject, setUserobject] = useState({});
+
+    const updateUserobject = async () => {
+        const user = await getUser(currentUser.uid);
+        setUserobject(user);
+    };
+
+    useEffect(()=> {
+        updateUserobject();
+    }, []);
 
     useEffect(() => {
         const unsubscribe = subscribeNotifications(currentUser.uid, setNotificationData);
         return () => unsubscribe();
     }, []);
+
+    const RenderNotification = ({item}) => {
+        return (
+            <NotificationView item={item} currentUser={userobject} />
+        );
+    };
 
     return (
         <View>

@@ -1,21 +1,40 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
 import {getUserReference} from './User';
 
 const collectionName = 'tournaments';
 
 export function subscribeTournament(id, onUpdate, onError) {
+    const formatDate = (date) => {
+        const convDate = new Date(date.seconds * 1000);
+        const zeroPadd = (num) => (num < 10 ? '0' + num : num);
+
+        date = `${convDate.getFullYear()}-${zeroPadd(convDate.getMonth() + 1)}-${zeroPadd(convDate.getDate())}`;
+        return date;
+    };
+
+    const formatLocation = (city) => (city);
+
+    const formatDocData = async (doc) => {
+        const data = doc.data();
+        data.owner = (await data.owner.get()).data();
+        data.id = doc.id;
+        data.date = formatDate(data.date);
+        data.location = formatLocation(data.city);
+        return data;
+    };
+
     const unsubscribe = db.collection(collectionName)
         .where('owner', '==', getUserReference(id))
-        .onSnapshot((snapshot) => {
-            const tournaments = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}));
+        .onSnapshot(async (snapshot) => {
+            const tournaments = await Promise.all(snapshot.docs.map(formatDocData));
             onUpdate(tournaments);
-        }); var onError;
+        }, onError);
     return unsubscribe;
 }
 
-//Fetch data for victory screen
-//will have to be updated
-export function getForvictory(id) {
+export function getTournament(id) {
     return db.collection(collectionName).doc(id).get()
         .then((u) => (u.data()));
 }
@@ -23,22 +42,18 @@ export function getForvictory(id) {
 export function createTournament({
     owner = null,
     city = null,
-    court = null,
-    from = null,
-    to = null,
     date = null,
     minRank = null,
     maxRank = null,
-    minPlayers = null}) {
+    minPlayers = null,
+    name = null,}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
         city,
-        court,
-        from,
-        to,
         date,
         minRank,
         maxRank,
         minPlayers,
+        name,
     });
 }
