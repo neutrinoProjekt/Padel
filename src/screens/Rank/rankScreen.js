@@ -6,7 +6,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import CardHeader from '../../components/CardHeader';
 import {getTopRated} from '../../models/User';
-import { Feather } from '@expo/vector-icons'; 
+import {Feather} from '@expo/vector-icons';
 
 // Front-end: (DONE DONE DONE)
 // global leaderboard (all the users)
@@ -75,9 +75,9 @@ const RenderPlacment = ({item}) => (
                 fontSize: 20,
             }}>
 
-            {item.fullname}
-            {/**should make this part green */}
-        </Text>
+                {item.fullname}
+                {/** should make this part green */}
+            </Text>
 
         </View>
 
@@ -91,16 +91,15 @@ const RenderPlacment = ({item}) => (
 );
 
 const rankScreen = ({navigation}) => {
-
     const [leaders, setLeaders] = useState({});
-    
+
     const updateLeaders = async () => {
-        console.log('updating leaders')
+        console.log('updating leaders');
         let leaders = await getTopRated();
         // add placement property
         leaders = leaders.map((profile, index) => ({...profile, placement: index + 1}));
-        setLeaders(leaders);   
-    }
+        setLeaders(leaders);
+    };
 
     useEffect(()=> {
         updateLeaders();
@@ -112,18 +111,17 @@ const rankScreen = ({navigation}) => {
             headerTitleAlign: 'center',
             headerTitleStyle: {alignSelf: 'center'},
             headerRight: () => (
-                <View style={{  paddingRight: 15}}>
-                    <Feather 
+                <View style={{paddingRight: 15}}>
+                    <Feather
                         onPress={updateLeaders}
-                        name="refresh-cw" 
+                        name="refresh-cw"
                         size={20}
                         color='#707070'
                     />
                 </View>
-            )
-        })
-
-    }, [navigation])
+            ),
+        });
+    }, [navigation]);
 
     return (
         <SafeAreaProvider>

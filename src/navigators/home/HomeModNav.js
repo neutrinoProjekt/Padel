@@ -8,12 +8,11 @@ import MatchDetailsScreen from '../../screens/home/MatchDetailsScreen';
 const ModalNavigator = createStackNavigator();
 
 const HomeModNav = () => {
-
     const globalHeaderStyle = {
         headerStyle: {backgroundColor: 'white'},
         headerTitleStyle: {color: '#707070'},
         headerTintColor: '#707070',
-    }
+    };
 
     return (
         <ModalNavigator.Navigator

@@ -6,12 +6,11 @@ import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
 const ModalNavigator = createStackNavigator();
 
 const PersonalModNav = () => {
-
     const globalHeaderStyle = {
         headerStyle: {backgroundColor: 'white'},
         headerTitleStyle: {color: '#707070'},
         headerTintColor: '#707070',
-    }
+    };
 
     return (
         <ModalNavigator.Navigator

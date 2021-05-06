@@ -14,27 +14,22 @@ export function subscribeNotifications(id, onUpdate, onError) {
 }
 
 export function pressNotification(id) {
-    db.collection('notifications').doc(id)
+    return db.collection('notifications').doc(id)
         .update({isnew: false});
-    return null;
 }
 
 export function deletNotification(id) {
-    db.collection('notifications').doc(id)
+    return db.collection('notifications').doc(id)
         .delete();
-    return null;
 }
-
 
 export function uppdateNotification({
     description = null,
     detailText = null},
-    id) {
-    db.collection('notifications').doc(id)
+id) {
+    return db.collection('notifications').doc(id)
         .update({detailText: detailText, description: description, type: 'text'});
-    return null;
 }
-
 
 export function createNotification({
     type = 'default',

@@ -1,6 +1,5 @@
 import {db} from '../modules/firebase/firebase';
 
-
 const INITIAL_RATING = 1000;
 const collectionName = 'users';
 
@@ -29,4 +28,8 @@ export function getTopRated() {
 
 export function getUserReference(id) {
     return db.doc(`${collectionName}/${id}`);
+}
+
+export function deleteUserData(id) {
+    return db.collection(collectionName).doc(id).delete();
 }
