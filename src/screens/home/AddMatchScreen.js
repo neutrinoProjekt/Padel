@@ -113,7 +113,7 @@ const AddMatchScreen = ({navigation}) => {
     };
     // new Date(year, month, day, hours, minutes).toISOString();
     // toIsoF
-   /* const toIso = (time) => {
+    /* const toIso = (time) => {
 
     }*/
 
@@ -147,12 +147,12 @@ const AddMatchScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
-        let mode = single ? 'single' : 'double';
+        const mode = single ? 'single' : 'double';
 
         // TODO fix this mess
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
-        
+
         createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
         navigation.goBack();
     };

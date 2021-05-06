@@ -13,12 +13,10 @@ const YourMatches = ({navigation}) => {
 
     const {currentUser} = useAuth();
 
-    
     useEffect(() => {
         const unsubscribe = subscribeMatch(currentUser.uid, setMatchData);
         return () => unsubscribe();
     }, []);
-    
 
     const addMatch = () => {
         navigation.navigate('AddMatchScreen');
