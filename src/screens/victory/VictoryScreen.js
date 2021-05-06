@@ -4,7 +4,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {FlatList} from 'react-native-gesture-handler';
 import {ProgressBar} from 'react-native-paper';
 import {Ionicons} from '@expo/vector-icons';
-import {getForvictory} from '../../models/Tournament';
+import {getTournament} from '../../models/Tournament';
 import {getUser} from '../../models/User';
 
 
