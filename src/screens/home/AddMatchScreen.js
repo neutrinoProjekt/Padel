@@ -18,6 +18,7 @@ import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, STEP} from '../../config';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import ParameterSlider from '../../components/ParameterSlider';
+import {LogBox} from 'react-native';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -180,6 +181,11 @@ const AddMatchScreen = ({navigation}) => {
             });
         navigation.goBack();
     };
+
+    // Ignore native driver message for now...
+    useEffect(() => {
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+    }, []);
 
     return (
         <Modal

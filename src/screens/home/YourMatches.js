@@ -6,6 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
 import {subscribeMatch} from '../../models/Match';
 import ExpandableItem from '../../components/ExpandableItem';
+import MatchListItem from '../../components/MatchListItem';
 
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
@@ -19,6 +20,7 @@ const YourMatches = ({navigation}) => {
     const addMatch = () => {
         navigation.navigate('AddMatchScreen');
     };
+    console.log(matchData);
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
@@ -28,10 +30,13 @@ const YourMatches = ({navigation}) => {
                             key={match.id}
                             t1={match.owner.fullname}
                             t2={'Match'}
+                            t3={`Min rank: ${match.minRank}\nMax rank: ${match.maxRank}`}
                             imgSource={match.owner.photoURL}
                             date={match.date}
                             location={match.location}
                             participants={match.participants}
+                            matchData={match}
+                            navigation={navigation}
                         />
                     ))
                 }

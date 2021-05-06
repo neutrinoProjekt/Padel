@@ -26,6 +26,8 @@ const SearchResults = ({navigation, route}) => {
                             date={match.date}
                             location={match.location}
                             participants={match.participants}
+                            matchData={match}
+                            navigation={navigation}
                         />
                     ))
                 }

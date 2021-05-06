@@ -34,7 +34,7 @@ const TournamentsList = ({navigation}) => {
                             imgSource={tournament.owner.photoURL}
                             date={tournament.date}
                             location={tournament.location}
-                            participants={'You, (todo: some participants), and x others'}
+                            participants={null}
                         />
                     ))
                 }
