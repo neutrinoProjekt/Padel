@@ -9,7 +9,6 @@ import {
     deletNotification,
     uppdateNotification,
 } from '../../models/Notification';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {joinMatch} from '../../models/Match';
 
 // renders base notification, same for all types
@@ -148,28 +147,28 @@ const Notifications = () => {
     }, []);
 
     return (
-          <View>
-              <TouchableHighlight onPress={() => createNotification({
-                  owner: currentUser.uid,
-                  header: 'Gotta request to join',
-                  description: 'A request to join! now?',
-                  image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
-                  detailText: 'urban would like to join your match!',
-                  type: 'matchJoinRequest',
-                  typeDetails: {
-                      joinerId: 'temptemp',
-                  },
-              })}
-              >
-                  <Text>Press to add notification</Text>
-              </TouchableHighlight>
-              <FlatList
-                  data={notificationData}
-                  renderItem={RenderNotification}
-                  keyExtractor={(item) => item.id}
-              />
-              <Text style={styles.nEnd}>No more notifications</Text>
-          </View>
+        <View>
+            <TouchableHighlight onPress={() => createNotification({
+                owner: currentUser.uid,
+                header: 'Gotta request to join',
+                description: 'A request to join! now?',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Queen_Elizabeth_II_March_2015.jpg/800px-Queen_Elizabeth_II_March_2015.jpg',
+                detailText: 'urban would like to join your match!',
+                type: 'matchJoinRequest',
+                typeDetails: {
+                    joinerId: 'temptemp',
+                },
+            })}
+            >
+                <Text>Press to add notification</Text>
+            </TouchableHighlight>
+            <FlatList
+                data={notificationData}
+                renderItem={RenderNotification}
+                keyExtractor={(item) => item.id}
+            />
+            <Text style={styles.nEnd}>No more notifications</Text>
+        </View>
     );
 };
 

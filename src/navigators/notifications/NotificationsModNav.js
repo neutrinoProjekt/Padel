@@ -5,12 +5,11 @@ import Notifications from '../../screens/notifications/Notifications';
 const ModalNavigator = createStackNavigator();
 
 const NotificationsModNav = () => {
-
     const globalHeaderStyle = {
         headerStyle: {backgroundColor: 'white'},
         headerTitleStyle: {color: '#707070'},
         headerTintColor: '#707070',
-    }
+    };
 
     return (
         <ModalNavigator.Navigator
