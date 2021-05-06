@@ -1,17 +1,33 @@
-import React from 'react';
-import {View} from 'react-native';
+/* eslint-disable max-len */
+import React, { useState } from 'react';
+import {View, StyleSheet} from 'react-native';
+import {ListItem, Divider, Avatar} from 'react-native-elements';
+import {TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
+import {Ionicons} from '@expo/vector-icons';
+import OverlayMenu from './OverlayMenu';
 
-const ListItem = (props) => {
+/**
+ * @param {*} props {t1, t2, t3, participants, date, location}
+ * t1 - Main title (Dark grey)
+ * t2 - Subtitle (Grey)
+ * t3 - Subtitle (Main color)
+ * participants - list of participants
+ * date - date (in expandable view)
+ * location - location (in expandable view)
+ * @return {*} An expandable item
+ */
+
+const ExpandableItem = (props) => {
     const [isExpanded, setExpanded] = useState(false);
     const [isOpen, setOpen] = useState(false);
-    const image = matchData.owner.photoURL === null ?
+    const image = props.imgSource === null ?
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-        {uri: matchData.owner.photoURL};
+        {uri: props.imgSource};
 
     const closeMenu =() => {
         setOpen(false);
     };
-    // t1, t2, t3
+
     return (
         <View>
             <TouchableHighlight onPress={() => {
@@ -64,7 +80,7 @@ const ListItem = (props) => {
                             color='#00CEB4'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-                                {props.participants}
+                            {props.participants}
                         </ListItem.Subtitle>
                     </View>
                 </ListItem.Content>
@@ -129,7 +145,7 @@ const ListItem = (props) => {
     );
 };
 
-export default ListItem;
+export default ExpandableItem;
 
 const styles = StyleSheet.create({
     container: {
