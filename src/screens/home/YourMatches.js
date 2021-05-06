@@ -11,7 +11,6 @@ const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
     const {currentUser} = useAuth();
 
-    console.log(matchData);
     useEffect(() => {
         const unsubscribe = subscribeMatch(currentUser.uid, setMatchData);
         return () => unsubscribe();
@@ -47,7 +46,6 @@ const YourMatches = ({navigation}) => {
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
-
     );
 };
 

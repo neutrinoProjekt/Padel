@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useState} from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import MatchListItem from '../../components/MatchListItem';
+import ExpandableItem from '../../components/ExpandableItem';
 
 const SearchResults = ({navigation, route}) => {
     const { matchData } = route.params;
@@ -18,12 +18,14 @@ const SearchResults = ({navigation, route}) => {
             <ScrollView style={styles.container}>
                 {
                     matchData.map((match) => (
-                        <MatchListItem
+                        <ExpandableItem
                             key={match.id}
-                            matchData={match}
-                            owner={match.owner}
+                            t1={match.owner.fullname}
+                            t2={'Match'}
+                            imgSource={match.owner.photoURL}
+                            date={match.date}
+                            location={match.location}
                             participants={match.participants}
-                            navigation={navigation}
                         />
                     ))
                 }
