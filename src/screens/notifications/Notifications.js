@@ -9,6 +9,7 @@ import {
     deletNotification,
     uppdateNotification,
 } from '../../models/Notification';
+import {joinMatch} from '../../models/Match';
 
 // renders base notification, same for all types
 const NotificationView = (inData) => {
@@ -105,17 +106,22 @@ const NotificationDetails = (props) => {
 
 // måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
 const matchJoinRequest = (item) => {
+    const {currentUser} = useAuth();
+
     return (
         <View>
             <Text style={styles.nText}>{item.detailText}</Text>
             <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
                 <TouchableHighlight onPress={() => {
-                    uppdateNotification({description: 'Denied!', detailText: 'You denied the request'}, item.id);
+                    deletNotification(item.id);
                 }} >
                     <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Deny</Text>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={() => {
-                    uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
+                    joinMatch(item.detailData.matchId, currentUser.uid)
+                        .then(() => deletNotification(item.id));
+                    
+                    //uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
                 }} >
                     <Text style={{color: '#707070', fontWeight: 'bold', fontSize: '1.5rem'}}>Accept</Text>
                 </TouchableHighlight>

@@ -14,6 +14,7 @@ import DateTimePicker from '../../components/DateTimePicker';
 import {validateTimeInterval, validateDate} from '../../validators/Parameters';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
+import {createNotification} from '../../models/Notification';
 import MainFormInput from '../../components/MainFormInput';
 
 const AddMatchScreen = ({navigation}) => {
@@ -147,8 +148,11 @@ const AddMatchScreen = ({navigation}) => {
         // TODO fix this mess
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
-
-        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
+        
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode})
+            .then((match) => {
+                createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: 'i1yjmqDKHPggHzOmt6jAxhNdXJe2', description: '', image: '', detailText: '', detailData: {matchId: match.id}});
+            })
         navigation.goBack();
     };
 
