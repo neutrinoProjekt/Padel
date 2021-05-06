@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
