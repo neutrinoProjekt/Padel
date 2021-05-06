@@ -27,7 +27,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                 />
                 <ListItem.Content>
                     <ListItem.Title
-                        style={styles.title}
+                        style={[styles.title, {marginTop: 10}]}
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
@@ -36,8 +36,8 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                     <ListItem.Subtitle style={styles.subTitle1}>
                         {owner.fullname}
                     </ListItem.Subtitle>
-                    <ListItem.Subtitle style={styles.subTitle2}>
-                        {owner.rating}
+                    <ListItem.Subtitle style={[styles.subTitle2, {paddingTop: 5}]}>
+                        {owner.rating+'\n'+matchData.mode}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity onPress={() => setOpen(true)}>

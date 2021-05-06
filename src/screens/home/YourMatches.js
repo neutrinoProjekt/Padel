@@ -6,11 +6,9 @@ import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
 import {subscribeMatch} from '../../models/Match';
-import {getUser} from '../../models/User';
 
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
-
     const {currentUser} = useAuth();
 
     useEffect(() => {
@@ -44,7 +42,6 @@ const YourMatches = ({navigation}) => {
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
-
         </SafeAreaView>
 
     );

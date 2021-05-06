@@ -9,7 +9,6 @@ import {
     deletNotification,
     uppdateNotification,
 } from '../../models/Notification';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 // renders base notification, same for all types
 const NotificationView = (inData) => {

@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
 import {getUserReference} from './User';
 import firebase from 'firebase/app';
