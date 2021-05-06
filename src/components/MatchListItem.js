@@ -4,14 +4,9 @@ import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
 import OverlayMenu from '../components/OverlayMenu';
 
-<<<<<<< HEAD
-const MatchListItem = ({match}) => {
-    const image = match.owner.photoURL === null ?
-=======
 
 const MatchListItem = ({owner, participants, navigation, matchData}) => {
     const image = owner.photoURL === null ?
->>>>>>> origin/main
         {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
         {uri: match.owner.photoURL};
 
@@ -36,15 +31,6 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                         numberOfLines={1}
                         ellipsizeMode='tail'
                     >
-<<<<<<< HEAD
-                        Created By: {match.owner.fullname}
-                    </ListItem.Title>
-                    <ListItem.Subtitle style={styles.subTitle1}>
-                        0735427456
-                    </ListItem.Subtitle>
-                    <ListItem.Subtitle style={styles.subTitle2}>
-                        Rating: 22
-=======
                         Created By:
                     </ListItem.Title>
                     <ListItem.Subtitle style={styles.subTitle1}>
@@ -52,7 +38,6 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                     </ListItem.Subtitle>
                     <ListItem.Subtitle style={[styles.subTitle2, {paddingTop: 5}]}>
                         {owner.rating+'\n'+matchData.mode}
->>>>>>> origin/main
                     </ListItem.Subtitle>
                 </ListItem.Content>
                 <TouchableOpacity onPress={() => setOpen(true)}>
@@ -82,11 +67,7 @@ const MatchListItem = ({owner, participants, navigation, matchData}) => {
                             color='#707070'
                         />
                         <ListItem.Subtitle style={styles.subTitle1}>
-<<<<<<< HEAD
-                            {match.date}, {match.from}-{match.to}
-=======
                             {matchData.date}
->>>>>>> origin/main
                         </ListItem.Subtitle>
                     </View>
                     <View style={styles.rowContainer}>
