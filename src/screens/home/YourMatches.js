@@ -19,7 +19,7 @@ const YourMatches = ({navigation}) => {
     const addMatch = () => {
         navigation.navigate('AddMatchScreen');
     };
-    console.log(matchData);
+    
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
