@@ -28,6 +28,7 @@ const TournamentsList = ({navigation}) => {
                 {
                     tournamentData.map((tournament) => (
                         <ExpandableItem
+                            key={tournament.id}
                             t1={tournament.name}
                             t2='Tournament'
                             t3={`Min rank: ${tournament.minRank}\nMax rank: ${tournament.maxRank}`}
