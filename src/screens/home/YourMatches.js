@@ -6,7 +6,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
 import {subscribeMatch} from '../../models/Match';
 import ExpandableItem from '../../components/ExpandableItem';
-import MatchListItem from '../../components/MatchListItem';
 
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
