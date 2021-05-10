@@ -6,6 +6,7 @@ const MainFormInput = (props) => {
         <View>
             <Text style={styles.formTitle}>{props.inputTitle}</Text>
             <TextInput
+                keyboardType={props.keyboardType}
                 style={styles.input}
                 width={props.inputWidth}
                 placeholder={props.placeholder}
