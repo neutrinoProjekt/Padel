@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View}
     from 'react-native';
-import MatchListItem from '../../components/MatchListItem';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useAuth} from '../../contexts/auth';
 import {subscribeMatch} from '../../models/Match';
-import {getUser} from '../../models/User';
+import ExpandableItem from '../../components/ExpandableItem';
 
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
-
     const {currentUser} = useAuth();
 
     useEffect(() => {
@@ -26,11 +24,13 @@ const YourMatches = ({navigation}) => {
             <ScrollView style={styles.container}>
                 {
                     matchData.map((match) => (
-                        <MatchListItem
-                            navigation={navigation}
+                        <ExpandableItem
                             key={match.id}
-                            owner={match.owner}
-                            matchData={match}
+                            t1={match.owner.fullname}
+                            t2={'Match'}
+                            imgSource={match.owner.photoURL}
+                            date={match.date}
+                            location={match.location}
                             participants={match.participants}
                         />
                     ))
@@ -44,9 +44,7 @@ const YourMatches = ({navigation}) => {
                     <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
                 </TouchableOpacity>
             </View>
-
         </SafeAreaView>
-
     );
 };
 

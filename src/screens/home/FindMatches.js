@@ -4,76 +4,90 @@ import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
 import DateTimePicker from '../../components/DateTimePicker';
+import {getMatches} from '../../models/Match';
+import {useAuth} from '../../contexts/auth';
 
-const Search = ({navigation}) => {
+const FindMatches = ({navigation}) => {
+    const {currentUser} = useAuth();
+
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
-    const [date, setDate] = useState('yyyy-mm-dd');
-    const [timeFrom, setTimeFrom] = useState('hh:mm');
-    const [timeTo, setTimeTo] = useState('hh:mm');
+    const [dateFrom, setDateFrom] = useState('yyyy-mm-dd');
+    const [dateTo, setDateTo] = useState('yyyy-mm-dd');
+    const [errorMsg, setErrorMsg] = useState('');
 
-    // Date confirmation
-    const handleDateConfirm = (date) => {
-        date = getDate(date);
-        setDate(date);
+    // Date confirmation (From)
+    const handleDateFrom = (str) => {
+        setDateFrom(getTime(str));
     };
 
-    // Time confirmation (From)
-    const handleTimeFrom = (str) => {
-        setTimeFrom(getTime(str));
-    };
-
-    // Time confirmation (To)
-    const handleTimeTo = (str) => {
-        setTimeTo(getTime(str));
-    };
-
-    // Getters
-    const getTime = (time) => {
-        return time.toString().match(/\d\d:\d\d/)[0];
+    // Date confirmation (To)
+    const handleDateTo = (str) => {
+        setDateTo(getTime(str));
     };
 
     const getDate = (date) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
-    /* Local date picker component*/
-    const DatePicker = () => {
+    /* Local date picker component (From)*/
+    const DateFrom = () => {
         return (
             <DateTimePicker
-                placeholder={date}
-                onConfirm={handleDateConfirm}
-                subHeader='Date'
+                placeholder={dateFrom}
+                onConfirm={handleDateFrom}
+                subHeader='Date from'
                 mode='date'
-                width={305}
-            />
-        );
-    };
-
-    /* Local time picker components*/
-    const TimeFrom = () => {
-        return (
-            <DateTimePicker
-                placeholder={timeFrom}
-                onConfirm={handleTimeFrom}
-                subHeader='From'
-                mode='time'
                 width={145}
             />
         );
     };
 
-    const TimeTo = () => {
+    /* Local date picker component (To)*/
+    const DateTo = () => {
         return (
             <DateTimePicker
-                placeholder={timeTo}
-                onConfirm={handleTimeTo}
-                subHeader='To'
-                mode = 'time'
+                placeholder={dateTo}
+                onConfirm={handleDateTo}
+                subHeader='Date to'
+                mode='date'
                 width={145}
             />
         );
+    };
+
+    /* Posts match if parameters are valid */
+    const postMatch = () => {
+        // Validate City input (todo: actually validate that it's a city)
+        if (city == '') {
+            setErrorMsg('Please enter a city');
+            return;
+        }
+
+        // Validate paddle hall (todo: actually validate that it's a paddle hall)
+        if (court == '') {
+            setErrorMsg('Please enter a court');
+            return;
+        }
+        // Validate date (todo: fix same date)
+        if (dateFrom == 'yyyy-mm-dd' || dateTo == 'yyyy-mm-dd') {
+            setErrorMsg('Please suggest a date');
+            return;
+        } else if (!validateDate(date)) {
+            setErrorMsg('Date has already passed');
+            return;
+        }
+
+        // Validate time interval
+        if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
+            setErrorMsg('Please enter a time interval');
+            return;
+        } else if (!validateTimeInterval(timeFrom, timeTo)) {
+            setErrorMsg('Invalid time interval');
+            return;
+        }
+        navigation.navigate('SearchResults', {matchData});
     };
 
     return (
@@ -98,27 +112,28 @@ const Search = ({navigation}) => {
                     </MainFormInput>
                 </View>
                 {/* Date picker*/}
-                <View style={styles.inputContainer}>
-                    <DatePicker />
-                </View>
                 <View style={styles.rowContainer}>
                     <View style={{marginRight: 10}}>
-                        <TimeFrom />
+                        <DateFrom />
                     </View>
-                    <TimeTo />
+                    <DateTo />
                 </View>
             </ScrollView>
             <View style={styles.actionButtonContainer}>
                 <MainButton
                     title='Search'
-                    onPress={() => navigation.navigate('Matches')}
+                    onPress={async () => {
+                        // TODO might mess up if you spam the button
+                        const matchData = await getMatches(currentUser.uid);
+                        navigation.navigate('SearchResults', {matchData});
+                    }}
                 />
             </View>
         </SafeAreaView>
     );
 };
 
-export default Search;
+export default FindMatches;
 
 const styles = StyleSheet.create({
     safeContainer: {

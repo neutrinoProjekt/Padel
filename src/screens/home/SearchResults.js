@@ -1,23 +1,34 @@
-import React, {useLayoutEffect} from 'react';
-import {StyleSheet, Text, SafeAreaView} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import BackButton from '../../components/BackButton';
+import ExpandableItem from '../../components/ExpandableItem';
 
-const SearchResults = ({navigation}) => {
+const SearchResults = ({navigation, route}) => {
+    const { matchData } = route.params;
+
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: 'Search',
+            title: 'Search Results',
             headerBackTitle: 'Find Matches',
         });
     }, [navigation]);
 
     return (
-        <SafeAreaView style={styles.safeContainer}>
-            <ScrollView style={styles.scrollContainer}>
-                <BackButton
-                    title='Back to search'
-                    onPress={() => navigation.goBack()}
-                />
+        <SafeAreaView>
+            <ScrollView style={styles.container}>
+                {
+                    matchData.map((match) => (
+                        <ExpandableItem
+                            key={match.id}
+                            t1={match.owner.fullname}
+                            t2={'Match'}
+                            imgSource={match.owner.photoURL}
+                            date={match.date}
+                            location={match.location}
+                            participants={match.participants}
+                        />
+                    ))
+                }
             </ScrollView>
         </SafeAreaView>
     );

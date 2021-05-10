@@ -1,20 +1,23 @@
 /* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
 import {
-    StyleSheet, View, Modal, TextInput,
+    StyleSheet, View, Modal,
     TouchableOpacity, SafeAreaView, Text,
+    ScrollView,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
 import {createMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import DateTimePicker from '../../components/DateTimePicker';
-import {validateTimeInterval, validateDate} from '../styling/Validators';
+import {validateTimeInterval, validateDate, validateRankInterval} from '../../validators/Parameters';
 import RadioButton from '../../components/RadioButton';
 import {colors} from './../styling/Colors';
-import {getUser} from '../../models/User';
+import MainFormInput from '../../components/MainFormInput';
+import {MAX_RANK, MIN_RANK, STEP} from '../../config';
+import ToggleSwitch from '../../components/ToggleSwitch';
+import ParameterSlider from '../../components/ParameterSlider';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -28,6 +31,14 @@ const AddMatchScreen = ({navigation}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [single, setSingle] = useState(true);
     const [double, setDouble] = useState(false);
+    const [rank1, setRank1] = useState(MIN_RANK);
+    const [rank2, setRank2] = useState(MIN_RANK);
+    const [rankColor, setRankColor] = useState(colors.colorYellow);
+
+
+    // States for switches
+    const [toggle1, setToggle1] = useState(false);
+    const [toggle2, setToggle2] = useState(false);
 
     // parameters in iso format
     const [dateIso, setDateIso] = useState('');
@@ -37,7 +48,7 @@ const AddMatchScreen = ({navigation}) => {
     // Clear error messages
     useEffect(() => {
         setErrorMsg('');
-    }, [date, timeFrom, timeTo, city, court]);
+    }, [date, timeFrom, timeTo, city, court, rank1, rank2]);
 
 
     /* Parameter handlers */
@@ -63,6 +74,15 @@ const AddMatchScreen = ({navigation}) => {
                 <Text style={{fontWeight: 'bold', fontSize: 16, color: '#707070'}}>Cancel</Text>
             </TouchableOpacity>
         );
+    };
+
+    // Set rank slider color
+    const setRankSliderColor = () => {
+        if (validateRankInterval(rank1, rank2) || !toggle2) {
+            setRankColor(colors.colorYellow);
+        } else {
+            setRankColor('red');
+        };
     };
 
     /* Local date picker component*/
@@ -111,14 +131,15 @@ const AddMatchScreen = ({navigation}) => {
     const getDate = (date) => {
         return new Date(date).toISOString().split('T')[0];
     };
-    // new Date(year, month, day, hours, minutes).toISOString();
-    // toIsoF
-    /* const toIso = (time) => {
-
-    }*/
 
     /* Posts match if parameters are valid */
     const postMatch = () => {
+        // Validate rank interval
+        if (toggle1 && toggle2 && !validateRankInterval(rank1, rank2)) {
+            setErrorMsg('Invalid rank interval');
+            return;
+        };
+
         // Validate City input (todo: actually validate that it's a city)
         if (city == '') {
             setErrorMsg('Please enter a city');
@@ -147,13 +168,16 @@ const AddMatchScreen = ({navigation}) => {
             setErrorMsg('Invalid time interval');
             return;
         }
-        const mode = single ? 'single' : 'double';
+        const mode = single ? 'Single' : 'Double';
 
         // TODO fix this mess
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
 
-        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode});
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode, minRank: rank1, maxRank: rank2})
+            .then((match) => {
+                createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: 'i1yjmqDKHPggHzOmt6jAxhNdXJe2', description: '', image: '', detailText: '', detailData: {matchId: match.id}});
+            });
         navigation.goBack();
     };
 
@@ -162,80 +186,153 @@ const AddMatchScreen = ({navigation}) => {
             presentationStyle='pageSheet'
             animationType='slide'
         >
-            <SafeAreaView style={styles2.safeContainer}>
+            <SafeAreaView>
                 <CardHeader
                     centerHeader='Add Match'
                     leftComponent={leftComponent}
                 />
-                <ScrollView style={styles2.scrollContainer}>
-                    <View style={{marginTop: 30, width: 305}}>
-                        <Text style={styles2.formTitle}>City</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'What city would you like to play in?'}
-                            placeholderTextColor={'#BFBFBF'}
-                            textAlign ='left'
-                            value={city}
-                            onChangeText={(text) => setCity(text)}
-                        />
-                    </View>
-                    <View style={{marginTop: 20, width: 305}}>
-                        <Text style={styles2.formTitle}>Court</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={'What court are you going to play in?'}
-                            placeholderTextColor={'#BFBFBF'}
-                            textAlign ='left'
-                            value={court}
-                            onChangeText={(text) => setCourt(text)}
-                        />
-                    </View>
-                    <View style={{marginTop: 20, width: 305}}>
-                        <DatePicker />
-                    </View>
-                    <View style={styles2.rowContainer}>
-                        <View
-                            style={{marginTop: 10,
-                                width: 145,
-                                marginRight: 10}}
-                        >
-                            <TimeFrom />
+                <ScrollView>
+                    <View style={{alignItems: 'center', marginBottom: 100}}>
+                        {/* City*/}
+                        <View style={{marginTop: 30, width: 305}}>
+                            <MainFormInput
+                                inputTitle='City'
+                                placeholder='What city are you going to play in?'
+                                input={city}
+                                setInput={(text) => setCity(text)}
+                                inputWidth={305}
+                            />
                         </View>
-                        <View style={{marginTop: 10, width: 145}}>
-                            <TimeTo />
+
+                        {/* Court*/}
+                        <View style={{marginTop: 20, width: 305}}>
+                            <MainFormInput
+                                inputTitle='Court'
+                                placeholder='What court are you going to play in?'
+                                input={court}
+                                setInput={(text) => setCourt(text)}
+                                inputWidth={305}
+                            />
                         </View>
-                    </View>
-                    <View style={{paddingTop: 10}}>
-                        <Text style={styles2.formTitle}>Mode</Text>
-                        <RadioButton
-                            onClick={() => {
-                                setSingle(true); setDouble(false);
-                            }}
-                            size={24}
-                            color={single ? colors.signature : 'black'}
-                            selected={single}
-                            label='Single'
-                        />
-                        <RadioButton
-                            onClick={() => {
-                                setDouble(true); setSingle(false);
-                            }}
-                            size={24}
-                            color={double ? colors.signature : 'black'}
-                            selected={double}
-                            label='Double'
-                        />
+
+                        {/* Date picker*/}
+                        <View style={{marginTop: 20, width: 305}}>
+                            <DatePicker />
+                        </View>
+
+                        {/* Time pickers*/}
+                        <View style={styles2.rowContainer}>
+                            <View
+                                style={{marginTop: 10,
+                                    width: 145,
+                                    marginRight: 10}}
+                            >
+                                <TimeFrom />
+                            </View>
+                            <View style={{marginTop: 10, width: 145}}>
+                                <TimeTo />
+                            </View>
+                        </View>
+
+                        {/* Minimum Rank Slider*/}
+                        <View style={{marginTop: 20}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                    <Text>Minimum rank</Text>
+                                </View>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <ToggleSwitch
+                                        onValueChange={(val) => setToggle1(val)}
+                                        value={toggle1}/>
+                                </View>
+                            </View>
+                            <ParameterSlider
+                                step={STEP}
+                                min={MIN_RANK}
+                                max={MAX_RANK}
+                                value={rank1}
+                                onChange={(val) => {
+                                    setRank1(val);
+                                    setRankSliderColor();
+                                }}
+                                thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
+                                maxTrackColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
+                                minTrackColor={toggle1 ? rankColor : colors.colorDisabled}
+                                disabled={!toggle1}
+                            />
+                            <View style={styles2.textCon}>
+                                <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
+                                <Text style={colors.colorDisabled}>{toggle1 ? rank1 : ''}</Text>
+                                <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
+                            </View>
+                        </View>
+
+                        {/* Maximum rank slider */}
+                        <View style={{paddingTop: 10}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                    <Text>Maximum rank</Text>
+                                </View>
+                                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                    <ToggleSwitch onValueChange={(val) => setToggle2(val)} value={toggle2}/>
+                                </View>
+                            </View>
+                            <ParameterSlider
+                                step={STEP}
+                                min={MIN_RANK}
+                                max={MAX_RANK}
+                                value={rank2}
+                                onChange={(val) => {
+                                    setRank2(val);
+                                    setRankSliderColor();
+                                }}
+                                thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                                maxTrackColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
+                                minTrackColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                                disabled={!toggle2}
+                            />
+                            <View style={styles2.textCon}>
+                                <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
+                                <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
+                                <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
+                            </View>
+                        </View>
+
+                        {/* Mode selector*/}
+                        <View style={{paddingTop: 20}}>
+                            <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Mode</Text>
+                            <RadioButton
+                                onClick={() => {
+                                    setSingle(true); setDouble(false);
+                                }}
+                                size={24}
+                                color={single ? colors.signature : 'black'}
+                                selected={single}
+                                label='Single'
+                            />
+                            <RadioButton
+                                onClick={() => {
+                                    setDouble(true); setSingle(false);
+                                }}
+                                size={24}
+                                color={double ? colors.signature : 'black'}
+                                selected={double}
+                                label='Double'
+                            />
+                        </View>
+
+                        {/* Post match button*/}
+                        <View style={styles2.actionButtonContainer}>
+                            <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
+                            <TouchableOpacity>
+                                <MainButton
+                                    title='Post Match'
+                                    onPress={postMatch}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </ScrollView>
-                <View style={styles2.actionButtonContainer}>
-                    <Text style={[styles.error, {paddingTop: 30}]}>{errorMsg}</Text>
-                    <TouchableOpacity>
-                        <MainButton
-                            title='Post Match'
-                            onPress={postMatch}
-                        />
-                    </TouchableOpacity>
-                </View>
             </SafeAreaView>
         </Modal>
     );
@@ -247,6 +344,7 @@ const styles2 = StyleSheet.create({
     safeContainer: {
         flex: 1,
         alignItems: 'center',
+        backgroundColor: 'white',
     },
     scrollContainer: {
         backgroundColor: 'white',
@@ -263,13 +361,15 @@ const styles2 = StyleSheet.create({
     },
     actionButtonContainer: {
         flex: 1,
-        position: 'absolute',
-        bottom: 70,
     },
     formTitle: {
         paddingBottom: 10,
         fontWeight: 'bold',
         color: '#707070',
         fontSize: 12,
+    },
+    textCon: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
 });
