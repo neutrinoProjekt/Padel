@@ -4,12 +4,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
 import DateTimePicker from '../../components/DateTimePicker';
-import {getMatches2} from '../../models/Match';
-import {useAuth} from '../../contexts/auth';
+import {getMatches} from '../../models/Match';
 
 const FindMatches = ({navigation}) => {
-    const {currentUser} = useAuth();
-
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
@@ -133,7 +130,7 @@ const FindMatches = ({navigation}) => {
                         console.log(from);
                         console.log(to);
                         const parameters = {court, city, from, to};
-                        const matchData = await getMatches2(parameters);
+                        const matchData = await getMatches(parameters);
                         if (matchData.length == 0) {
                             setErrorMsg('No matches match your search criteria');
                             return;
