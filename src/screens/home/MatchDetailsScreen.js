@@ -1,14 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-    StyleSheet, View, Modal, TextInput,
-    TouchableOpacity, SafeAreaView, Text, Pressable,
+    StyleSheet, View, Modal,
+    TouchableOpacity, SafeAreaView, Text, ScrollView,
 } from 'react-native';
-import {Divider, Header, ListItem, Avatar, Image} from 'react-native-elements';
-import {ScrollView} from 'react-native-gesture-handler';
+import {Divider, ListItem, Avatar} from 'react-native-elements';
 import MainButton from './../../components/MainButton';
-import {styles} from './../styling/Styles';
-import {createMatch, joinMatch} from '../../models/Match';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {joinMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import {Ionicons} from '@expo/vector-icons';
@@ -52,7 +49,6 @@ const UserListItem = ({participant}) => {
                     </ListItem.Subtitle>
                 </ListItem.Content>
             </ListItem>
-
         </View>
     );
 };
@@ -82,116 +78,55 @@ const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
 
     const {owner, participants, location, date, id} = route.params;
-
-    console.log('fawef');
-    console.log(route.params);
-
-    const currentDate = new Date();
-
-    const matchData = {
-        id: 'ma1',
-        owner: {
-            id: 'us1',
-            fullname: 'Karl-Bertil Johansson',
-            imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-        },
-        city: 'Stockholm',
-        court: 'idfk court ltd',
-        from: currentDate,
-        to: new Date(currentDate.getTime() + 100000),
-        participants: [
-            {
-                id: 'us1',
-                fullname: 'Karl-Bertil Johansson',
-                imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            },
-            {
-                id: 'us1',
-                fullname: 'Anna-Karin Johansson',
-                imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            },
-            {
-                id: 'us1',
-                fullname: 'Britt-Marie Johansson',
-                imageURL: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-            },
-        ],
-    };
-
-
     return (
-        <Modal
-            presentationStyle='pageSheet'
-            animationType='slide'
-        >
-            <SafeAreaView style={styles2.safeContainer}>
-                <CardHeader
-                    centerHeader='Match Details'
-                    leftComponent={{
-                        text: 'Cancel',
-                        onPress: () => {
-                            navigation.goBack();
-                        },
-                        style: {
-                            color: '#707070',
-                            fontWeight: '600',
-                            fontSize: 16},
-                    }}/>
-                <Divider/>
-                <ScrollView style={styles2.scrollContainer}>
-                    <View style={{display: 'flex', width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
-
-                        <View style={styles2.rowContainer}>
-                            <View marginLeft={-1}>
-                                <Ionicons
-                                    size={22}
-                                    name='location-outline'
-                                    color='#707070'
-                                />
-                            </View>
-                            <Text style={styles2.subheader1}>
-                                {location}
-                            </Text>
+        <View>
+            <ScrollView style={styles2.scrollContainer}>
+                <View style={{paddingTop: 20, width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
+                    <View style={styles2.rowContainer}>
+                        <View marginLeft={-1}>
+                            <Ionicons
+                                size={22}
+                                name='location-outline'
+                                color='#707070'
+                            />
                         </View>
-
-                        <View style={styles2.rowContainer}>
-                            <View marginLeft={-1}>
-                                <Ionicons
-                                    size={15}
-                                    name='time-outline'
-                                    color='#707070'
-                                />
-                            </View>
-                            <Text style={styles2.subheader1}>
-                                {date}
-                            </Text>
-                        </View>
+                        <Text style={styles2.subheader1}>
+                            {location}
+                        </Text>
                     </View>
 
-                    <Text>
-                        Players
-                    </Text>
-                    <UserListItem participant={owner}/>
-                </ScrollView>
-                <View style={styles2.actionButtonContainer}>
-                    <TouchableOpacity>
-                        <MainButton
-                            title='Finish Match'
-                            onPress={async () => alert('press')}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <MainButton
-                            title='Join Match'
-                            onPress={async () => {
-                                await joinMatch(id, currentUser.uid);
-                                navigation.goBack();
-                            }}
-                        />
-                    </TouchableOpacity>
+                    <View style={styles2.rowContainer}>
+                        <View marginLeft={-1}>
+                            <Ionicons
+                                size={15}
+                                name='time-outline'
+                                color='#707070'
+                            />
+                        </View>
+                        <Text style={styles2.subheader1}>
+                            {date}
+                        </Text>
+                    </View>
                 </View>
-            </SafeAreaView>
-        </Modal>
+                <Text style={styles2.formTitle}> Players </Text>
+                <UserListItem participant={owner}/>
+                <View style={{alignSelf: 'center', marginTop: 380}}>
+                    <MainButton
+                        title='Finish Match'
+                        onPress={async () => alert('press')}
+                    />
+                </View>
+                <View style={{alignSelf: 'center', paddingTop: 10}}>
+                    <MainButton
+                        title='Join Match'
+                        onPress={async () => {
+                            await joinMatch(id, currentUser.uid);
+                            navigation.goBack();
+                        }}
+                    />
+                </View>
+            </ScrollView>
+        </View>
     );
 };
 
@@ -200,6 +135,7 @@ export default MatchDetailsScreen;
 const styles2 = StyleSheet.create({
     safeContainer: {
         flex: 1,
+        backgroundColor: 'white',
         alignItems: 'center',
     },
     scrollContainer: {
@@ -211,6 +147,7 @@ const styles2 = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         width: 250,
+        paddingLeft: 20,
     },
     header: {
         backgroundColor: 'white',
@@ -226,7 +163,9 @@ const styles2 = StyleSheet.create({
         paddingBottom: 10,
         fontWeight: 'bold',
         color: '#707070',
-        fontSize: 12,
+        fontSize: 20,
+        alignSelf: 'center',
+        paddingTop: 20,
     },
     subheader1: {
         paddingLeft: 10,

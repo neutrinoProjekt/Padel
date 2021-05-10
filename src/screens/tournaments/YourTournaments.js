@@ -28,13 +28,14 @@ const TournamentsList = ({navigation}) => {
                 {
                     tournamentData.map((tournament) => (
                         <ExpandableItem
+                            key={tournament.id}
                             t1={tournament.name}
                             t2='Tournament'
                             t3={`Min rank: ${tournament.minRank}\nMax rank: ${tournament.maxRank}`}
                             imgSource={tournament.owner.photoURL}
                             date={tournament.date}
                             location={tournament.location}
-                            participants={'You, (todo: some participants), and x others'}
+                            participants={null}
                         />
                     ))
                 }
