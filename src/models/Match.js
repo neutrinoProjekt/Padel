@@ -42,7 +42,6 @@ export function subscribeMatch(id, onUpdate, onError) {
 
 export async function getMatches(id) {
     let matches = await db.collection(collectionName)
-        .where('owner', '!=', getUserReference(id))
         .get();
     matches = await Promise.all(matches.docs.map(formatDocData));
     return matches;
