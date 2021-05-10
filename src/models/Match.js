@@ -39,18 +39,7 @@ export function subscribeMatch(id, onUpdate, onError) {
     return unsubscribe;
 }
 
-export async function getMatches(id, parameters) {
-    let matches = await db.collection(collectionName)
-        .where('court', '==', parameters.court)
-        .where('city', '==', parameters.city)
-        .where('from', '>=', parameters.from)
-        .where('from', '<=', parameters.to)
-        .get();
-    matches = await Promise.all(matches.docs.map(formatDocData));
-    return matches;
-}
-
-export async function getMatches2(parameters) {
+export async function getMatches(parameters) {
     let matches = await db.collection(collectionName);
 
     if (parameters.court != '') matches = matches.where('court', '==', parameters.court);
