@@ -78,7 +78,7 @@ const Notifications = () => {
 
     // renders the detaild view shown when the notification is pressed
     const NotificationDetails = (props) => {
-        const item = props.item; 
+        const item = props.item;
 
         // when notification is expanded
         if (props.enabled) {
@@ -105,8 +105,6 @@ const Notifications = () => {
                 return (
                     joinRequest({item: item, function: (()=>(console.log('shoooo')))})
                 );
-
-                // more to be added
 
             default:
                 return (
@@ -156,9 +154,6 @@ const Notifications = () => {
     //main render function
     return (
         <View>
-            <TouchableHighlight onPress={()=>joinMatch('ukuEnIvbJlm43zRKu9UQ', currentUser.uid)}>
-                <Text>Join this awesome match!!</Text>
-            </TouchableHighlight>
             <FlatList
                 data={notificationData}
                 renderItem={RenderNotification}
