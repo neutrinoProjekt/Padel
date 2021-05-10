@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
 import {
-    StyleSheet, View, Modal,
+    StyleSheet,View, Modal,
     TouchableOpacity, SafeAreaView, Text,
     ScrollView,
 } from 'react-native';
@@ -20,6 +20,7 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import ParameterSlider from '../../components/ParameterSlider';
 import {createNotification} from '../../models/Notification';
 import {LogBox} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -333,15 +334,11 @@ const AddMatchScreen = ({navigation}) => {
 
                         {/** Possibility to share contact info*/}
                         <View style={{paddingTop: 20}}>
-                            <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Contact Info</Text>
-                            <RadioButton
-                                onClick={() => {
-                                    setInfo(true); // if button is pressed, contact info of the creator is shared
-                                }}
-                                size={24}
-                                color={contactinfo ? colors.signature : 'black'}
-                                selected={contactinfo}
-                                label='Share'
+                            <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
+                            <CheckBox
+                                value={contactinfo}
+                                onValueChange={setInfo}
+                                style={styles2.checkbox}
                             />
                         </View>
 
@@ -374,6 +371,9 @@ const styles2 = StyleSheet.create({
         backgroundColor: 'white',
         height: '100%',
     },
+      checkbox: {
+        alignSelf: "center",
+      },
     rowContainer: {
         flexDirection: 'row',
         alignItems: 'center',
