@@ -191,7 +191,6 @@ const CreateTournamentScreen = ({navigation}) => {
                             </View>
                         </View>
 
-
                         {/* Maximum Rank Slider */}
                         <View style={{paddingTop: 10}}>
                             <View style={{flexDirection: 'row'}}>

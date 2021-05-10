@@ -29,7 +29,7 @@ const ExpandableItem = (props) => {
     };
 
     const navig = () => {
-        props.navigation.navigate('MatchDetailsScreen', props.matchData); 
+        props.navigation.navigate('MatchDetailsScreen', props.matchData);
     }
 
     return (
