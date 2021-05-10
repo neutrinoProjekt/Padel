@@ -29,8 +29,24 @@ const ExpandableItem = (props) => {
     };
 
     const navig = () => {
-        props.navigation.navigate('MatchDetailsScreen', props.matchData); 
+        props.navigation.navigate('MatchDetailsScreen', props.matchData);
     }
+
+    //share phone number if the creator wants to
+    const contactInformation = (share, phonenumber) => {
+        if (share != false) {
+            <View style={styles.rowContainer}>
+                <Ionicons
+                    size={15}
+                    name='call-outline'
+                    color='#707070'
+                />
+                <ListItem.Subtitle style={styles.subTitle1}>
+                    {phonenumber}
+                </ListItem.Subtitle>
+            </View>
+        }
+    };
 
     return (
         <View>
@@ -49,7 +65,7 @@ const ExpandableItem = (props) => {
                             numberOfLines={1}
                             ellipsizeMode='tail'
                         >
-                            {props.t1}
+                            {props.t1} 
                         </ListItem.Title>
                         <ListItem.Subtitle style={styles.subTitle1}>
                             {props.t2}
@@ -93,6 +109,7 @@ const ExpandableItem = (props) => {
                 <View>
                     <ListItem containerStyle={styles.listItemTwo}>
                         <ListItem.Content>
+                            {contactInformation(props.share, props.phonenr)} {/**check for contact info */}
                             <View style={styles.rowContainer}>
                                 <Ionicons
                                     size={15}

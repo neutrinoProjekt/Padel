@@ -1,25 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View}
-    from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {getMatchHistory} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
-import {subscribeMatch} from '../../models/Match';
 import ExpandableItem from '../../components/ExpandableItem';
 
-const YourMatches = ({navigation}) => {
+export default function History({navigation}) {
     const [matchData, setMatchData] = useState([]);
     const {currentUser} = useAuth();
 
     useEffect(() => {
-        const unsubscribe = subscribeMatch(currentUser.uid, setMatchData);
-        return () => unsubscribe();
+        getMatchHistory(currentUser.uid).then(setMatchData);
     }, []);
 
-    const addMatch = () => {
-        navigation.navigate('AddMatchScreen');
-    };
-    
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
@@ -35,26 +28,14 @@ const YourMatches = ({navigation}) => {
                             location={match.location}
                             participants={match.participants}
                             matchData={match}
-                            share={match.contactinfo} // share = false or true
-                            phonenr = {match.owner.phoneNumber}
                             navigation={navigation}
                         />
                     ))
                 }
             </ScrollView>
-            <View style={styles.actionButtonContainer}>
-                <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={addMatch}
-                >
-                    <Ionicons name='add-outline' size={32} color={'#00CEB4'}/>
-                </TouchableOpacity>
-            </View>
         </SafeAreaView>
     );
 };
-
-export default YourMatches;
 
 const styles = StyleSheet.create({
     container: {

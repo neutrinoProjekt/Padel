@@ -1,8 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
-import {getUserReference} from './User';
+import {getUserReference, getUser} from './User';
 import firebase from 'firebase/app';
+import {createNotification} from './Notification';
 
 const collectionName = 'matches';
 
@@ -52,6 +53,15 @@ export async function getMatches(parameters) {
     return matches;
 }
 
+export async function getMatchHistory(id) {
+    let matches = await db.collection(collectionName)
+        .where('participants', 'array-contains', getUserReference(id))
+        .where('from', '<', new Date(Date.now()))
+        .get();
+    matches = await Promise.all(matches.docs.map(formatDocData));
+    return matches;
+}
+
 export function createMatch({
     owner = null,
     city = null,
@@ -59,6 +69,7 @@ export function createMatch({
     from = null,
     to = null,
     mode = null,
+    contactinfo = null,
     minRank = null,
     maxRank = null,}) {
     return db.collection(collectionName).add({
@@ -69,12 +80,28 @@ export function createMatch({
         from,
         to,
         mode,
+        contactinfo,
         minRank,
         maxRank,
     });
 }
 
-export function joinMatch(matchId, playerId) {
+export async function getMatchOwner(matchId) {
+    return db.collection(collectionName).doc(matchId).get().then((u) => u.data());
+}
+
+export async function joinMatch(matchId, playerId) {
+    const matchInfo = await getMatchOwner(matchId);
+    const playerInfo = await getUser(playerId);
+    createNotification({
+        owner: matchInfo.owner.id,
+        header: playerInfo.displayName + ' has joined your match!',
+        description: playerInfo.displayName + ' is now part of your match that is to be played in ' + matchInfo.city,
+        detailText: null,
+        type: 'text',
+        typeDetails: {
+        },
+    });
     return db.collection(collectionName).doc(matchId).update({
         participants: firebase.firestore.FieldValue.arrayUnion(getUserReference(playerId))
     });

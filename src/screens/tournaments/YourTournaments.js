@@ -35,6 +35,8 @@ const TournamentsList = ({navigation}) => {
                             imgSource={tournament.owner.photoURL}
                             date={tournament.date}
                             location={tournament.location}
+                            share={tournament.contactinfo} // share = false or true
+                            phonenr={tournament.owner.phoneNumber}
                             participants={null}
                         />
                     ))

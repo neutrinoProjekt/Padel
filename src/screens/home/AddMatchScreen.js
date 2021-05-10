@@ -33,6 +33,7 @@ const AddMatchScreen = ({navigation}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [single, setSingle] = useState(true);
     const [double, setDouble] = useState(false);
+    const [contactinfo, setInfo] = useState(false);
     const [rank1, setRank1] = useState(MIN_RANK);
     const [rank2, setRank2] = useState(MIN_RANK);
     const [rankColor, setRankColor] = useState(colors.colorYellow);
@@ -134,6 +135,8 @@ const AddMatchScreen = ({navigation}) => {
         return new Date(date).toISOString().split('T')[0];
     };
 
+
+
     /* Posts match if parameters are valid */
     const postMatch = () => {
         // Validate rank interval
@@ -176,7 +179,7 @@ const AddMatchScreen = ({navigation}) => {
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
 
-        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode, minRank: rank1, maxRank: rank2})
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode, contactinfo: contactinfo, minRank: rank1, maxRank: rank2})
             .then((match) => {
                 createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: 'i1yjmqDKHPggHzOmt6jAxhNdXJe2', description: '', image: '', detailText: '', detailData: {matchId: match.id}});
             });
@@ -325,6 +328,20 @@ const AddMatchScreen = ({navigation}) => {
                                 color={double ? colors.signature : 'black'}
                                 selected={double}
                                 label='Double'
+                            />
+                        </View>
+
+                        {/** Possibility to share contact info*/}
+                        <View style={{paddingTop: 20}}>
+                            <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Contact Info</Text>
+                            <RadioButton
+                                onClick={() => {
+                                    setInfo(true); // if button is pressed, contact info of the creator is shared
+                                }}
+                                size={24}
+                                color={contactinfo ? colors.signature : 'black'}
+                                selected={contactinfo}
+                                label='Share'
                             />
                         </View>
 

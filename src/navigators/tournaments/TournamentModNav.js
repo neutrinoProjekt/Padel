@@ -1,8 +1,8 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import CreateTournamentScreen from '../../screens/tournaments/CreateTournamentScreen';
 import TournamentTopNav from './TournamentTopNav';
+import SearchResults from '../../screens/tournaments/SearchResults';
 
 const ModalNavigator = createStackNavigator();
 
@@ -27,10 +27,14 @@ const TournamentModNav = () => {
                     headerTitleStyle: {alignSelf: 'center'},
                 }}
             />
-
             <ModalNavigator.Screen
                 name='AddTournament'
                 component={CreateTournamentScreen}
+            />
+            <ModalNavigator.Screen
+                name="Search Results"
+                component={SearchResults}
+
             />
         </ModalNavigator.Navigator>
     );
