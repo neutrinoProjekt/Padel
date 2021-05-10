@@ -1,142 +1,13 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable max-len */
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, TouchableOpacity, TouchableHighlight, View}
+import {SafeAreaView, StyleSheet, TouchableOpacity, View}
     from 'react-native';
-import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {Ionicons} from '@expo/vector-icons';
-import OverlayMenu from '../../components/OverlayMenu';
 import {useAuth} from '../../contexts/auth';
 import {subscribeTournament} from '../../models/Tournament';
 import {ScrollView} from 'react-native-gesture-handler';
-
-const TournamentItem = ({navigation, matchData}) => {
-    const [isExpanded, setExpanded] = useState(false);
-    const [isOpen, setOpen] = useState(false);
-    const image = matchData.owner.photoURL === null ?
-        {uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'} :
-        {uri: matchData.owner.photoURL};
-
-    const closeMenu =() =>{
-        setOpen(false);
-    };
-
-    return (
-        <View>
-            <TouchableHighlight onPress={() => {
-                setExpanded(!isExpanded);
-            }} >
-                <ListItem containerStyle={styles.listItemOne}>
-                    <Avatar
-                        size={50}
-                        rounded
-                        source={image}
-                    />
-                    <ListItem.Content>
-                        <ListItem.Title
-                            style={[styles.title, {paddingTop: 25}]}
-                            numberOfLines={1}
-                            ellipsizeMode='tail'
-                        >
-                            {matchData.name}
-                        </ListItem.Title>
-                        <ListItem.Subtitle style={styles.subTitle1}>
-                            Tournament
-                        </ListItem.Subtitle>
-                        <ListItem.Subtitle style={styles.subTitle2}>
-                            {`Min rank: ${matchData.minRank}\nMax rank: ${matchData.maxRank}`}
-                        </ListItem.Subtitle>
-                    </ListItem.Content>
-                    <TouchableOpacity onPress={() => setOpen(true)}>
-                        <Ionicons
-                            size={20}
-                            name='ellipsis-horizontal'
-                            color='#707070'
-                            padding={2}
-                        />
-                    </TouchableOpacity>
-                    <OverlayMenu
-                        close ={closeMenu}
-                        open = {isOpen}
-                        text1 = {'Forfeit Tournament'}
-                        text2 = {'More Details'}
-                    />
-                </ListItem>
-
-            </TouchableHighlight>
-            <ListItem containerStyle={styles.listItemTwo}>
-                <ListItem.Content>
-                    <View style={styles.rowContainer}>
-                        <Ionicons
-                            size={15}
-                            name='people'
-                            color='#00CEB4'
-                        />
-                        <ListItem.Subtitle style={styles.subTitle1}>
-                                You, (participants are to be added)
-                        </ListItem.Subtitle>
-                    </View>
-                </ListItem.Content>
-            </ListItem>
-            { isExpanded ?
-                <View>
-                    <ListItem containerStyle={styles.listItemTwo}>
-                        <ListItem.Content>
-                            <View style={styles.rowContainer}>
-                                <Ionicons
-                                    size={15}
-                                    name='time-outline'
-                                    color='#707070'
-                                />
-                                <ListItem.Subtitle style={styles.subTitle1}>
-                                    {matchData.date}
-                                </ListItem.Subtitle>
-                            </View>
-                            <View style={styles.rowContainer}>
-                                <View marginLeft={-1}>
-                                    <Ionicons
-                                        size={14}
-                                        name='location-outline'
-                                        color='#707070'
-                                    />
-                                </View>
-                                <ListItem.Subtitle style={styles.subTitle1}>
-                                    {matchData.location}
-                                </ListItem.Subtitle>
-                            </View>
-                            <ListItem.Subtitle style={styles.subTitle3}>
-                            Players attending so far:
-                            </ListItem.Subtitle>
-                            <View style={styles.rowContainer}>
-                                <View style={styles.columnContainer}>
-                                    <ListItem.Subtitle style={styles.name}>
-                                    Johan Petersson
-                                    </ListItem.Subtitle>
-                                    <ListItem.Subtitle style={styles.name}>
-                                    Johan Persson
-                                    </ListItem.Subtitle>
-
-                                </View>
-                                <View style={styles.columnContainer}>
-                                    <ListItem.Subtitle style={styles.ranking}>
-                                    Ranking: 1048
-                                    </ListItem.Subtitle>
-                                    <ListItem.Subtitle style={styles.ranking}>
-                                    Ranking: 2034
-                                    </ListItem.Subtitle>
-
-                                </View>
-                            </View>
-                        </ListItem.Content>
-                    </ListItem>
-                </View> :
-                null
-            }
-            <Divider/>
-        </View>
-
-    );
-};
+import ExpandableItem from '../../components/ExpandableItem';
 
 
 const TournamentsList = ({navigation}) => {
@@ -156,9 +27,15 @@ const TournamentsList = ({navigation}) => {
             <ScrollView>
                 {
                     tournamentData.map((tournament) => (
-                        <TournamentItem
-                            navigation={navigation}
-                            matchData={tournament}
+                        <ExpandableItem
+                            key={tournament.id}
+                            t1={tournament.name}
+                            t2='Tournament'
+                            t3={`Min rank: ${tournament.minRank}\nMax rank: ${tournament.maxRank}`}
+                            imgSource={tournament.owner.photoURL}
+                            date={tournament.date}
+                            location={tournament.location}
+                            participants={null}
                         />
                     ))
                 }

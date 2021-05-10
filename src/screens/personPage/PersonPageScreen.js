@@ -1,14 +1,15 @@
 /* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
-import GreyBoxToWrite from '../../components/GreyBoxToWrite';
+import MainFormInput from '../../components/MainFormInput';
 import {useAuth} from '../../contexts/auth';
-import {getUser} from '../../models/User';
+import {getUser, updateUser} from '../../models/User';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import { Directions } from 'react-native-gesture-handler';
 
 // function that displays screen under the header
 export default function PersonPageScreen({navigation}) {
@@ -16,18 +17,20 @@ export default function PersonPageScreen({navigation}) {
     const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
     const [description, setDescription] = useState('');
     const [deleteWarning, setDeleteWarning] = useState(false);
-    // this should be a function that checks if the image exist,
-    // if image exist, get it from firestore
-    // firebase
     const {currentUser, logout, deleteUser} = useAuth();
 
-    useEffect(() => {
+    const updateProfile = () => {
         getUser(currentUser.uid)
             .then((data) => {
                 setDescription(data.description);
                 setImage({uri: data.photoURL});
             });
+    };
+
+    useEffect(()=> {
+        updateProfile();
     }, []);
+
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -35,13 +38,18 @@ export default function PersonPageScreen({navigation}) {
             headerTitleAlign: 'center',
             headerTitleStyle: {alignSelf: 'center'},
             headerRight: () => (
-                <View style={{paddingRight: 15}}>
+                <View style={{paddingRight: 15, flexDirection:'row', justifyContent: 'space-between', width: 80}}>
                     <MaterialCommunityIcons
                         name="podium-gold"
                         size={24}
                         color='#707070'
-                        onPress={()=> navigation.navigate('RankView')
-                        }
+                        onPress={() => navigation.navigate('RankView')}
+                    />
+                    <MaterialCommunityIcons
+                        name="history"
+                        size={24}
+                        color='#707070'
+                        onPress={() => navigation.navigate('History')}
                     />
                 </View>
             ),
@@ -57,6 +65,16 @@ export default function PersonPageScreen({navigation}) {
         }
     }
 
+
+    function sendData(phonenr, description) {
+        if (phonenr != '') {
+            updateUser(currentUser.uid, {phoneNumber: phonenr})
+        }   
+        if (description != '') {
+            updateUser(currentUser.uid, {description: description})
+        }
+    }
+
     return currentUser != null ? (
         <SafeAreaView>
             <View style={styles.container}>
@@ -68,20 +86,33 @@ export default function PersonPageScreen({navigation}) {
                     activeOpacity={0.7}
                 />
                 {/* Firebase issue. Get the user' peofile pic from the database*/}
-                <Text style={styles.text}>{currentUser.displayName}</Text>
+                <Text style={styles.text}>{currentUser.displayName}</Text> 
                 <View style={{marginBottom: 20}}>
                     <Text style={{color: '#707070', fontSize: 15, fontWeight: 'bold'}}>{currentUser.email}</Text>
                 </View>
                 {/* 3 grey boxes to put user's personal info*/}
                 <View>
-                    <Text style={[styles.subtitle]}>Description:</Text>
-                    <GreyBoxToWrite placeholder={'Describe yourself...'} onChangeText={(text) => setDescription(text)}/>
-                    <Text style={styles.subtitle}> Contact info: </Text>
-                    <GreyBoxToWrite placeholder={'Mobile phone:'} onChangeText={(text) => setPhonenr(text)}/>
+                    <MainFormInput
+                        inputWidth = {'100%'}
+                        inputTitle = {'Description:'}
+                        placeholder = {'Describe yourself...'}
+                        input = {description}
+                        setInput = {(text) => setDescription(text)}
+                    />
+                    <MainFormInput
+                        keyboardType = {'numeric'}
+                        inputWidth = {'100%'}
+                        inputTitle = {'Contact info:'}
+                        placeholder = {'Mobile phone...'}
+                        input = {phonenr}
+                        setInput = {(text) => setPhonenr(text)}
+                    />
                 </View>
 
-                {/* Button to save the changes*/}
-                <MainButton title='Save' onPress={() => alert(phonenr)}/>
+                {/**Buttons */}
+                <View style={{marginTop: 10}}>
+                    <MainButton title='Save' onPress={() => sendData(phonenr, description)}/>
+                </View>
                 <View style={{marginTop: 10}}>
                     <MainButton title='Sign Out' onPress={() => logout()}/>
                 </View>
@@ -92,6 +123,8 @@ export default function PersonPageScreen({navigation}) {
         </SafeAreaView>
     ) : (<Text></Text>);
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
