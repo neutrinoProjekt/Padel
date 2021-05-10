@@ -35,6 +35,8 @@ const YourMatches = ({navigation}) => {
                             location={match.location}
                             participants={match.participants}
                             matchData={match}
+                            share={match.contactinfo} // share = false or true
+                            phonenr = {match.owner.phoneNumber}
                             navigation={navigation}
                         />
                     ))
