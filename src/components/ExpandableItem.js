@@ -28,6 +28,10 @@ const ExpandableItem = (props) => {
         setOpen(false);
     };
 
+    const navig = () => {
+        props.navigation.navigate('MatchDetailsScreen', props.matchData); 
+    }
+
     return (
         <View>
             <TouchableHighlight onPress={() => {
@@ -65,8 +69,9 @@ const ExpandableItem = (props) => {
                     <OverlayMenu
                         close ={closeMenu}
                         open = {isOpen}
-                        text1 = {'Forfeit Tournament'}
+                        text1 = {props.t2 == 'Match' ? 'Forfeit Match' : 'Forfeit Tournament'}
                         text2 = {'More Details'}
+                        onPress2={() => props.navigation.navigate('MatchDetailsScreen', props.matchData)}
                     />
                 </ListItem>
             </TouchableHighlight>
@@ -127,8 +132,7 @@ const ExpandableItem = (props) => {
                             </View>
                         </ListItem.Content>
                     </ListItem>
-                </View> :
-                null
+                </View> : null
             }
             <Divider/>
         </View>
