@@ -47,6 +47,15 @@ export async function getMatches(id) {
     return matches;
 }
 
+export async function getMatchHistory(id) {
+    let matches = await db.collection(collectionName)
+        .where('participants', 'array-contains', getUserReference(id))
+        .where('from', '<', new Date(Date.now()))
+        .get();
+    matches = await Promise.all(matches.docs.map(formatDocData));
+    return matches;
+}
+
 export function createMatch({
     owner = null,
     city = null,
