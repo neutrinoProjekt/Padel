@@ -9,6 +9,7 @@ import {useAuth} from '../../contexts/auth';
 import {getUser} from '../../models/User';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import { Directions } from 'react-native-gesture-handler';
 
 // function that displays screen under the header
 export default function PersonPageScreen({navigation}) {
@@ -35,13 +36,18 @@ export default function PersonPageScreen({navigation}) {
             headerTitleAlign: 'center',
             headerTitleStyle: {alignSelf: 'center'},
             headerRight: () => (
-                <View style={{paddingRight: 15}}>
+                <View style={{paddingRight: 15, flexDirection:'row', justifyContent: 'space-between', width: 80}}>
                     <MaterialCommunityIcons
                         name="podium-gold"
                         size={24}
                         color='#707070'
-                        onPress={()=> navigation.navigate('RankView')
-                        }
+                        onPress={() => navigation.navigate('RankView')}
+                    />
+                    <MaterialCommunityIcons
+                        name="history"
+                        size={24}
+                        color='#707070'
+                        onPress={() => navigation.navigate('History')}
                     />
                 </View>
             ),
