@@ -78,7 +78,6 @@ const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
 
     const {owner, participants, location, date, id} = route.params;
-    console.log(route.params);
     return (
         <View>
             <ScrollView style={styles2.scrollContainer}>
