@@ -4,7 +4,7 @@ const INITIAL_RATING = 1000;
 const collectionName = 'users';
 
 export function updateUser(id, data) {
-    return db.collection(collectionName).doc(id).set(data);
+    return db.collection(collectionName).doc(id).update(data);
 }
 
 export function createUser(id, fullname, displayName) {

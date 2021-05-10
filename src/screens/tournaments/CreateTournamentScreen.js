@@ -17,6 +17,7 @@ import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
 import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
+import RadioButton from '../../components/RadioButton';
 
 
 const CreateTournamentScreen = ({navigation}) => {
@@ -40,6 +41,9 @@ const CreateTournamentScreen = ({navigation}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [city, setCity] = useState('');
     const [tournamentName, setTournamentName] = useState('');
+
+    // State for sharing contact info with the participants
+    const [contactinfo, setInfo] = useState(false);
 
     // Relevant constants
     const imageUrl = {uri: 'https://image.freepik.com/free-photo/golden-trophy-cup-white-background-with-clipping-path_35913-551.jpg'};
@@ -93,6 +97,7 @@ const CreateTournamentScreen = ({navigation}) => {
             minRank: toggle1 ? rank1 : '-',
             maxRank: toggle2 ? rank2 : '-',
             city: city,
+            contactinfo: contactinfo,
             name: tournamentName,
         });
         navigation.goBack();
@@ -253,6 +258,20 @@ const CreateTournamentScreen = ({navigation}) => {
                             </View>
                         </View>
 
+                        {/** Possibility to share contact info*/}
+                        <View style={{paddingTop: 20}}>
+                            <Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Contact Info</Text>
+                            <RadioButton
+                                onClick={() => {
+                                    setInfo(true); // if button is pressed, contact info of the creator is shared
+                                }}
+                                size={24}
+                                color={contactinfo ? colors.signature : 'black'}
+                                selected={contactinfo}
+                                label='Share'
+                            />
+                        </View>
+
                         {/* Button*/}
                         <View style={{marginBottom: -10}}>
                             <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
@@ -292,5 +311,11 @@ const styling = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
+    },
+    formTitle: {
+        paddingBottom: 10,
+        fontWeight: 'bold',
+        color: '#707070',
+        fontSize: 12,
     },
 });
