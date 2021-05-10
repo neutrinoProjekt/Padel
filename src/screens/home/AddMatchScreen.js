@@ -33,7 +33,7 @@ const AddMatchScreen = ({navigation}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [single, setSingle] = useState(true);
     const [double, setDouble] = useState(false);
-    const [contactinfo, setInfo] = useState(true);
+    const [contactinfo, setInfo] = useState(false);
     const [rank1, setRank1] = useState(MIN_RANK);
     const [rank2, setRank2] = useState(MIN_RANK);
     const [rankColor, setRankColor] = useState(colors.colorYellow);
