@@ -54,6 +54,7 @@ export function createMatch({
     from = null,
     to = null,
     mode = null,
+    contactinfo = null,
     minRank = null,
     maxRank = null,}) {
     return db.collection(collectionName).add({
@@ -64,6 +65,7 @@ export function createMatch({
         from,
         to,
         mode,
+        contactinfo,
         minRank,
         maxRank,
     });
