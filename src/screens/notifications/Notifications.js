@@ -22,7 +22,7 @@ import {joinMatch, createMatch} from '../../models/Match';
 
 // refactora
 
-// renders base notification, same for all types
+// renders base notification section of the list, same for all types
 const Notifications = () => {
     const {currentUser} = useAuth();
     const [notificationData, setNotificationData] = useState();
@@ -76,9 +76,9 @@ const Notifications = () => {
         );
     };
 
-    // this shoud be added to depending on the type
+    // renders the detaild view shown when the notification is pressed
     const NotificationDetails = (props) => {
-        const item = props.item; 
+        const item = props.item;
 
         // when notification is expanded
         if (props.enabled) {
@@ -106,8 +106,6 @@ const Notifications = () => {
                     joinRequest({item: item, function: (()=>(console.log('shoooo')))})
                 );
 
-                // more to be added
-
             default:
                 return (
                     <View>
@@ -124,8 +122,7 @@ const Notifications = () => {
         );
     };
 
-    // måste importera funktionen som låter folk godkänna eller avvisa folk och lägga den istället för console.log
-    // notification that allows user to accep or deny match/tournament
+    //renders an accept/ deny button and related code
     const joinRequest = (props) => {
         return (
             <View>
@@ -133,15 +130,12 @@ const Notifications = () => {
                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', margin: 20}}>
                     <TouchableHighlight onPress={() => {
                         deletNotification(props.item.id);
-                        // acceptedOrDenied(props.item, 'denied');
                     }} >
                         <Text style={{color: '#f67273', fontWeight: 'bold'}}>Deny</Text>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => {
-                        // uppdateNotification({description: 'Accepted!', detailText: 'You accepted the request'}, item.id);
                         props.function(); // add person to the match
                         deletNotification(props.item.id); // remove notification when added
-                        // acceptedOrDenied(props.item, 'accepted');
                     }} >
                         <Text style={{color: '#00CEB4', fontWeight: 'bold'}}>Accept</Text>
                     </TouchableHighlight>
@@ -150,56 +144,14 @@ const Notifications = () => {
         );
     };
 
-    // notification that informs sender if the request was accepted or denied
-    const acceptedOrDenied = (props, reply) => {
-        // should be updated depending on match/tournament
-        let type = '';
-        switch (props.type) {
-        case 'matchJoinRequest':
-            type='Match';
-        case 'tournamentJoinRequest':
-            type='Tournament';
-        }
-
-        const [ownerId, setOwnerId] = useState({});
-
-
-        // get the owner  of the specific tournament
-        const updateReciver = async () => {
-            const tournamentinfo = await getMatches(props.detailData.id);
-            console.log(tournamentinfo);
-            const ownerId= tournamentinfo.owner.split('/users/')[1];
-            setOwnerId(ownerId);
-        };
-    
-        useEffect(()=> {
-            updateReciver();
-        }, []);
-    
-        console.log(ownerId);
-
-        createNotification({
-            owner: ownerId, // the receiver
-            header: 'Request to join ' + type + ' was ' + reply, //tournament/match EXAMPLE: Request to join match was denied
-            description: 'Your request to join the ' + type + ' was ' + reply + ' by '+ currentUser.displayName,
-            detailText: null,
-            type: 'text',
-            typeDetails: {
-            },
-        });
-    };
-
-// collect data from item obdject to send to NotificationView
-
-
-
-
+    //renders each notification
     const RenderNotification = ({item}) => {
         return (
-            <NotificationView item={item} currentUser={userobject} />
+            <NotificationView item={item}/>
         );
     };
 
+    //main render function
     return (
         <View>
             <FlatList

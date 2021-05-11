@@ -4,7 +4,6 @@ import {Text, View, StyleSheet, Modal, ScrollView} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
-import {LogBox} from 'react-native';
 import {colors} from '../styling/Colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CardHeader from '../../components/CardHeader';
@@ -17,7 +16,8 @@ import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
 import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
-
+import {CheckBox} from 'react-native-elements';
+import {LogBox} from 'react-native';
 
 const CreateTournamentScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -40,6 +40,9 @@ const CreateTournamentScreen = ({navigation}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [city, setCity] = useState('');
     const [tournamentName, setTournamentName] = useState('');
+
+    // State for sharing contact info with the participants
+    const [contactinfo, setInfo] = useState(false);
 
     // Relevant constants
     const imageUrl = {uri: 'https://image.freepik.com/free-photo/golden-trophy-cup-white-background-with-clipping-path_35913-551.jpg'};
@@ -93,6 +96,7 @@ const CreateTournamentScreen = ({navigation}) => {
             minRank: toggle1 ? rank1 : '-',
             maxRank: toggle2 ? rank2 : '-',
             city: city,
+            contactinfo: contactinfo,
             name: tournamentName,
         });
         navigation.goBack();
@@ -191,7 +195,6 @@ const CreateTournamentScreen = ({navigation}) => {
                             </View>
                         </View>
 
-
                         {/* Maximum Rank Slider */}
                         <View style={{paddingTop: 10}}>
                             <View style={{flexDirection: 'row'}}>
@@ -254,6 +257,16 @@ const CreateTournamentScreen = ({navigation}) => {
                             </View>
                         </View>
 
+                        {/** Possibility to share contact info*/}
+                        <View style={{paddingTop: 20}}>
+                            <Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
+                            <CheckBox
+                                checked={contactinfo}
+                                onPress={() => setInfo(!contactinfo)}
+                                center={true}
+                            />
+                        </View>
+
                         {/* Button*/}
                         <View style={{marginBottom: -10}}>
                             <Text style={[styles.error, {marginTop: 10}]}>{errorMsg}</Text>
@@ -293,5 +306,14 @@ const styling = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
+    },
+    checkbox: {
+        alignSelf: "center",
+      },
+    formTitle: {
+        paddingBottom: 10,
+        fontWeight: 'bold',
+        color: '#707070',
+        fontSize: 12,
     },
 });

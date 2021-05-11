@@ -94,7 +94,6 @@ const rankScreen = ({navigation}) => {
     const [leaders, setLeaders] = useState({});
 
     const updateLeaders = async () => {
-        console.log('updating leaders');
         let leaders = await getTopRated();
         // add placement property
         leaders = leaders.map((profile, index) => ({...profile, placement: index + 1}));

@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import rankScreen from '../../screens/Rank/rankScreen';
 import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
+import History from '../../screens/history/History';
 
 const ModalNavigator = createStackNavigator();
 
@@ -25,6 +26,11 @@ const PersonalModNav = () => {
             <ModalNavigator.Screen
                 name='RankView'
                 component={rankScreen}
+            >
+            </ModalNavigator.Screen>
+            <ModalNavigator.Screen
+                name='History'
+                component={History}
             >
             </ModalNavigator.Screen>
         </ModalNavigator.Navigator>
