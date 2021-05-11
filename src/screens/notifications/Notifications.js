@@ -14,6 +14,7 @@ import {
     deletNotification,
 } from '../../models/Notification';
 import {joinMatch, createMatch} from '../../models/Match';
+//import registerForPushNotifications from '../../models/PushNotifications';
 
 
 // todo
