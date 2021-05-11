@@ -127,8 +127,6 @@ const FindMatches = ({navigation}) => {
                         // TODO might mess up if you spam the button
                         const from = checkDateFrom();
                         const to = checkDateTo();
-                        console.log(from);
-                        console.log(to);
                         const parameters = {court, city, from, to};
                         const matchData = await getMatches(parameters);
                         if (matchData.length == 0) {
