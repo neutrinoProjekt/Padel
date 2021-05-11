@@ -5,11 +5,13 @@ import {Bracket, RoundProps, Seed, SeedItem, SeedTeam,
     RenderSeedProps, SeedTime} from 'react-brackets';
 import {FlatList} from 'react-native-gesture-handler';
 import {ListItem} from 'react-native-elements';
+
+
 const RenderSeed = ({breakpoint, seed}: RenderSeedProps) => {
     return (
-        <Seed mobileBreakpoint={breakpoint} style={{width: '80%', fontSize: 20,
-            alignItems: 'center'}}>
-            <SeedItem style={{textAlign: 'center', width: '50%', backgroundColor: '#F7F7F7'}}>
+        <Seed mobileBreakpoint={breakpoint} style={{width: '50%', fontSize: 20,
+            alignItems: 'center',backgroundColor: '#black'}}>
+            <SeedItem style={{textAlign: 'center', width: '100%', backgroundColor: '#F7F7F7'}}>
                 <View>
                     <SeedTeam style={{textAlign: 'center',
                         fontSize: 20, height: 50, color: '#00CEB4',
@@ -70,18 +72,36 @@ const TournamentPage = () => {
                         {id: 3, name: 'Kungen', score: 6},
                     ],
                 },
+                {
+                    id: 5,
+                    date: new Date().toDateString(),
+                    teams: [
+                        {id: 1, name: 'dasdma', score: 2},
+                        {id: 3, name: 'fafen', score: 6},
+                    ],
+                },
             ],
         },
         {
             title: 'Round 2',
-            seeds: [...new Array(2)].fill({
-                id: 1,
-                date: new Date().toDateString(),
-                teams: [
-                    {id: 1, name: 'CDATA', score: 2},
-                    {id: 3, name: 'NEUTRINO', score: 6},
-                ],
-            }),
+            seeds: [
+                {
+                    id: 1,
+                    date: new Date().toDateString(),
+                    teams: [
+                        {id: 1, name: 'CDATA', score: 2},
+                        {id: 3, name: 'NEUTRINO', score: 6},
+                    ],
+                },
+                {
+                    id: 2,
+                    date: new Date().toDateString(),
+                    teams: [
+                        {id: 1, name: 'OPEN', score: 2},
+                        {id: 3, name: 'NEUTRINO', score: 6},
+                    ],
+                },
+            ],
         },
         {
             title: 'Finals Baby',
@@ -102,14 +122,12 @@ const TournamentPage = () => {
             <ScrollView nestedScrollEnabled={true}>
                 <View
                     style={{
-                        alignItems: 'center',
                         borderBottomWidth: 1,
                         borderColor: '#707070',
                         backgroundColor: '#f7f7f7'}}>
                     <Bracket rounds={DATA} renderSeedComponent={RenderSeed}/>
                 </View>
             </ScrollView>
-
         </SafeAreaView>
 
 
