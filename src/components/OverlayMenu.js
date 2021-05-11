@@ -25,7 +25,7 @@ const OverlayMenu = (props) => {
                 </Pressable>
                 <Pressable
                     style={styles.button}
-                    onPress={props.onPress2}
+                    onPress={() => {props.onPress2(); closeMenu();}}
                 >
                     <Text style={styles.textStyle}>{props.text2}</Text>
                 </Pressable>
@@ -37,7 +37,6 @@ const OverlayMenu = (props) => {
                 </Pressable>
             </View>
         </Overlay>
-
     );
 };
 
