@@ -1,15 +1,12 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, SafeAreaView, Text} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
 import DateTimePicker from '../../components/DateTimePicker';
 import {getMatches} from '../../models/Match';
-import {useAuth} from '../../contexts/auth';
 
 const FindMatches = ({navigation}) => {
-    const {currentUser} = useAuth();
-
     // States for input
     const [city, setCity] = useState('');
     const [court, setCourt] = useState('');
@@ -17,18 +14,54 @@ const FindMatches = ({navigation}) => {
     const [dateTo, setDateTo] = useState('yyyy-mm-dd');
     const [errorMsg, setErrorMsg] = useState('');
 
+    // parameters in iso format
+    const [isoDateFrom, setIsoDateFrom] = useState('');
+    const [isoDateTo, setIsoDateTo] = useState('');
+
+    useEffect(() => {
+        setErrorMsg('');
+    }, [city, court]);
+
     // Date confirmation (From)
     const handleDateFrom = (str) => {
-        setDateFrom(getTime(str));
+        setIsoDateFrom(new Date(str));
+        setDateFrom(getDate(str));
     };
 
     // Date confirmation (To)
     const handleDateTo = (str) => {
-        setDateTo(getTime(str));
+        setIsoDateTo(new Date(str));
+        setDateTo(getDate(str));
     };
 
     const getDate = (date) => {
         return new Date(date).toISOString().split('T')[0];
+    };
+
+    // If isoDateFrom isn't empty, return that date.
+    // Else, we return todays date.
+    const checkDateFrom = () => {
+        const date = new Date();
+        if (isoDateFrom != '') {
+            date.setFullYear(isoDateFrom.getFullYear());
+            date.setMonth(isoDateFrom.getMonth());
+            date.setDate(isoDateFrom.getDate());
+        }
+        return date;
+    };
+
+    // If isoDateTo isn't empty, return that date.
+    // Else, we return the date that is a year from today.
+    const checkDateTo = () => {
+        const date = new Date();
+        if (isoDateTo != '') {
+            date.setFullYear(isoDateTo.getFullYear());
+            date.setMonth(isoDateTo.getMonth());
+            date.setDate(isoDateTo.getDate());
+        } else {
+            date.setFullYear(date.getFullYear() + 1);
+        }
+        return date;
     };
 
     /* Local date picker component (From)*/
@@ -55,39 +88,6 @@ const FindMatches = ({navigation}) => {
                 width={145}
             />
         );
-    };
-
-    /* Posts match if parameters are valid */
-    const postMatch = () => {
-        // Validate City input (todo: actually validate that it's a city)
-        if (city == '') {
-            setErrorMsg('Please enter a city');
-            return;
-        }
-
-        // Validate paddle hall (todo: actually validate that it's a paddle hall)
-        if (court == '') {
-            setErrorMsg('Please enter a court');
-            return;
-        }
-        // Validate date (todo: fix same date)
-        if (dateFrom == 'yyyy-mm-dd' || dateTo == 'yyyy-mm-dd') {
-            setErrorMsg('Please suggest a date');
-            return;
-        } else if (!validateDate(date)) {
-            setErrorMsg('Date has already passed');
-            return;
-        }
-
-        // Validate time interval
-        if (timeFrom == 'hh:mm' || timeTo == 'hh:mm') {
-            setErrorMsg('Please enter a time interval');
-            return;
-        } else if (!validateTimeInterval(timeFrom, timeTo)) {
-            setErrorMsg('Invalid time interval');
-            return;
-        }
-        navigation.navigate('SearchResults', {matchData});
     };
 
     return (
@@ -120,11 +120,21 @@ const FindMatches = ({navigation}) => {
                 </View>
             </ScrollView>
             <View style={styles.actionButtonContainer}>
+                <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
                 <MainButton
                     title='Search'
                     onPress={async () => {
                         // TODO might mess up if you spam the button
-                        const matchData = await getMatches(currentUser.uid);
+                        const from = checkDateFrom();
+                        const to = checkDateTo();
+                        console.log(from);
+                        console.log(to);
+                        const parameters = {court, city, from, to};
+                        const matchData = await getMatches(parameters);
+                        if (matchData.length == 0) {
+                            setErrorMsg('No matches match your search criteria');
+                            return;
+                        }
                         navigation.navigate('SearchResults', {matchData});
                     }}
                 />
@@ -157,5 +167,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 30,
+    },
+    error: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#ff0f0f',
+        height: 60,
+        width: 300,
+        textAlign: 'center',
+        alignSelf: 'center',
     },
 });

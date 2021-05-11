@@ -40,9 +40,15 @@ export function subscribeMatch(id, onUpdate, onError) {
     return unsubscribe;
 }
 
-export async function getMatches(id) {
-    let matches = await db.collection(collectionName)
-        .get();
+export async function getMatches(parameters) {
+    let matches = await db.collection(collectionName);
+
+    if (parameters.court != '') matches = matches.where('court', '==', parameters.court);
+    if (parameters.city != '') matches = matches.where('city', '==', parameters.city);
+    if (parameters.from != '') matches = matches.where('from', '>=', parameters.from);
+    if (parameters.to != '') matches = matches.where('from', '<=', parameters.to);
+
+    matches = await matches.get();
     matches = await Promise.all(matches.docs.map(formatDocData));
     return matches;
 }
