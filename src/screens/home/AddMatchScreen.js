@@ -334,12 +334,12 @@ const AddMatchScreen = ({navigation}) => {
 
                         {/** Possibility to share contact info*/}
                         <View style={{paddingTop: 20}}>
-                            <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
+                           {/* <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
                             <CheckBox
                                 value={contactinfo}
                                 onValueChange={setInfo}
                                 style={styles2.checkbox}
-                            />
+                            />*/}
                         </View>
 
                         {/* Post match button*/}
