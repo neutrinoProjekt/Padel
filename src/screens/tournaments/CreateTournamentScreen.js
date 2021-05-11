@@ -260,12 +260,12 @@ const CreateTournamentScreen = ({navigation}) => {
 
                         {/** Possibility to share contact info*/}
                         <View style={{paddingTop: 20}}>
-                        <Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
+                        {/*<Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
                             <CheckBox
                                 value={contactinfo}
                                 onValueChange={setInfo}
                                 style={styling.checkbox}
-                            />
+                            />*/}
                         </View>
 
                         {/* Button*/}
