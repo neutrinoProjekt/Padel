@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import rankScreen from '../../screens/Rank/rankScreen';
-import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
+import rankScreen from '../../screens/rank/rankScreen';
+import PersonPageScreen from '../../screens/profile/Profile';
 import History from '../../screens/history/History';
 
 const ModalNavigator = createStackNavigator();
