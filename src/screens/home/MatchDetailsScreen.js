@@ -77,7 +77,7 @@ const styles3 = StyleSheet.create({
 const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
 
-    const {owner, participants, location, date, id} = route.params;
+    const {owner, participants, location, date, id, result, user_edit, mode} = route.params;
     return (
         <View>
             <ScrollView style={styles2.scrollContainer}>
@@ -113,7 +113,7 @@ const MatchDetailsScreen = ({route, navigation}) => {
                 <View style={{alignSelf: 'center', marginTop: 380}}>
                     <MainButton
                         title='Finish Match'
-                        onPress={async () => alert('press')}
+                        onPress={async () => navigation.navigate('FinishMatchScreen', {id, result, user_edit, mode, participants})}
                     />
                 </View>
                 <View style={{alignSelf: 'center', paddingTop: 10}}>
@@ -156,6 +156,7 @@ const styles2 = StyleSheet.create({
     },
     actionButtonContainer: {
         flex: 1,
+        alignItems: 'center',
         position: 'absolute',
         bottom: 70,
     },

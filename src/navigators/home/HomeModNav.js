@@ -4,6 +4,7 @@ import HomeTopNav from './HomeTopNav';
 import AddMatchScreen from './../../screens/home/AddMatchScreen';
 import SearchResults from '../../screens/home/SearchResults';
 import MatchDetailsScreen from '../../screens/home/MatchDetailsScreen';
+import FinishMatchScreen from '../../screens/finishmatch/FinishMatchScreen';
 
 const ModalNavigator = createStackNavigator();
 
@@ -39,6 +40,10 @@ const HomeModNav = () => {
                 component={MatchDetailsScreen}
             >
             </ModalNavigator.Screen>
+            <ModalNavigator.Screen
+                name='FinishMatchScreen'
+                component={FinishMatchScreen}
+            />
             <ModalNavigator.Screen
                 name='SearchResults'
                 component={SearchResults}

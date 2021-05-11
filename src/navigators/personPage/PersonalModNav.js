@@ -26,6 +26,11 @@ const PersonalModNav = () => {
             </ModalNavigator.Screen>
             <ModalNavigator.Screen
                 name='RankView'
+                component={rankScreen}
+            >
+            </ModalNavigator.Screen>
+            <ModalNavigator.Screen
+                name='FinishMatchScreen'
                 component={FinishMatchScreen}
             >
             </ModalNavigator.Screen>
