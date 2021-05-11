@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import rankScreen from '../../screens/Rank/rankScreen';
 import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
 import History from '../../screens/history/History';
+import VictoryScreen from '../../screens/victory/VictoryScreen';
 
 const ModalNavigator = createStackNavigator();
 

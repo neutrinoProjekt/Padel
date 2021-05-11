@@ -24,6 +24,7 @@ export default function PersonPageScreen({navigation}) {
             .then((data) => {
                 setDescription(data.description);
                 setImage({uri: data.photoURL});
+                setPhonenr(data.phoneNumber);
             });
     };
 
