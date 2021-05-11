@@ -5,6 +5,7 @@ import {
     TouchableOpacity, SafeAreaView, Text,
     ScrollView,
 } from 'react-native';
+import {CheckBox} from 'react-native-elements';
 import MainButton from './../../components/MainButton';
 import {styles} from './../styling/Styles';
 import {createMatch} from '../../models/Match';
@@ -19,8 +20,6 @@ import {MAX_RANK, MIN_RANK, STEP} from '../../config';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import ParameterSlider from '../../components/ParameterSlider';
 import {createNotification} from '../../models/Notification';
-import {LogBox} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -187,11 +186,6 @@ const AddMatchScreen = ({navigation}) => {
         navigation.goBack();
     };
 
-    // Ignore native driver message for now...
-    useEffect(() => {
-        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
-    }, []);
-
     return (
         <Modal
             presentationStyle='pageSheet'
@@ -336,9 +330,10 @@ const AddMatchScreen = ({navigation}) => {
                         <View style={{paddingTop: 20}}>
                             <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
                             <CheckBox
-                                value={contactinfo}
-                                onValueChange={setInfo}
+                                checked={contactinfo}
+                                onPress={() => setInfo(!contactinfo)}
                                 style={styles2.checkbox}
+                                center={true}
                             />
                         </View>
 
@@ -371,9 +366,6 @@ const styles2 = StyleSheet.create({
         backgroundColor: 'white',
         height: '100%',
     },
-      checkbox: {
-        alignSelf: "center",
-      },
     rowContainer: {
         flexDirection: 'row',
         alignItems: 'center',
