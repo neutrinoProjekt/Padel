@@ -17,7 +17,7 @@ import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
 import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
-import RadioButton from '../../components/RadioButton';
+import CheckBox from '@react-native-community/checkbox';
 
 
 const CreateTournamentScreen = ({navigation}) => {
@@ -260,15 +260,11 @@ const CreateTournamentScreen = ({navigation}) => {
 
                         {/** Possibility to share contact info*/}
                         <View style={{paddingTop: 20}}>
-                            <Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Contact Info</Text>
-                            <RadioButton
-                                onClick={() => {
-                                    setInfo(true); // if button is pressed, contact info of the creator is shared
-                                }}
-                                size={24}
-                                color={contactinfo ? colors.signature : 'black'}
-                                selected={contactinfo}
-                                label='Share'
+                        <Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
+                            <CheckBox
+                                value={contactinfo}
+                                onValueChange={setInfo}
+                                style={styling.checkbox}
                             />
                         </View>
 
@@ -312,6 +308,9 @@ const styling = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
     },
+    checkbox: {
+        alignSelf: "center",
+      },
     formTitle: {
         paddingBottom: 10,
         fontWeight: 'bold',
