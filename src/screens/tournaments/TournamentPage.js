@@ -1,27 +1,30 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {ScrollView, View} from 'react-native';
 import {Bracket, RoundProps, Seed, SeedItem, SeedTeam,
     RenderSeedProps, SeedTime} from 'react-brackets';
-import {FlatList} from 'react-native-gesture-handler';
-import {ListItem} from 'react-native-elements';
 
 
 const RenderSeed = ({breakpoint, seed}: RenderSeedProps) => {
     return (
-        <Seed mobileBreakpoint={breakpoint} style={{width: '50%', fontSize: 20,
-            alignItems: 'center',backgroundColor: '#black'}}>
-            <SeedItem style={{textAlign: 'center', width: '100%', backgroundColor: '#F7F7F7'}}>
+        <Seed mobileBreakpoint={breakpoint} style={{
+            backgroundColor: '#red'}}>
+            <SeedItem style={{textAlignments: 'center', width: '80%',
+                backgroundColor: 'white', borderRadius: 15,
+                alignItems: 'center',
+
+            }}>
                 <View>
-                    <SeedTeam style={{textAlign: 'center',
-                        fontSize: 20, height: 50, color: '#00CEB4',
-                        backgroundColor: 'white'}}
+                    <SeedTeam style={{borderRadius: 15, textAlignments: 'center',
+                        fontSize: 20, height: 30, color: '#00CEB4',
+                        backgroundColor: 'transparent', width: '50%'}}
                     >{seed.teams?.[0].name +'  '+ seed.teams?.[0].score||
-                     'No Team'}</SeedTeam>
-                    <View style={{height: 2, backgroundColor: '#707070'}}>
+                     'No Team'}
+                        {seed.teams?.[0].score}</SeedTeam>
+                    <View style={{height: 10, backgroundColor: '#707070'}}>
                     </View>
-                    <SeedTeam style={{
-                        fontSize: 20, height: 50, color: '#00CEB4',
+                    <SeedTeam style={{borderRadius: 15,
+                        textAlignments: 'center',
+                        fontSize: 20, height: 30, color: '#00CEB4',
                         backgroundColor: 'white'}}
                     >{seed.teams?.[1].name || 'No Team'}</SeedTeam>
                 </View>
@@ -32,7 +35,6 @@ const RenderSeed = ({breakpoint, seed}: RenderSeedProps) => {
         </Seed>
     );
 };
-
 
 const TournamentPage = () => {
     const DATA = [
@@ -118,17 +120,13 @@ const TournamentPage = () => {
 
 
     return (
-        <SafeAreaView>
-            <ScrollView nestedScrollEnabled={true}>
-                <View
-                    style={{
-                        borderBottomWidth: 1,
-                        borderColor: '#707070',
-                        backgroundColor: '#f7f7f7'}}>
-                    <Bracket rounds={DATA} renderSeedComponent={RenderSeed}/>
-                </View>
+        <>
+            <ScrollView> {/* <ScrollView> nestedScrollEnabled={true}> */}
+                <Bracket
+                    rounds={DATA}
+                    renderSeedComponent={RenderSeed} />
             </ScrollView>
-        </SafeAreaView>
+        </>
 
 
     );
