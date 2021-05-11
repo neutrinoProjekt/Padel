@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {ListItem, Divider, Avatar} from 'react-native-elements';
 import {TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
 import {Ionicons} from '@expo/vector-icons';
@@ -33,8 +33,8 @@ const ExpandableItem = (props) => {
     }
 
     //share phone number if the creator wants to
-    const contactInformation = (share, phonenumber) => {
-        if (share != false) {
+    const ContactInformation = () => {
+        return(
             <View style={styles.rowContainer}>
                 <Ionicons
                     size={15}
@@ -42,10 +42,10 @@ const ExpandableItem = (props) => {
                     color='#707070'
                 />
                 <ListItem.Subtitle style={styles.subTitle1}>
-                    {phonenumber}
+                    {props.phonenr ? props.phonenr : <Text>No info shared</Text>}
                 </ListItem.Subtitle>
             </View>
-        }
+        )
     };
 
     return (
@@ -109,7 +109,7 @@ const ExpandableItem = (props) => {
                 <View>
                     <ListItem containerStyle={styles.listItemTwo}>
                         <ListItem.Content>
-                            {contactInformation(props.share, props.phonenr)} {/**check for contact info */}
+                            {props.share ? <ContactInformation /> : <></>}
                             <View style={styles.rowContainer}>
                                 <Ionicons
                                     size={15}
