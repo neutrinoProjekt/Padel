@@ -33,18 +33,24 @@ const ExpandableItem = (props) => {
     }
 
     //share phone number if the creator wants to
-    const contactInformation = (share, phonenumber) => {
-        if (share != false) {
-            <View style={styles.rowContainer}>
-                <Ionicons
+    const ContactInformation = () => {
+        if (props.share){
+            return(
+                <View style={styles.rowContainer}>
+                    <Ionicons
                     size={15}
                     name='call-outline'
                     color='#707070'
-                />
+                     />
                 <ListItem.Subtitle style={styles.subTitle1}>
-                    {phonenumber}
+                    {props.phonenr ? props.phonenr : 'No info shared'}
                 </ListItem.Subtitle>
             </View>
+        )
+        } else {
+            return(
+                <></>
+            )
         }
     };
 
@@ -109,7 +115,7 @@ const ExpandableItem = (props) => {
                 <View>
                     <ListItem containerStyle={styles.listItemTwo}>
                         <ListItem.Content>
-                            {contactInformation(props.share, props.phonenr)} {/**check for contact info */}
+                            <ContactInformation />
                             <View style={styles.rowContainer}>
                                 <Ionicons
                                     size={15}
