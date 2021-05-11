@@ -17,6 +17,7 @@ import {useAuth} from '../../contexts/auth';
 import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
 import {CheckBox} from 'react-native-elements';
+import {LogBox} from 'react-native';
 
 const CreateTournamentScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -113,6 +114,11 @@ const CreateTournamentScreen = ({navigation}) => {
             />
         );
     };
+
+    // Ignore native driver message for now...
+    useEffect(() => {
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+    }, []);
 
     return (
         <Modal presentationStyle = 'pageSheet' animationType= 'slide'>
@@ -257,7 +263,6 @@ const CreateTournamentScreen = ({navigation}) => {
                             <CheckBox
                                 checked={contactinfo}
                                 onPress={() => setInfo(!contactinfo)}
-                                style={styles2.checkbox}
                                 center={true}
                             />
                         </View>
