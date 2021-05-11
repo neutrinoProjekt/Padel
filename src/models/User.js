@@ -33,3 +33,8 @@ export function getUserReference(id) {
 export function deleteUserData(id) {
     return db.collection(collectionName).doc(id).delete();
 }
+
+export function getUsers(user) {
+    return db.collection(collectionName).where('fullname', '>=', user).where('fullname', '<=', user + "\uf8ff").limit(20).get()
+        .then((u) => u.docs.map((doc) => doc.data()));
+};
