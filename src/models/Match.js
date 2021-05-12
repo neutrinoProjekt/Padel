@@ -93,6 +93,15 @@ export async function getMatch(matchId) {
 export async function joinMatch(matchId, playerId) {
     const matchInfo = await getMatch(matchId);
     const playerInfo = await getUser(playerId);
+    const ownerInfo = await getUser(matchInfo.owner.id);
+    createNotification({
+        owner: playerId,
+        header: 'You are now part of ' + ownerInfo.displayName + '\'s match!',
+        description: 'The match will be played in ' + matchInfo.city + ', good luck!',
+        detailText: null,
+        type: 'text',
+        typeDetails: {},
+    });
     createNotification({
         owner: matchInfo.owner.id,
         header: playerInfo.displayName + ' has joined your match!',
