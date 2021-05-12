@@ -22,7 +22,6 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import ParameterSlider from '../../components/ParameterSlider';
 import {createNotification} from '../../models/Notification';
 import {LogBox} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import SearchInput from '../../components/SearchInput';
 import {getUsers} from '../../models/User';
 import UserItem from '../../components/UserItem';
