@@ -21,8 +21,6 @@ export function AuthProvider({children}) {
 
     function passwordReset(email) {
         return auth.sendPasswordResetEmail(email)
-           // .then(() => console.log('Success'))
-            //.catch((e) => setError(e.message));
     }
 
     function login(email, password) {
