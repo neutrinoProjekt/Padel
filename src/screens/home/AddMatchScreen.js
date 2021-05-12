@@ -5,6 +5,7 @@ import {
     TouchableOpacity, SafeAreaView, Text,
     ScrollView, Divider,
 } from 'react-native';
+import {CheckBox} from 'react-native-elements';
 import MainButton from './../../components/MainButton';
 import BackButton from './../../components/BackButton';
 import {styles} from './../styling/Styles';

@@ -86,21 +86,29 @@ export function createMatch({
     });
 }
 
-export async function getMatchOwner(matchId) {
+export async function getMatch(matchId) {
     return db.collection(collectionName).doc(matchId).get().then((u) => u.data());
 }
 
 export async function joinMatch(matchId, playerId) {
-    const matchInfo = await getMatchOwner(matchId);
+    const matchInfo = await getMatch(matchId);
     const playerInfo = await getUser(playerId);
+    const ownerInfo = await getUser(matchInfo.owner.id);
+    createNotification({
+        owner: playerId,
+        header: 'You are now part of ' + ownerInfo.displayName + '\'s match!',
+        description: 'The match will be played in ' + matchInfo.city + ', good luck!',
+        detailText: null,
+        type: 'text',
+        typeDetails: {},
+    });
     createNotification({
         owner: matchInfo.owner.id,
         header: playerInfo.displayName + ' has joined your match!',
         description: playerInfo.displayName + ' is now part of your match that is to be played in ' + matchInfo.city,
         detailText: null,
         type: 'text',
-        typeDetails: {
-        },
+        typeDetails: {},
     });
     return db.collection(collectionName).doc(matchId).update({
         participants: firebase.firestore.FieldValue.arrayUnion(getUserReference(playerId))

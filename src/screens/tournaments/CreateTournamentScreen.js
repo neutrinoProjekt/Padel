@@ -4,7 +4,6 @@ import {Text, View, StyleSheet, Modal, ScrollView} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
-import {LogBox} from 'react-native';
 import {colors} from '../styling/Colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CardHeader from '../../components/CardHeader';
@@ -17,8 +16,8 @@ import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
 import MainFormInput from '../../components/MainFormInput';
 import {MAX_RANK, MIN_RANK, MIN_PLAYERS, MAX_PLAYERS, STEP} from '../../config';
-import CheckBox from '@react-native-community/checkbox';
-
+import {CheckBox} from 'react-native-elements';
+import {LogBox} from 'react-native';
 
 const CreateTournamentScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -260,12 +259,12 @@ const CreateTournamentScreen = ({navigation}) => {
 
                         {/** Possibility to share contact info*/}
                         <View style={{paddingTop: 20}}>
-                        {/*<Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
+                            <Text style={[styling.formTitle, {width: 305, paddingTop: 10}]}>Share contact Info</Text>
                             <CheckBox
-                                value={contactinfo}
-                                onValueChange={setInfo}
-                                style={styling.checkbox}
-                            />*/}
+                                checked={contactinfo}
+                                onPress={() => setInfo(!contactinfo)}
+                                center={true}
+                            />
                         </View>
 
                         {/* Button*/}

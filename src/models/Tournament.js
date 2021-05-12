@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
-import {getUserReference} from './User';
+import {getUserReference, getUser} from './User';
+import firebase from 'firebase/app';
+import {createNotification} from './Notification';
 
 const collectionName = 'tournaments';
 
@@ -54,6 +56,7 @@ export function createTournament({
     name = null}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
+        participants: [getUserReference(owner)],
         city,
         date,
         contactinfo,
@@ -61,5 +64,25 @@ export function createTournament({
         maxRank,
         minPlayers,
         name,
+    });
+}
+
+export async function getTournament(tournamentId) {
+    return db.collection(collectionName).doc(tournamentId).get().then((u) => u.data());
+}
+
+export async function joinTournament(tournamentId, playerId) {
+    const tournamentInfo = await getTournament(tournamentId);
+    const playerInfo = await getUser(playerId);
+    createNotification({
+        owner: tournamentInfo.owner.id,
+        header: playerInfo.displayName + ' has joined your match!',
+        description: playerInfo.displayName + ' is now part of your tournament in ' + tournamentInfo.city,
+        detailText: null,
+        type: 'text',
+        typeDetails: {},
+    });
+    return db.collection(collectionName).doc(tournamentId).update({
+        participants: firebase.firestore.FieldValue.arrayUnion(getUserReference(playerId))
     });
 }
