@@ -23,6 +23,7 @@ export default function PersonPageScreen({navigation}) {
     const [deleteWarning, setDeleteWarning] = useState(false);
     const {currentUser, logout, deleteUser} = useAuth();
     const [displayName, setDisplayName] = useState('');
+    const [rating, setRating] = useState('');
 
     const updateProfile = () => {
         getUser(currentUser.uid)
@@ -30,6 +31,7 @@ export default function PersonPageScreen({navigation}) {
                 setDescription(data.description);
                 setImage({uri: data.photoURL});
                 setDisplayName(data.displayName);
+                setRating(data.rating);
             });
     };
 
@@ -80,7 +82,6 @@ export default function PersonPageScreen({navigation}) {
         }
     }
 
-
     function sendData(phonenr, description) {
         if (phonenr != '') {
             updateUser(currentUser.uid, {phoneNumber: phonenr});
@@ -101,20 +102,25 @@ export default function PersonPageScreen({navigation}) {
                     activeOpacity={0.7}
                 />
                 {/* Firebase issue. Get the user' peofile pic from the database*/}
-                <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 20, alignItems: 'center'}}>
                     <Text style={{fontSize: 24, paddingTop: 10}}>{displayName}</Text>
                 </View>
+                <Text style={{marginTop: -10, color: '#707070', fontSize: 16}}>RATING</Text>
+                <Text style={{color: '#00CEB4'}}>{rating}</Text>
                 <View>
-                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190}}>Description</Text>
-                    <Text style={{position: 'absolute', marginTop: 20, left: -185}}>Mökarn</Text>
+                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, fontSize: 16}}>Description</Text>
+                    <Text style={{position: 'absolute', marginTop: 20, left: -185}}>Tjena</Text>
                 </View>
                 <View>
-                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, bottom: -140}}>Contact information</Text>
+                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, bottom: -140, fontSize: 16}}>Contact information</Text>
                 </View>
                 <View>
                     <Text style={{color: '#707070', fontWeight: 'bold', position: 'absolute', left: -185, bottom: -165}}>Phone number: {currentUser.phonenr}</Text>
                     <Text style={{color: '#707070', fontWeight: 'bold', position: 'absolute', left: -185, bottom: -185}}>Email: </Text>
                     <Text style={{color: '#707070', fontWeight: 'bold', position: 'absolute', left: -185, bottom: -205}}>Name: </Text>
+                </View>
+                <View>
+                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, bottom: -260, fontSize: 16}}>Match History</Text>
                 </View>
                 <View style={{position: 'absolute', bottom: -520}}>
                     <BackButton title='Sign Out' onPress={() => logout()}/>
