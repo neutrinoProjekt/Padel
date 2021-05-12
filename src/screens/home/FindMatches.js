@@ -34,7 +34,7 @@ const FindMatches = ({navigation}) => {
         setDateTo(getDate(str));
     };
 
-    const getDate = (date) => {
+    const getDate = (datea) => {
         return new Date(date).toISOString().split('T')[0];
     };
 

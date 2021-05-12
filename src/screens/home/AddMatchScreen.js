@@ -25,6 +25,8 @@ import CheckBox from '@react-native-community/checkbox';
 import SearchInput from '../../components/SearchInput';
 import {getUsers} from '../../models/User';
 import UserItem from '../../components/UserItem';
+import PlayerTag from '../../components/PlayerTag/';
+import {getUserReference} from '../../models/User';
 
 const AddMatchScreen = ({navigation}) => {
     const {currentUser} = useAuth();
@@ -42,6 +44,8 @@ const AddMatchScreen = ({navigation}) => {
     const [rank1, setRank1] = useState(MIN_RANK);
     const [rank2, setRank2] = useState(MIN_RANK);
     const [rankColor, setRankColor] = useState(colors.colorYellow);
+    const [users, setUsers] = useState([]);
+    const [errorMsg2, setErrorMsg2] = useState('');
 
     // state to show or not show search results
     const [showSearch, setShowSearch] = useState(false);
@@ -63,7 +67,8 @@ const AddMatchScreen = ({navigation}) => {
     // Clear error messages
     useEffect(() => {
         setErrorMsg('');
-    }, [date, timeFrom, timeTo, city, court, rank1, rank2]);
+        setErrorMsg2('');
+    }, [date, timeFrom, timeTo, city, court, rank1, rank2, users]);
 
 
     /* Parameter handlers */
@@ -192,7 +197,9 @@ const AddMatchScreen = ({navigation}) => {
 
         createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode, contactinfo: contactinfo, minRank: rank1, maxRank: rank2})
             .then((match) => {
-                createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: 'i1yjmqDKHPggHzOmt6jAxhNdXJe2', description: '', image: '', detailText: '', detailData: {matchId: match.id}});
+                players.forEach((player) =>
+                    createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: player.id, detailData: {id: match.id}}),
+                );
             });
         navigation.goBack();
     };
@@ -201,152 +208,18 @@ const AddMatchScreen = ({navigation}) => {
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
     }, []);
 
-    const [users, setUsers] = useState([]);
 
-    const InputFields = () => {
-        return (
-            <>
-                {/* City*/}
-                <View style={{marginTop: 30, width: 305}}>
-                    <MainFormInput
-                        inputTitle='City'
-                        placeholder='What city are you going to play in?'
-                        input={city}
-                        setInput={(text) => setCity(text)}
-                        inputWidth={305}
-                    />
-                </View>
+    const member = (players, user) => {
+        let i = 0;
+        for (i = 0; i < players.length; i++) {
+            if (players[i].displayName == user.displayName) {
+                return true;
+            }
+        }
 
-                {/* Court*/}
-                <View style={{marginTop: 20, width: 305}}>
-                    <MainFormInput
-                        inputTitle='Court'
-                        placeholder='What court are you going to play in?'
-                        input={court}
-                        setInput={(text) => setCourt(text)}
-                        inputWidth={305}
-                    />
-                </View>
-
-                {/* Date picker*/}
-                <View style={{marginTop: 20, width: 305}}>
-                    <DatePicker />
-                </View>
-
-                {/* Time pickers*/}
-                <View style={styles2.rowContainer}>
-                    <View
-                        style={{marginTop: 10,
-                            width: 145,
-                            marginRight: 10}}
-                    >
-                        <TimeFrom />
-                    </View>
-                    <View style={{marginTop: 10, width: 145}}>
-                        <TimeTo />
-                    </View>
-                </View>
-
-                {/* Minimum Rank Slider*/}
-                <View style={{marginTop: 20}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                            <Text>Minimum rank</Text>
-                        </View>
-                        <View style={{flex: 1, alignItems: 'flex-end'}}>
-                            <ToggleSwitch
-                                onValueChange={(val) => setToggle1(val)}
-                                value={toggle1}/>
-                        </View>
-                    </View>
-                    <ParameterSlider
-                        step={STEP}
-                        min={MIN_RANK}
-                        max={MAX_RANK}
-                        value={rank1}
-                        onChange={(val) => {
-                            setRank1(val);
-                            setRankSliderColor();
-                        }}
-                        thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
-                        maxTrackColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
-                        minTrackColor={toggle1 ? rankColor : colors.colorDisabled}
-                        disabled={!toggle1}
-                    />
-                    <View style={styles2.textCon}>
-                        <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
-                        <Text style={colors.colorDisabled}>{toggle1 ? rank1 : ''}</Text>
-                        <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
-                    </View>
-                </View>
-
-                {/* Maximum rank slider */}
-                <View style={{paddingTop: 10}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={{paddingLeft: 110, alignSelf: 'center'}}>
-                            <Text>Maximum rank</Text>
-                        </View>
-                        <View style={{flex: 1, alignItems: 'flex-end'}}>
-                            <ToggleSwitch onValueChange={(val) => setToggle2(val)} value={toggle2}/>
-                        </View>
-                    </View>
-                    <ParameterSlider
-                        step={STEP}
-                        min={MIN_RANK}
-                        max={MAX_RANK}
-                        value={rank2}
-                        onChange={(val) => {
-                            setRank2(val);
-                            setRankSliderColor();
-                        }}
-                        thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                        maxTrackColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
-                        minTrackColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
-                        disabled={!toggle2}
-                    />
-                    <View style={styles2.textCon}>
-                        <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
-                        <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
-                        <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
-                    </View>
-                </View>
-
-                {/* Mode selector*/}
-                <View style={{paddingTop: 20}}>
-                    <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Mode</Text>
-                    <RadioButton
-                        onClick={() => {
-                            setSingle(true); setDouble(false);
-                        }}
-                        size={24}
-                        color={single ? colors.signature : 'black'}
-                        selected={single}
-                        label='Single'
-                    />
-                    <RadioButton
-                        onClick={() => {
-                            setDouble(true); setSingle(false);
-                        }}
-                        size={24}
-                        color={double ? colors.signature : 'black'}
-                        selected={double}
-                        label='Double'
-                    />
-                </View>
-
-                {/* Post match button*/}
-                <View style={styles2.actionButtonContainer}>
-                    <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
-                    <TouchableOpacity>
-                        <MainButton
-                            title='Post Match'
-                            onPress={postMatch}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </>
-        );
+        return false;
     };
+
 
     return (
         <Modal
@@ -370,35 +243,189 @@ const AddMatchScreen = ({navigation}) => {
                                     text == '' ? setUsers([]) : getUsers(text).then((u) => setUsers(u));
                                 }}
                             />
-                            <View>
+                            <View style={{margin: 5}}>
                                 {
                                     players.map((player) => (
-                                        <Text>{player.fullname}</Text>
+                                        <PlayerTag
+                                            key={player.displayName}
+                                            fullname={player.fullname}
+                                            onPress={() => setPlayers(players.filter((elem) => player.fullname != elem.fullname))}
+                                        />
                                     ))
                                 }
                             </View>
-
+                            <Text style={[styles.error, {marginTop: 5, marginBottom: -40}]}>{errorMsg2}</Text>
                         </View>
-                        {!showSearch ? <InputFields /> :
-                            <View>
+                        {!showSearch ?
+                            <>
+                                {/* City*/}
                                 <View style={{marginTop: 30, width: 305}}>
+                                    <MainFormInput
+                                        inputTitle='City'
+                                        placeholder='What city are you going to play in?'
+                                        input={city}
+                                        setInput={(text) => setCity(text)}
+                                        inputWidth={305}
+                                    />
+                                </View>
+
+                                {/* Court*/}
+                                <View style={{marginTop: 20, width: 305}}>
+                                    <MainFormInput
+                                        inputTitle='Court'
+                                        placeholder='What court are you going to play in?'
+                                        input={court}
+                                        setInput={(text) => setCourt(text)}
+                                        inputWidth={305}
+                                    />
+                                </View>
+
+                                {/* Date picker*/}
+                                <View style={{marginTop: 20, width: 305}}>
+                                    <DatePicker />
+                                </View>
+
+                                {/* Time pickers*/}
+                                <View style={styles2.rowContainer}>
+                                    <View
+                                        style={{marginTop: 10,
+                                            width: 145,
+                                            marginRight: 10}}
+                                    >
+                                        <TimeFrom />
+                                    </View>
+                                    <View style={{marginTop: 10, width: 145}}>
+                                        <TimeTo />
+                                    </View>
+                                </View>
+
+                                {/* Minimum Rank Slider*/}
+                                <View style={{marginTop: 20}}>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                            <Text>Minimum rank</Text>
+                                        </View>
+                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                            <ToggleSwitch
+                                                onValueChange={(val) => setToggle1(val)}
+                                                value={toggle1}/>
+                                        </View>
+                                    </View>
+                                    <ParameterSlider
+                                        step={STEP}
+                                        min={MIN_RANK}
+                                        max={MAX_RANK}
+                                        value={rank1}
+                                        onChange={(val) => {
+                                            setRank1(val);
+                                            setRankSliderColor();
+                                        }}
+                                        thumbTintColor={toggle1 ? colors.colorYellow : colors.colorDisabled}
+                                        maxTrackColor= {toggle1 ? colors.colorLightGrey : colors.colorDisabled}
+                                        minTrackColor={toggle1 ? rankColor : colors.colorDisabled}
+                                        disabled={!toggle1}
+                                    />
+                                    <View style={styles2.textCon}>
+                                        <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
+                                        <Text style={colors.colorDisabled}>{toggle1 ? rank1 : ''}</Text>
+                                        <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
+                                    </View>
+                                </View>
+
+                                {/* Maximum rank slider */}
+                                <View style={{paddingTop: 10}}>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <View style={{paddingLeft: 110, alignSelf: 'center'}}>
+                                            <Text>Maximum rank</Text>
+                                        </View>
+                                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                            <ToggleSwitch onValueChange={(val) => setToggle2(val)} value={toggle2}/>
+                                        </View>
+                                    </View>
+                                    <ParameterSlider
+                                        step={STEP}
+                                        min={MIN_RANK}
+                                        max={MAX_RANK}
+                                        value={rank2}
+                                        onChange={(val) => {
+                                            setRank2(val);
+                                            setRankSliderColor();
+                                        }}
+                                        thumbTintColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                                        maxTrackColor={toggle2 ? colors.colorLightGrey : colors.colorDisabled}
+                                        minTrackColor={toggle2 ? colors.colorYellow : colors.colorDisabled}
+                                        disabled={!toggle2}
+                                    />
+                                    <View style={styles2.textCon}>
+                                        <Text style={colors.colorDisabled}>{MIN_RANK}</Text>
+                                        <Text style={colors.colorYellow}>{toggle2 ? rank2 : ''}</Text>
+                                        <Text style={colors.colorDisabled}>{MAX_RANK}</Text>
+                                    </View>
+                                </View>
+
+                                {/* Mode selector*/}
+                                <View style={{paddingTop: 20}}>
+                                    <Text style={[styles2.formTitle, {width: 305, paddingTop: 10}]}>Mode</Text>
+                                    <RadioButton
+                                        onClick={() => {
+                                            setSingle(true); setDouble(false);
+                                        }}
+                                        size={24}
+                                        color={single ? colors.signature : 'black'}
+                                        selected={single}
+                                        label='Single'
+                                    />
+                                    <RadioButton
+                                        onClick={() => {
+                                            setDouble(true); setSingle(false);
+                                        }}
+                                        size={24}
+                                        color={double ? colors.signature : 'black'}
+                                        selected={double}
+                                        label='Double'
+                                    />
+                                </View>
+
+                                {/* Post match button*/}
+                                <View style={styles2.actionButtonContainer}>
+                                    <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
+                                    <TouchableOpacity>
+                                        <MainButton
+                                            title='Post Match'
+                                            onPress={postMatch}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            </> :
+                            <View>
+                                <ScrollView style={{marginTop: 30, width: 305}}>
                                     {
                                         // filter så att endast spelare som ej är appendade displayas
                                         users.map((user) => (
-                                            <UserItem
-                                                key={user.displayName}
-                                                fullname={user.fullname}
-                                                photoURL={user.photoURL}
-                                                displayName={user.displayName}
-                                                onPress={() => setPlayers(players.concat([user]))}
-                                            />
+                                            (!member(players, user)) ?
+                                                <UserItem
+                                                    key={user.displayName}
+                                                    fullname={user.fullname}
+                                                    photoURL={user.photoURL}
+                                                    displayName={user.displayName}
+                                                    onPress={() => {
+                                                        if (single && players.length == 1 || double && players.length == 3) {
+                                                            setErrorMsg2('Maximum allowed players reached, change mode or remove a player to add more');
+                                                            return;
+                                                        }
+                                                        setPlayers(players.concat([user]));
+                                                    }}
+                                                /> :
+                                                <></>
                                         ))
                                     }
-                                </View>
-                                <View style={{position: 'absolute', marginTop: 450}}>
-                                    <MainButton title={'Add users'}/>
+                                </ScrollView>
+                                <View style={{position: 'absolute', marginTop: 430}}>
+                                    <MainButton onPress={() => setShowSearch(false)}title={'Add users'}/>
                                     <View style={{marginTop: 10}}>
-                                        <BackButton onPress={() => setShowSearch(false)} title={'Back'}/>
+                                        <BackButton onPress={() => {
+                                            setShowSearch(false); setPlayers([]);
+                                        }} title={'Back'}/>
                                     </View>
                                 </View>
                             </View>

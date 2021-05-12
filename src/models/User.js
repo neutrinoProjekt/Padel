@@ -35,6 +35,9 @@ export function deleteUserData(id) {
 }
 
 export function getUsers(user) {
-    return db.collection(collectionName).where('fullname', '>=', user).where('fullname', '<=', user + "\uf8ff").limit(20).get()
-        .then((u) => u.docs.map((doc) => doc.data()));
+    return db.collection(collectionName)
+        .where('fullname', '>=', user)
+        .where('fullname', '<=', user + "\uf8ff")
+        .limit(20).get()
+        .then((u) => u.docs.map((doc) => ({...doc.data(), id: doc.id})));
 };
