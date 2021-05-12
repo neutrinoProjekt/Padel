@@ -14,6 +14,7 @@ import {
     deletNotification,
 } from '../../models/Notification';
 import {joinMatch, createMatch} from '../../models/Match';
+import { joinTournament } from '../../models/Tournament';
 
 
 // todo
@@ -99,11 +100,11 @@ const Notifications = () => {
                 );
             case 'matchJoinRequest':
                 return (
-                    joinRequest({item: item, function: (()=>(joinMatch(item.detailData.id, currentUser.uid)))}) // owner = receiver of the notification
+                    joinRequest({item: item, function: (() => (joinMatch(item.detailData.id, currentUser.uid)))}) // owner = receiver of the notification
                 );
             case 'tournamentJoinRequest':
                 return (
-                    joinRequest({item: item, function: (()=>(console.log('shoooo')))})
+                    joinRequest({item: item, function: (() => (joinTournament(item.detailData.id, currentUser.uid)))})
                 );
 
             default:
