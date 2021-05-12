@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import StartScreen from './screens/landing/StartScreen';
-import LoginScreen from './screens/login/LoginScreen';
+import {LoginContainer} from './screens/login/LoginContainer';
 import Error from './screens/error/ErrorScreen';
 import BottomNavigation from './navigators/bottomNav/BottomNavigation';
 import {RegistrationContainer} from './screens/registration/RegistrationContainer';
@@ -25,8 +25,8 @@ export default function Routes() {
                 options={{headerShown: false}}
             />
             <Stack.Screen
-                name="Login"
-                component={LoginScreen}
+                name="LoginContainer"
+                component={LoginContainer}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>
