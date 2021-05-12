@@ -11,7 +11,7 @@ const StartScreen = ({navigation}) => {
 
     // move to login page when pressing button
     const logIn = () => {
-        navigation.navigate('Login');
+        navigation.navigate('LoginContainer');
     };
 
     // used for testing, tournament screen
@@ -20,13 +20,14 @@ const StartScreen = ({navigation}) => {
     };
 
     return (
-        <ImageBackground source = {{uri: 'https://i.pinimg.com/originals/50/2c/a3/502ca33a6bcd3eafa97d50957c63dcb9.png'}} style = {styles.image}>
+
+        <ImageBackground source = {{uri: 'https://24hkto1dz1v3ddyf93n0ye45-wpengine.netdna-ssl.com/wp-content/uploads/2015/11/Kinfolk_Vol18_OrderintheCourts_03-1-768x1024.jpg'}} style = {styles.image}>
             <View style={{height: 400}}>
-                <Text style={customStyles.title}>PaddelPal</Text>
+                <Text style={customStyles.title}>PadelPal</Text>
             </View>
             <View style={{height: 150}}>
                 <Text style={customStyles.text}>
-                    Join our online paddle community
+                    Join our online padel community
                 </Text>
             </View>
             <MainButton title="Register" onPress={register}/>
