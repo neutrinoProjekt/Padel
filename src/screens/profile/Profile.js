@@ -91,38 +91,68 @@ export default function PersonPageScreen({navigation}) {
         }
     }
 
+    const SubHeader = (props) => {
+        return (
+            <View>
+                <Text style={{fontWeight: 'bold', fontSize: 16}}>{props.title}</Text>
+                <Divider style={{width: props.dividerWidth}}/>
+            </View>
+        );
+    };
+
+    const SubHeaderField = (props) => {
+        return (
+            <View style={styles.subHeaderContainer}>
+                <Text style={styles.subHeader}>{props.header}</Text>
+                <Text style={styles.subHeaderField}>{props.value}</Text>
+            </View>
+        );
+    };
+
     return currentUser != null ? (
         <SafeAreaView style={{backgroundColor: 'white', height: '100%'}}>
             <View style={styles.container}>
                 {/** Profile picture */}
-                <Avatar
-                    rounded
-                    size="large"
-                    source={image}
-                    activeOpacity={0.7}
-                />
+                <View style={{paddingTop: 50, alignSelf: 'center'}}>
+                    <Avatar
+                        rounded
+                        size="large"
+                        source={image}
+                        activeOpacity={0.7}
+                    />
+                </View>
                 {/* Firebase issue. Get the user' peofile pic from the database*/}
-                <View style={{marginBottom: 20, alignItems: 'center'}}>
-                    <Text style={{fontSize: 24, paddingTop: 10}}>{displayName}</Text>
+                <View style={{alignItems: 'center', marginTop: 10}}>
+                    <Text style={{fontSize: 24, color: '#00CEB4'}}>{displayName}</Text>
+                    <Text style={{marginTop: 10, color: '#707070', fontSize: 16}}>RATING</Text>
+                    <Text style={{color: '#00CEB4'}}>{rating}</Text>
                 </View>
-                <Text style={{marginTop: -10, color: '#707070', fontSize: 16}}>RATING</Text>
-                <Text style={{color: '#00CEB4'}}>{rating}</Text>
-                <View>
-                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, fontSize: 16}}>Description</Text>
-                    <Text style={{position: 'absolute', marginTop: 20, left: -185}}>Tjena</Text>
+                <View style={{paddingLeft: 10, marginTop: 30}}>
+                    <SubHeader title='DESCRIPTION' dividerWidth={110}/>
+                    <Text style={{paddingTop: 3}}>Tjena</Text>
                 </View>
-                <View>
-                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, bottom: -140, fontSize: 16}}>Contact information</Text>
+                <View style={{paddingLeft: 10, marginTop: 20}}>
+                    <SubHeader title='CONTACT INFORMATION' dividerWidth={195}/>
+                    <View style={{paddingTop: 3}}>
+                        <SubHeaderField header='Phone Number:' value='Lmao'/>
+                    </View>
+                    <SubHeaderField header='Full name:' value='Lmao'/>
+                    <SubHeaderField header='Email:' value='Lmao'/>
+                    <SubHeaderField header='Country:' value='Lmao'/>
+                    <SubHeaderField header='City:' value='Lmao'/>
                 </View>
-                <View>
-                    <Text style={{color: '#707070', fontWeight: 'bold', position: 'absolute', left: -185, bottom: -165}}>Phone number: {currentUser.phonenr}</Text>
-                    <Text style={{color: '#707070', fontWeight: 'bold', position: 'absolute', left: -185, bottom: -185}}>Email: </Text>
-                    <Text style={{color: '#707070', fontWeight: 'bold', position: 'absolute', left: -185, bottom: -205}}>Name: </Text>
+                <View style={{paddingLeft: 10, marginTop: 20}}>
+                    <SubHeader title='STATISTICS' dividerWidth={90}/>
+                    <View style={{paddingTop: 3}}>
+                        <SubHeaderField header='Ranking (GLOBAL):' value={200}/>
+                    </View>
+                    <SubHeaderField header='Matches played:' value={0}/>
+                    <SubHeaderField header='Rating:' value={0}/>
+                    <SubHeaderField header='Wins:' value={0}/>
+                    <SubHeaderField header='Losses:' value={0}/>
+                    <SubHeaderField header='Winrate:' value={0}/>
                 </View>
-                <View>
-                    <Text style={{fontWeight: 'bold', position: 'absolute', left: -190, bottom: -260, fontSize: 16}}>Match History</Text>
-                </View>
-                <View style={{position: 'absolute', bottom: -520}}>
+                <View style={{position: 'absolute', alignSelf: 'center', bottom: -450}}>
                     <BackButton title='Sign Out' onPress={() => logout()}/>
                 </View>
                 {/* <View style={{marginTop: 10}}>
@@ -136,23 +166,21 @@ export default function PersonPageScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: -20,
+        backgroundColor: 'black',
+        height: 230,
+        marginTop: -48,
     },
-    image: {
-        flex: 1,
-    },
-    text: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: '#00ceb4',
-        textAlign: 'center',
-    },
-    subtitle: {
+    subHeader: {
         color: '#707070',
-        fontSize: 12,
         fontWeight: 'bold',
-        textAlign: 'center',
+    },
+    subHeaderContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    subHeaderField: {
+        color: '#707070',
+        position: 'absolute',
+        right: 5,
     },
 });

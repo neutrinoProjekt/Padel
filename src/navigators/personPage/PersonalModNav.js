@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import rankScreen from '../../screens/rank/rankScreen';
+import rankScreen from '../../screens/rank/Rank';
 import PersonPageScreen from '../../screens/profile/Profile';
 import History from '../../screens/history/History';
 
