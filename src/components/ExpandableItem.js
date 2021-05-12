@@ -28,9 +28,14 @@ const ExpandableItem = (props) => {
         setOpen(false);
     };
 
-    const navig = () => {
+    const matchDetails = () => {
         props.navigation.navigate('MatchDetailsScreen', props.matchData);
-    }
+    };
+
+    const VictoryScreen = () => {
+        props.navigation.navigate('VictoryScreen');
+    };
+
 
     //share phone number if the creator wants to
     const ContactInformation = () => {
@@ -87,7 +92,7 @@ const ExpandableItem = (props) => {
                         open = {isOpen}
                         text1 = {props.t2 == 'Match' ? 'Forfeit Match' : 'Forfeit Tournament'}
                         text2 = {'More Details'}
-                        onPress2={() => props.navigation.navigate('MatchDetailsScreen', props.matchData)}
+                        onPress2={props.t2 == 'Match' ? matchDetails: VictoryScreen}
                     />
                 </ListItem>
             </TouchableHighlight>
