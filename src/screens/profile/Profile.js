@@ -3,7 +3,7 @@
 /* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Image} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
@@ -18,6 +18,8 @@ import {PhoneIcon, EmailIcon, CityIcon, NameIcon,
     CountryIcon, RankingIcon, MatchesPlayedIcon,
     RatingIcon, WinsIcon, LossesIcon, WinRateIcon} from '../../components/icons/Icons';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import {findFlagUrlByCountryName} from 'country-flags-svg';
+import {SvgUri} from 'react-native-svg';
 
 // function that displays screen under the header
 export default function PersonPageScreen({navigation}) {
@@ -35,6 +37,7 @@ export default function PersonPageScreen({navigation}) {
     const [fullName, setFullName] = useState('-');
     const [matchesPlayed, setMatchesPlayed] = useState('-');
     const [city, setCity] = useState('-');
+    const [flag, setFlagUrl] = useState('');
 
     const updateProfile = () => {
         getUser(currentUser.uid)
@@ -42,7 +45,8 @@ export default function PersonPageScreen({navigation}) {
                 setDescription(data.description);
                 setDisplayName(data.displayName);
                 setRating(data.rating);
-                setCountry(data.country);
+                // setCountry(data.country);
+                setCountry('Sweden');
                 setMatchesPlayed(data.matchesPlayed);
                 setWins(data.wins);
                 setLosses(data.losses);
@@ -51,12 +55,13 @@ export default function PersonPageScreen({navigation}) {
                 setCity(data.city);
                 setPhoneNumber(data.phoneNumber);
                 setImage({uri: data.photoURL});
+                setFlagUrl(findFlagUrlByCountryName(country));
             });
     };
 
     useEffect(()=> {
         updateProfile();
-    }, []);
+    }, [city, flag, matchesPlayed, wins, losses, rating, description]);
 
 
     useLayoutEffect(() => {
@@ -133,7 +138,12 @@ export default function PersonPageScreen({navigation}) {
     return currentUser != null ? (
         <SafeAreaView style={{backgroundColor: 'white', height: '100%'}}>
             <View style={styles.container}>
-
+                <SvgUri 
+                    height='20%'
+                    width='20%'
+                    uri={flag}
+                    style={{position: 'absolute', marginTop: 5}}
+                />
                 {/** Profile picture */}
                 <View style={{paddingTop: 50, alignSelf: 'center'}}>
                     <Avatar
