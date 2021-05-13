@@ -12,7 +12,13 @@ export function createUser(id, fullname, displayName) {
         fullname: fullname,
         displayName: displayName,
         rating: INITIAL_RATING,
-        description: 'This is not the description you\'re looking for',
+        description: '-',
+        matchesPlayed: 0,
+        wins: 0,
+        losses: 0,
+        city: '-',
+        country: '-',
+        phoneNumber: '-',
         photoURL: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullname,
     });
 }

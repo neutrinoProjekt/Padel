@@ -25,7 +25,7 @@ import {LogBox} from 'react-native';
 import SearchInput from '../../components/SearchInput';
 import {getUsers} from '../../models/User';
 import UserItem from '../../components/UserItem';
-import PlayerTag from '../../components/PlayerTag/';
+import PlayerTag from '../../components/PlayerTag';
 import {getUserReference} from '../../models/User';
 
 const AddMatchScreen = ({navigation}) => {

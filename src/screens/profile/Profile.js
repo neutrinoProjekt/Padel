@@ -14,24 +14,43 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Directions} from 'react-native-gesture-handler';
 import BackButton from '../../components/BackButton';
 import {Divider} from 'react-native-elements';
+import {PhoneIcon, EmailIcon, CityIcon, NameIcon,
+    CountryIcon, RankingIcon, MatchesPlayedIcon,
+    RatingIcon, WinsIcon, LossesIcon, WinRateIcon} from '../../components/icons/Icons';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 // function that displays screen under the header
 export default function PersonPageScreen({navigation}) {
-    const [phonenr, setPhonenr] = useState('');
-    const [image, setImage] = useState({uri: 'https://images.interactives.dk/einstein_shutterstock-qbUmtZmY5FII0w3giBzzOw.jpg?auto=compress&ch=Width%2CDPR&dpr=2.63&h=480&ixjsv=2.2.4&q=38&rect=33%2C0%2C563%2C390'});
-    const [description, setDescription] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('-');
+    const [image, setImage] = useState({uri: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullName});
+    const [description, setDescription] = useState('-');
     const [deleteWarning, setDeleteWarning] = useState(false);
     const {currentUser, logout, deleteUser} = useAuth();
-    const [displayName, setDisplayName] = useState('');
-    const [rating, setRating] = useState('');
+    const [displayName, setDisplayName] = useState('-');
+    const [rating, setRating] = useState('-');
+    const [wins, setWins] = useState(0);
+    const [losses, setLosses] = useState(0);
+    const [email, setEmail] = useState('-');
+    const [country, setCountry] = useState('-');
+    const [fullName, setFullName] = useState('-');
+    const [matchesPlayed, setMatchesPlayed] = useState('-');
+    const [city, setCity] = useState('-');
 
     const updateProfile = () => {
         getUser(currentUser.uid)
             .then((data) => {
                 setDescription(data.description);
-                setImage({uri: data.photoURL});
                 setDisplayName(data.displayName);
                 setRating(data.rating);
+                setCountry(data.country);
+                setMatchesPlayed(data.matchesPlayed);
+                setWins(data.wins);
+                setLosses(data.losses);
+                setFullName(data.fullname);
+                setEmail(currentUser.email);
+                setCity(data.city);
+                setPhoneNumber(data.phoneNumber);
+                setImage({uri: data.photoURL});
             });
     };
 
@@ -91,6 +110,7 @@ export default function PersonPageScreen({navigation}) {
         }
     }
 
+    // Local components
     const SubHeader = (props) => {
         return (
             <View>
@@ -103,6 +123,7 @@ export default function PersonPageScreen({navigation}) {
     const SubHeaderField = (props) => {
         return (
             <View style={styles.subHeaderContainer}>
+                {props.icon}
                 <Text style={styles.subHeader}>{props.header}</Text>
                 <Text style={styles.subHeaderField}>{props.value}</Text>
             </View>
@@ -112,6 +133,7 @@ export default function PersonPageScreen({navigation}) {
     return currentUser != null ? (
         <SafeAreaView style={{backgroundColor: 'white', height: '100%'}}>
             <View style={styles.container}>
+
                 {/** Profile picture */}
                 <View style={{paddingTop: 50, alignSelf: 'center'}}>
                     <Avatar
@@ -123,34 +145,34 @@ export default function PersonPageScreen({navigation}) {
                 </View>
                 {/* Firebase issue. Get the user' peofile pic from the database*/}
                 <View style={{alignItems: 'center', marginTop: 10}}>
-                    <Text style={{fontSize: 24, color: '#00CEB4'}}>{displayName}</Text>
-                    <Text style={{marginTop: 10, color: '#707070', fontSize: 16}}>RATING</Text>
-                    <Text style={{color: '#00CEB4'}}>{rating}</Text>
+                    <Text style={{fontSize: 24, color: '#00CEB4', fontWeight: 'bold'}}>{displayName}</Text>
+                    <Text style={{marginTop: 10, color: 'black', fontSize: 16, fontWeight: 'bold'}}>RATING</Text>
+                    <Text style={{color: '#00CEB4', fontSize: 16}}>{rating}</Text>
                 </View>
                 <View style={{paddingLeft: 10, marginTop: 30}}>
                     <SubHeader title='DESCRIPTION' dividerWidth={110}/>
-                    <Text style={{paddingTop: 3}}>Tjena</Text>
+                    <Text style={{paddingTop: 3}}>{description}</Text>
                 </View>
                 <View style={{paddingLeft: 10, marginTop: 20}}>
                     <SubHeader title='CONTACT INFORMATION' dividerWidth={195}/>
                     <View style={{paddingTop: 3}}>
-                        <SubHeaderField header='Phone Number:' value='Lmao'/>
+                        <SubHeaderField header='Phone Number' icon={<PhoneIcon />} value={phoneNumber}/>
                     </View>
-                    <SubHeaderField header='Full name:' value='Lmao'/>
-                    <SubHeaderField header='Email:' value='Lmao'/>
-                    <SubHeaderField header='Country:' value='Lmao'/>
-                    <SubHeaderField header='City:' value='Lmao'/>
+                    <SubHeaderField header='Full Name' icon={<NameIcon />} value={fullName}/>
+                    <SubHeaderField header='Email' icon={<EmailIcon />} value={email}/>
+                    <SubHeaderField header='Country' icon={<CountryIcon />} value={country}/>
+                    <SubHeaderField header='City' icon={<CityIcon />} value={city}/>
                 </View>
                 <View style={{paddingLeft: 10, marginTop: 20}}>
                     <SubHeader title='STATISTICS' dividerWidth={90}/>
                     <View style={{paddingTop: 3}}>
-                        <SubHeaderField header='Ranking (GLOBAL):' value={200}/>
+                        <SubHeaderField header='Ranking' icon={<RankingIcon />} value={200}/>
                     </View>
-                    <SubHeaderField header='Matches played:' value={0}/>
-                    <SubHeaderField header='Rating:' value={0}/>
-                    <SubHeaderField header='Wins:' value={0}/>
-                    <SubHeaderField header='Losses:' value={0}/>
-                    <SubHeaderField header='Winrate:' value={0}/>
+                    <SubHeaderField header='Matches played' icon={<MatchesPlayedIcon />} value={matchesPlayed}/>
+                    <SubHeaderField header='Rating' icon={<RatingIcon />} value={rating}/>
+                    <SubHeaderField header='Wins' icon={<WinsIcon />} value={wins}/>
+                    <SubHeaderField header='Losses' icon={<LossesIcon />} value={losses}/>
+                    <SubHeaderField header='Winrate' icon={<WinRateIcon />} value={0}/>
                 </View>
                 <View style={{position: 'absolute', alignSelf: 'center', bottom: -450}}>
                     <BackButton title='Sign Out' onPress={() => logout()}/>
@@ -166,13 +188,14 @@ export default function PersonPageScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        backgroundColor: 'grey',
         height: 230,
         marginTop: -48,
     },
     subHeader: {
         color: '#707070',
         fontWeight: 'bold',
+        paddingLeft: 3,
     },
     subHeaderContainer: {
         flexDirection: 'row',
