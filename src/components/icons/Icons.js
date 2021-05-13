@@ -6,7 +6,7 @@ export const PhoneIcon = () => {
         <MaterialCommunityIcons
             name="phone"
             size={16}
-            color='#707070'
+            color='tan'
         />
     );
 };
@@ -16,7 +16,7 @@ export const EmailIcon = () => {
         <MaterialCommunityIcons
             name="email"
             size={16}
-            color='#707070'
+            color='#DB4437'
         />
     );
 };
@@ -26,7 +26,7 @@ export const CityIcon = () => {
         <MaterialCommunityIcons
             name="city"
             size={16}
-            color='#707070'
+            color='rosybrown'
         />
     );
 };
@@ -46,7 +46,7 @@ export const CountryIcon = () => {
         <MaterialCommunityIcons
             name="pin"
             size={16}
-            color='#707070'
+            color='skyblue'
         />
     );
 };

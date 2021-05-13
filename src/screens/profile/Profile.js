@@ -149,6 +149,9 @@ export default function PersonPageScreen({navigation}) {
                     <Text style={{marginTop: 10, color: 'black', fontSize: 16, fontWeight: 'bold'}}>RATING</Text>
                     <Text style={{color: '#00CEB4', fontSize: 16}}>{rating}</Text>
                 </View>
+                <View style={{marginTop: 10, marginBottom: -10}}>
+                    <Divider />
+                </View>
                 <View style={{paddingLeft: 10, marginTop: 30}}>
                     <SubHeader title='DESCRIPTION' dividerWidth={110}/>
                     <Text style={{paddingTop: 3}}>{description}</Text>
@@ -166,7 +169,7 @@ export default function PersonPageScreen({navigation}) {
                 <View style={{paddingLeft: 10, marginTop: 20}}>
                     <SubHeader title='STATISTICS' dividerWidth={90}/>
                     <View style={{paddingTop: 3}}>
-                        <SubHeaderField header='Ranking' icon={<RankingIcon />} value={200}/>
+                        <SubHeaderField header='Ranking' icon={<RankingIcon />} value={10}/>
                     </View>
                     <SubHeaderField header='Matches played' icon={<MatchesPlayedIcon />} value={matchesPlayed}/>
                     <SubHeaderField header='Rating' icon={<RatingIcon />} value={rating}/>
@@ -188,7 +191,7 @@ export default function PersonPageScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'grey',
+        backgroundColor: 'white',
         height: 230,
         marginTop: -48,
     },
