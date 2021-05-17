@@ -86,3 +86,7 @@ export async function joinTournament(tournamentId, playerId) {
         participants: firebase.firestore.FieldValue.arrayUnion(getUserReference(playerId))
     });
 }
+
+export async function startTournament(tournamentId) {
+    
+}

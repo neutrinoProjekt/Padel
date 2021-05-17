@@ -5,7 +5,6 @@
 // going to give match tree
 export function treeMaking(participants) {
     return shuffleArray(participants);
-
 }
 
 function shuffleArray(array) {
