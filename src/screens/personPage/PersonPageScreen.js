@@ -24,6 +24,7 @@ export default function PersonPageScreen({navigation}) {
             .then((data) => {
                 setDescription(data.description);
                 setImage({uri: data.photoURL});
+                setPhonenr(data.phoneNumber);
             });
     };
 
@@ -60,7 +61,7 @@ export default function PersonPageScreen({navigation}) {
         if (deleteWarning) {
             deleteUser();
         } else {
-            alert('ARE YOU SURE?????, press delete again if you are');
+            // alert('ARE YOU SURE?????, press delete again if you are');
             setDeleteWarning(true);
         }
     }

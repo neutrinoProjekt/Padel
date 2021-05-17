@@ -13,6 +13,7 @@ const ForgotYourPasswordScreen = ({navigation}) => {
     const {passwordReset, error} = useAuth();
     const [errorMessage, setErrorMessage] = useState('');
     const [email, setEmail] = useState('');
+  
 
     useEffect(() => {
         setErrorMessage(error);
@@ -52,7 +53,7 @@ const ForgotYourPasswordScreen = ({navigation}) => {
                     <View style={{paddingTop: 10}}>
                         <MainButton
                             title='Reset'
-                            onPress={()=>handlePasswordReset()}
+                            onPress={()=> handlePasswordReset()}
                         />
                     </View>
                     <View style={{paddingTop: 10}}>
