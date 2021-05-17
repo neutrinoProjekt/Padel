@@ -8,17 +8,6 @@ import CardHeader from '../../components/CardHeader';
 import {getTopRated} from '../../models/User';
 import {Feather} from '@expo/vector-icons';
 
-// Front-end: (DONE DONE DONE)
-// global leaderboard (all the users)
-// 1,2,3, - winning medals >> icons
-// able to see the rating
-
-// Firebase:
-// profile picture
-// username
-// rating (get the sorted list)
-
-
 // returns an image of the medal depending on the urer's plcement
 const PlacePicture = (placement) => {
     const firstplaceimage = {uri: 'https://previews.123rf.com/images/olegganko/olegganko1708/olegganko170800009/83363169-champion-art-golden-medal-with-red-ribbon-l-icon-sign-first-place-isolated-on-transparent-background.jpg'};

@@ -3,7 +3,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import rankScreen from '../../screens/Rank/rankScreen';
 import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
 import FinishMatchScreen from '../../screens/finishmatch/FinishMatchScreen';
+import rankScreen from '../../screens/rank/Rank';
+import Profile from '../../screens/profile/Profile';
 import History from '../../screens/history/History';
+import EditProfile from '../../screens/profile/EditProfile';
 
 const ModalNavigator = createStackNavigator();
 
@@ -21,12 +24,11 @@ const PersonalModNav = () => {
         >
             <ModalNavigator.Screen
                 name='Profile'
-                component={PersonPageScreen}
-            >
-            </ModalNavigator.Screen>
+                component={Profile}
+            />
             <ModalNavigator.Screen
                 name='RankView'
-                component={FinishMatchScreen}
+                component={rankScreen}
             >
             </ModalNavigator.Screen>
             <ModalNavigator.Screen
@@ -37,8 +39,11 @@ const PersonalModNav = () => {
             <ModalNavigator.Screen
                 name='History'
                 component={History}
-            >
-            </ModalNavigator.Screen>
+            />
+            <ModalNavigator.Screen
+                name='Edit Profile'
+                component={EditProfile}
+            />
         </ModalNavigator.Navigator>
     );
 };
