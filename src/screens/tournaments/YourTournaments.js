@@ -9,7 +9,6 @@ import {subscribeTournament} from '../../models/Tournament';
 import {ScrollView} from 'react-native-gesture-handler';
 import ExpandableItem from '../../components/ExpandableItem';
 
-
 const TournamentsList = ({navigation}) => {
     const [tournamentData, setTournamentData] = useState([]);
     const {currentUser} = useAuth();
@@ -39,7 +38,7 @@ const TournamentsList = ({navigation}) => {
                             phonenr={tournament.owner.phoneNumber}
                             participants={null}
                             navigation={navigation}
-
+                            matchData={tournament}
                         />
                     ))
                 }

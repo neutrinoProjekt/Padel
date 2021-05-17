@@ -4,6 +4,7 @@ import CreateTournamentScreen from '../../screens/tournaments/CreateTournamentSc
 import TournamentTopNav from './TournamentTopNav';
 import SearchResults from '../../screens/tournaments/SearchResults';
 import VictoryScreen from '../../screens/victory/VictoryScreen';
+import TournamentDetailView from '../../screens/tournaments/TournamentDetailView';
 
 const ModalNavigator = createStackNavigator();
 
@@ -36,7 +37,10 @@ const TournamentModNav = () => {
                 name="Search Results"
                 component={SearchResults}
             />
-
+            <ModalNavigator.Screen 
+                name='TournamentDetails'
+                component={TournamentDetailView}
+            />
             <ModalNavigator.Screen
                 name='VictoryScreen'
                 component={VictoryScreen}

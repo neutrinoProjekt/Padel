@@ -20,7 +20,7 @@ export function pressNotification(id) {
 
 export function deletNotification(id) {
     return db.collection('notifications').doc(id)
-        .delete();
+        .delete();      
 }
 
 export function uppdateNotification({

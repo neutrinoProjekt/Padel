@@ -32,6 +32,10 @@ const ExpandableItem = (props) => {
         props.navigation.navigate('MatchDetailsScreen', props.matchData);
     };
 
+    const tournamentDetails = () => {
+        props.navigation.navigate('TournamentDetails', props.matchData);
+    }
+
     const VictoryScreen = () => {
         props.navigation.navigate('VictoryScreen');
     };
@@ -92,7 +96,7 @@ const ExpandableItem = (props) => {
                         open = {isOpen}
                         text1 = {props.t2 == 'Match' ? 'Forfeit Match' : 'Forfeit Tournament'}
                         text2 = {'More Details'}
-                        onPress2={props.t2 == 'Match' ? matchDetails: VictoryScreen}
+                        onPress2={props.t2 == 'Match' ? matchDetails: tournamentDetails}
                     />
                 </ListItem>
             </TouchableHighlight>

@@ -15,6 +15,7 @@ import {
 } from '../../models/Notification';
 import {joinMatch, createMatch} from '../../models/Match';
 import { joinTournament } from '../../models/Tournament';
+import {roundMaking} from '../../Algorithms/TreeMaking';
 
 
 // todo
@@ -80,7 +81,7 @@ const Notifications = () => {
     // renders the detaild view shown when the notification is pressed
     const NotificationDetails = (props) => {
         const item = props.item;
-
+        console.log(props.p1.getUser);
         // when notification is expanded
         if (props.enabled) {
             pressNotification(item.id);

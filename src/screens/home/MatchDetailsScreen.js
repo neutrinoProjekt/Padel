@@ -76,7 +76,6 @@ const styles3 = StyleSheet.create({
 
 const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
-
     const {owner, participants, location, date, id} = route.params;
     return (
         <View>

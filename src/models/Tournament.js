@@ -1,9 +1,10 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 import {db} from '../modules/firebase/firebase';
-import {getUserReference, getUser} from './User';
+import {getUserReference, getUser, createUser} from './User';
 import firebase from 'firebase/app';
 import {createNotification} from './Notification';
+import {roundMaking, getRemaining} from '../Algorithms/TreeMaking';
 
 const collectionName = 'tournaments';
 
@@ -53,9 +54,15 @@ export function createTournament({
     minRank = null,
     maxRank = null,
     minPlayers = null,
-    name = null}) {
+    name = null,
+    matchlist = null,
+    isStarted = false,
+    isDone = false,
+    roundDone = false,
+    }) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
+        ownerId: owner,
         participants: [getUserReference(owner)],
         city,
         date,
@@ -64,6 +71,11 @@ export function createTournament({
         maxRank,
         minPlayers,
         name,
+        matchlist,
+        isStarted,
+        isDone,
+        roundDone,
+        winner: null,
     });
 }
 
@@ -87,6 +99,82 @@ export async function joinTournament(tournamentId, playerId) {
     });
 }
 
-export async function startTournament(tournamentId) {
-    
+export async function startTournament(tournamentId, setError) {
+    const tournamentData = await getTournament(tournamentId);
+    if (tournamentData.participants.length < 2) {
+        setError('Not enough participants to start the tournaments');
+    }
+    else{
+        const matches = roundMaking(tournamentData.participants);
+        return db.collection(collectionName).doc(tournamentId)
+            .update({matchlist: matches, isStarted: true});
+    }
 }
+
+export async function newRounds(tournamentId) {
+    const tournamentData = await getTournament(tournamentId);
+    const remainingParticipants = getRemaining(tournamentData.matches);
+    const matches = roundMaking(remainingParticipants);
+    return db.collection(collectionName).doc(tournamentId)
+        .update({matchlist: matches, roundDone: false});
+}
+/*
+export async function joinTournament(tournamentId, playerId) {
+    const tournamentData = await getTournament(tournamentId);
+    let partisipants = tournamentData.participants;
+    partisipants.push(playerId);
+    //const newPartisipanst = currentPartisipants.apend
+    return db.collection(collectionName).doc(tournamentId)
+        .update({participants: partisipants});
+}
+*/
+
+export async function reportResaults(tournamentId, playerId, matchWinner) {
+    const tournamentData = await getTournament(tournamentId);
+    let matches = tournamentData.matchlist;
+    let newRound = true;
+    let isDone = false;
+    let winner = null;
+
+    for(let i = 0; i < matches.length; i++) {
+        if(matches[i].player1 == playerId || matches[i].player2 == playerId) {
+            matches[i].winner = matchWinner;
+            matches[i].isDone = true;
+        }
+        if(matches[i].isDone = false) {
+            newRound = false;
+        }
+    }
+
+    if(matches.length == 1) {
+        isDone = true;
+        winner = matchWinner;
+        /*
+        need to be able to get match winner idisStarted
+        createNotification({
+            owner: matchWinner,
+            header: 'You won!',
+            description: 'You won the ' + tournamentData.name + ' tournament! Congratulations!',
+            type: 'text',
+        });
+        */
+    }
+
+    
+    if(newRound && !isDone) {
+        createNotification({
+            owner: tournamentData.ownerId,
+            header: 'Ready for a new round!',
+            description: 'Half of the players are now eliminated, time for a new round!',
+            type: 'text',
+        });
+    }
+    
+    console.log(matches);
+    console.log(newRound);
+    console.log(isDone);
+    console.log(matchWinner);
+    return db.collection('tournaments').doc(tournamentId)
+        .update({matchlist: matches, roundDone: newRound, isDone: isDone, winner: winner}); 
+}
+
