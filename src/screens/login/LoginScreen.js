@@ -28,6 +28,11 @@ const LoginScreen = ({navigation}) => {
         login(email, password);
     };
 
+
+    const handleForgot = () => {
+        navigation.navigate('ForgotYourPasswordScreen');
+    };
+
     useEffect(() => {
         setErrorMessage(error);
     }, [error]);
@@ -65,7 +70,7 @@ const LoginScreen = ({navigation}) => {
                     <MainButton title='Log in' onPress={() => handleLogin()}/>
                 </View>
                 <View style={{paddingTop: 10}}>
-                    <MainButton title='Forgot your password' onPress={() => setPassword}/>
+                    <MainButton title='Forgot your password' onPress={() => handleForgot()}/>
                 </View>
                 <View style={{paddingTop: 5, alignSelf: 'center'}}>
                     <FacebookSocialButton onPress={fbLogin}/>

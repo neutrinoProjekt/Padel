@@ -19,6 +19,10 @@ export function AuthProvider({children}) {
             .catch((e) => setError(e.message));
     }
 
+    function passwordReset(email) {
+        return auth.sendPasswordResetEmail(email)
+    }
+
     function login(email, password) {
         return auth.signInWithEmailAndPassword(email, password)
             .catch((e) => setError(e.message));
@@ -48,6 +52,7 @@ export function AuthProvider({children}) {
         signup,
         logout,
         deleteUser,
+        passwordReset,
     };
 
     return (
