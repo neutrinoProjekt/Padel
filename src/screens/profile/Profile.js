@@ -17,7 +17,7 @@ import {Divider} from 'react-native-elements';
 import {PhoneIcon, EmailIcon, CityIcon, NameIcon,
     CountryIcon, RankingIcon, MatchesPlayedIcon,
     RatingIcon, WinsIcon, LossesIcon, WinRateIcon} from '../../components/icons/Icons';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import {setStatusBarNetworkActivityIndicatorVisible} from 'expo-status-bar';
 import {findFlagUrlByCountryName} from 'country-flags-svg';
 import {SvgUri} from 'react-native-svg';
 
@@ -59,7 +59,7 @@ export default function PersonPageScreen({navigation}) {
             });
     };
 
-    useEffect(()=> {
+    useEffect(() => {
         updateProfile();
     }, [city, flag, matchesPlayed, wins, losses, rating, description]);
 
@@ -91,6 +91,7 @@ export default function PersonPageScreen({navigation}) {
                         name='account-edit-outline'
                         size={24}
                         color='#707070'
+                        onPress = {() => navigation.navigate('Edit Profile')}
                     />
                 </View>
             ),
@@ -101,7 +102,7 @@ export default function PersonPageScreen({navigation}) {
         if (deleteWarning) {
             deleteUser();
         } else {
-            alert('ARE YOU SURE?????, press delete again if you are');
+            alert('You are about to delete your account. Currently there is no way of restoring your account once it is deleted. \n Are you sure? If so, press DELETE ACCOUNT again');
             setDeleteWarning(true);
         }
     }
@@ -119,7 +120,7 @@ export default function PersonPageScreen({navigation}) {
     const SubHeader = (props) => {
         return (
             <View>
-                <Text style={{fontWeight: 'bold', fontSize: 16}}>{props.title}</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 16, color: '#707070'}}>{props.title}</Text>
                 <Divider style={{width: props.dividerWidth}}/>
             </View>
         );
@@ -138,7 +139,7 @@ export default function PersonPageScreen({navigation}) {
     return currentUser != null ? (
         <SafeAreaView style={{backgroundColor: 'white', height: '100%'}}>
             <View style={styles.container}>
-                <SvgUri 
+                <SvgUri
                     height='20%'
                     width='20%'
                     uri={flag}
@@ -153,14 +154,10 @@ export default function PersonPageScreen({navigation}) {
                         activeOpacity={0.7}
                     />
                 </View>
-                {/* Firebase issue. Get the user' peofile pic from the database*/}
                 <View style={{alignItems: 'center', marginTop: 10}}>
                     <Text style={{fontSize: 24, color: '#00CEB4', fontWeight: 'bold'}}>{displayName}</Text>
-                    <Text style={{marginTop: 10, color: 'black', fontSize: 16, fontWeight: 'bold'}}>RATING</Text>
+                    <Text style={{marginTop: 10, color: '#707070', fontSize: 16, fontWeight: 'bold'}}>RATING</Text>
                     <Text style={{color: '#00CEB4', fontSize: 16}}>{rating}</Text>
-                </View>
-                <View style={{marginTop: 10, marginBottom: -10}}>
-                    <Divider />
                 </View>
                 <View style={{paddingLeft: 10, marginTop: 30}}>
                     <SubHeader title='DESCRIPTION' dividerWidth={110}/>
@@ -201,13 +198,14 @@ export default function PersonPageScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        borderBottomWidth: 1,
+        borderBottomColor: '#bfbfbf',
+        backgroundColor: '#f7f7f7',
         height: 230,
         marginTop: -48,
     },
     subHeader: {
         color: '#707070',
-        fontWeight: 'bold',
         paddingLeft: 3,
     },
     subHeaderContainer: {
@@ -215,7 +213,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     subHeaderField: {
-        color: '#707070',
+        color: '#bfbfbf',
         position: 'absolute',
         right: 5,
     },

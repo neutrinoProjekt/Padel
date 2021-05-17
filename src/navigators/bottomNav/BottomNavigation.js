@@ -4,7 +4,7 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@expo/vector-icons';
 import HomeModNav from '../home/HomeModNav';
-import PersonalModNav from '../personPage/PersonalModNav';
+import PersonalModNav from '../profile/PersonalModNav';
 import NotificationsModNav from '../notifications/NotificationsModNav';
 import TournamentModNav from '../tournaments/TournamentModNav';
 import VictoryScreen from '../../screens/victory/VictoryScreen';
