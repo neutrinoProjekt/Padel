@@ -9,7 +9,7 @@ import {joinMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
 import CardHeader from '../../components/CardHeader';
 import {Ionicons} from '@expo/vector-icons';
-
+import { EvilIcons } from '@expo/vector-icons'; 
 
 const SubHeader1 = ({text}) => (
     <Text style={styles2.subheader1}>
@@ -81,7 +81,7 @@ const MatchDetailsScreen = ({route, navigation}) => {
     return (
         <View>
             <ScrollView style={styles2.scrollContainer}>
-                <View style={{paddingTop: 20, width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
+                <View style={{paddingTop: 20, width: 305, flexDirection: 'column', height: 140, alignContent: 'center', justifyContent: 'space-around'}}>
                     <View style={styles2.rowContainer}>
                         <View marginLeft={-1}>
                             <Ionicons
@@ -105,6 +105,18 @@ const MatchDetailsScreen = ({route, navigation}) => {
                         </View>
                         <Text style={styles2.subheader1}>
                             {date}
+                        </Text>
+                    </View>
+
+                    <View style={styles2.rowContainer}>
+                        <View marginLeft={-1}>
+                            <EvilIcons 
+                            name="check" 
+                            size={20} 
+                            color="black" />
+                        </View>
+                        <Text style={styles2.subheader1}>
+                            {result}
                         </Text>
                     </View>
                 </View>

@@ -1,8 +1,5 @@
 export function elo_calc(Ratings, S_A) {
-    if (Ratings.length != 4) {
-        return 'Incorrect number of people';
-    }
-
+    
     /*
     E_X -> Expected score for team X
     N_X -> New Rating for team X

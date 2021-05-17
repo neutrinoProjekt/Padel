@@ -28,8 +28,6 @@ const FinishMatchScreen = ({navigation, route}) => {
     const {id, result, user_edit, mode, participants} = route.params;
     const {currentUser} = useAuth();
 
-    console.log(route.params);
-
     useEffect(() => {
         setErrorMsg('');
     }, [team1, team2]);
@@ -69,9 +67,11 @@ const FinishMatchScreen = ({navigation, route}) => {
             return;
         }
 
+        console.log(route.params);
+
         // if nobody has declared the outcome of the match or if the first person wants to edit
         if(result == 'No result yet' || user_edit == currentUser.uid){
-            db.collection('matches').doc(id).update({result: team1 + ' - Awaiting confirmation from the other team/person'});
+            db.collection('matches').doc(id).update({result: team1 + ' - Awaiting confirmation'});
             db.collection('matches').doc(id).update({user_edit: currentUser.uid});
         } // ändra sedan så att inte två från samma lag confirmar varandras...
         else if(result != 'No result yet' || user_edit != currentUser.uid){
@@ -94,7 +94,7 @@ const FinishMatchScreen = ({navigation, route}) => {
     }
 
     const checkScore = () =>{
-        let string = ' - Awaiting confirmation from the other team/person';
+        let string = ' - Awaiting confirmation';
         switch(result){
             case 'Defeat' + string:
                 if(team1 == 'Victory'){
@@ -137,8 +137,8 @@ const FinishMatchScreen = ({navigation, route}) => {
                 <View style={{bottom: 110, alignItems: 'center'}}>
                     <Text style={styles.title}>Result</Text>
                     <Text style={{paddingTop: 20}}>Please select the outcome of the match</Text>
-                    <Text style={{padding: 10}}>Your score: {team1}</Text>
-                    <Text>Opponenet's score: {team2}</Text>
+                    <Text style={{padding: 10}}>Your team score: {team1}</Text>
+                    <Text>Opponenet's team score: {team2}</Text>
                     <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
                     <View style={{paddingTop: 30}}>
                         <MainButton title='select' onPress={() => {setModal(true)}}/>
