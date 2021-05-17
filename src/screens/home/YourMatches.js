@@ -7,6 +7,7 @@ import {useAuth} from '../../contexts/auth';
 import {subscribeMatch} from '../../models/Match';
 import ExpandableItem from '../../components/ExpandableItem';
 
+
 const YourMatches = ({navigation}) => {
     const [matchData, setMatchData] = useState([]);
     const {currentUser} = useAuth();
@@ -38,6 +39,7 @@ const YourMatches = ({navigation}) => {
                             share={match.contactinfo} // share = false or true
                             phonenr = {match.owner.phoneNumber}
                             navigation={navigation}
+                            isParticipant={true}
                         />
                     ))
                 }

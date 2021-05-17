@@ -73,7 +73,7 @@ export function createMatch({
     minRank = null,
     maxRank = null,
     result = null,
-    user_edit = null}) {
+    isResult = false}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
         participants: [getUserReference(owner)],
@@ -86,7 +86,7 @@ export function createMatch({
         minRank,
         maxRank,
         result,
-        user_edit,
+        isResult,
     });
 }
 

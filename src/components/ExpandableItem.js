@@ -29,7 +29,7 @@ const ExpandableItem = (props) => {
     };
 
     const matchDetails = () => {
-        props.navigation.navigate('MatchDetailsScreen', props.matchData);
+        props.navigation.navigate('MatchDetailsScreen', {...props.matchData, isParticipant: props.isParticipant});
     };
 
     const VictoryScreen = () => {

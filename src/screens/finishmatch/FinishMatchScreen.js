@@ -7,7 +7,7 @@ import BackButton from '../../components/BackButton';
 import {styles} from '../styling/Styles';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import {db} from '../../modules/firebase/firebase';
-import {getUser} from '../../models/User';
+import {getUser, updateUser} from '../../models/User';
 import {useAuth} from '../../contexts/auth';
 import {elo_calc} from '../../Algorithms/RankAlgo';
 
@@ -23,10 +23,10 @@ const FinishMatchScreen = ({navigation, route}) => {
     // states for my and player2 results
     const [team1, setTeam1] = useState('');
     const [team2, setTeam2] = useState('');
+    const [team1Results, setTeam1Results] = useState(0.5);
     const [showModal, setModal] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-    const {id, result, user_edit, mode, participants} = route.params;
-    const {currentUser} = useAuth();
+    const {id, result, mode, participants} = route.params;
 
     useEffect(() => {
         setErrorMsg('');
@@ -47,12 +47,15 @@ const FinishMatchScreen = ({navigation, route}) => {
         switch(props){
             case 'Victory':
                 setTeam2('Defeat');
+                setTeam1Results(1);
                 break;
             case 'Defeat':
                 setTeam2('Victory');
+                setTeam1Results(0);
                 break;
             case 'Draw':
                 setTeam2('Draw');
+                setTeam1Results(0.5);
                 break;
             default:
                 break;
@@ -61,58 +64,32 @@ const FinishMatchScreen = ({navigation, route}) => {
     }
 
     // sets the result in firebase
-    const setResult = () => {
+    const setResult = async () => {
         if(team1 == '' || team2 == ''){
             setErrorMsg('Please select the score!');
             return;
         }
 
-        console.log(route.params);
-
-        // if nobody has declared the outcome of the match or if the first person wants to edit
-        if(result == 'No result yet' || user_edit == currentUser.uid){
-            db.collection('matches').doc(id).update({result: team1 + ' - Awaiting confirmation'});
-            db.collection('matches').doc(id).update({user_edit: currentUser.uid});
-        } // ändra sedan så att inte två från samma lag confirmar varandras...
-        else if(result != 'No result yet' || user_edit != currentUser.uid){
-            /* sätt in så att:
-                resultatet som finns i databasen och som personer skriver in är samma
-                beräkna ranken
-                efter att allt är confirmed visa hur mycket hen gick upp eller ner
-            */
-            if(checkScore){
-
-                // let personer = 
-                let value = elo_calc();
-                console.log(value);
-            }
-        }else{
-            alert('Oops, something wrong occured!');    
+        if(result == 'No result yet'){
+            db.collection('matches').doc(id).update(writeResult());
+            db.collection('matches').doc(id).update({isResult: true});
+            let newRatings = elo_calc(participants.map(participant => participant.rating), team1Results, mode);
+            await Promise.all(participants.map((participant, index) => updateUser(participant.id, {rating: newRatings[index]})))
         }
+
         setModal(false);
         navigation.navigate('Your Matches');
     }
 
-    const checkScore = () =>{
-        let string = ' - Awaiting confirmation';
-        switch(result){
-            case 'Defeat' + string:
-                if(team1 == 'Victory'){
-                    return true;
-                }
-                break;
-            case 'Victory' + string:
-                if(team1 == 'Defeat'){
-                    return true;
-                }
-                break;
-            case 'Draw' + string:
-                if(team1 == 'Draw'){
-                    return true;
-                }
-                break;
-            default:
-                return false;
+    const writeResult = () => {
+        if(mode == 'Double' && team1 == 'Victory'){
+            return {result: 'Team 1 won' + ' with ' + participants[0].fullname + ' and ' + participants[1].fullname};
+        }else if(mode == 'Double' && team1 == 'Defeat'){
+            return {result: 'Team 2 won' + ' with ' + participants[2].fullname + ' and ' + participants[3].fullname};
+        }else if(mode == 'Single' && team1 == 'Victory'){
+            return {result: 'Team 1 won' + ' with ' + participants[0].fullname};
+        }else{
+            return {result: 'Team 2 won' + ' with ' + participants[2].fullname};
         }
     }
 
@@ -137,8 +114,8 @@ const FinishMatchScreen = ({navigation, route}) => {
                 <View style={{bottom: 110, alignItems: 'center'}}>
                     <Text style={styles.title}>Result</Text>
                     <Text style={{paddingTop: 20}}>Please select the outcome of the match</Text>
-                    <Text style={{padding: 10}}>Your team score: {team1}</Text>
-                    <Text>Opponenet's team score: {team2}</Text>
+                    <Text style={{padding: 10}}>Team 1: {team1}</Text>
+                    <Text>Team 2: {team2}</Text>
                     <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
                     <View style={{paddingTop: 30}}>
                         <MainButton title='select' onPress={() => {setModal(true)}}/>
