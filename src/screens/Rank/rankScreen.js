@@ -3,7 +3,7 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import CardHeader from '../../components/CardHeader';
 import {getTopRated} from '../../models/User';
 import {Feather} from '@expo/vector-icons';
@@ -62,11 +62,16 @@ const RenderPlacment = ({item}) => (
                 )
             }
             {/** profile picture */}
-            <Image
-                style={{height: 60, width: 60, borderRadius: 30, marginLeft: 15, marginRight: 15}}
-                source = {{uri: item.photoURL}}
-            />
-
+            <TouchableOpacity
+                >
+                <Image
+                    style={{
+                        height: 60, 
+                        width: 60, 
+                        borderRadius: 30, marginLeft: 15, marginRight: 15}}
+                    source = {{uri: item.photoURL}}
+                />
+            </TouchableOpacity>
             {/** display Name or username of the player + his/her rating */}
             <Text style={{
                 alignSelf: 'center',

@@ -13,6 +13,9 @@ const ForgotYourPasswordScreen = ({navigation}) => {
     const {passwordReset, error} = useAuth();
     const [errorMessage, setErrorMessage] = useState('');
     const [email, setEmail] = useState('');
+
+    // success message to send as prop when link has been sent successfully
+    const successMessage = 'The instructions to reset password has successfully been sent to ' + email;
   
 
     useEffect(() => {
@@ -25,8 +28,8 @@ const ForgotYourPasswordScreen = ({navigation}) => {
 
     function handlePasswordReset() {
         passwordReset(email)
-        .then(() => navigation.navigate('SuccessPopup')) //SuccesPop
-        .catch((e) => setErrorMessage(e.message));;
+        .then(() => navigation.navigate('SuccessPopup', {text: successMessage})) //SuccesPop
+        .catch((e) => setErrorMessage(e.message));
     }
     
     return (
