@@ -2,8 +2,6 @@ import React from 'react';
 import {StyleSheet, Text, View, TextInput} from 'react-native';
 
 const MainFormInput = (props) => {
-    console.log(props.placeholder)
-    console.log(props.placeholder.length)
     return (
         <View>
             <Text style={styles.formTitle}>{props.inputTitle}</Text>
