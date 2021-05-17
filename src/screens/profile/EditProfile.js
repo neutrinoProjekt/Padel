@@ -41,7 +41,7 @@ const EditProfile = ({navigation}) => {
         f2 != '' ? updateUser(currentUser.uid, {displayName: f2}) : '';
         f3 != '' ? updateUser(currentUser.uid, {country: f3}) : '';
         f4 != '' ? updateUser(currentUser.uid, {city: f4}) : '';
-        f5 != '' ? updateUser(currentUser.uid, {phonenumber: f5}) : '';
+        f5 != '' ? updateUser(currentUser.uid, {phoneNumber: f5}) : '';
     };
 
     const setDefault = () => {
