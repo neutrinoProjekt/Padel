@@ -9,11 +9,12 @@ const MainFormInput = (props) => {
                 keyboardType={props.keyboardType}
                 style={styles.input}
                 width={props.inputWidth}
-                placeholder={props.placeholder}
+                placeholder={props.placeholder.length > 38 ? props.placeholder.substring(0,43) + "..." : props.placeholder}
                 placeholderTextColor={'#BFBFBF'}
                 textAlign ='left'
                 value={props.input}
                 onChangeText={props.setInput}
+                height={props.height}
             />
         </View>
     );
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F7F7F7',
         fontSize: 14,
         paddingLeft: 15,
+        paddingRight: 15,
         alignSelf: 'center',
     },
 });
