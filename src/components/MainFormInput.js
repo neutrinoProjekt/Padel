@@ -14,7 +14,7 @@ const MainFormInput = (props) => {
                 textAlign ='left'
                 value={props.input}
                 onChangeText={props.setInput}
-                height={props.height}
+                height={props.height || 50}
             />
         </View>
     );
