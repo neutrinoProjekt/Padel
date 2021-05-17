@@ -3,21 +3,10 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native-gesture-handler';
 import CardHeader from '../../components/CardHeader';
 import {getTopRated} from '../../models/User';
 import {Feather} from '@expo/vector-icons';
-
-// Front-end: (DONE DONE DONE)
-// global leaderboard (all the users)
-// 1,2,3, - winning medals >> icons
-// able to see the rating
-
-// Firebase:
-// profile picture
-// username
-// rating (get the sorted list)
-
 
 // returns an image of the medal depending on the urer's plcement
 const PlacePicture = (placement) => {
@@ -62,16 +51,11 @@ const RenderPlacment = ({item}) => (
                 )
             }
             {/** profile picture */}
-            <TouchableOpacity
-                >
-                <Image
-                    style={{
-                        height: 60, 
-                        width: 60, 
-                        borderRadius: 30, marginLeft: 15, marginRight: 15}}
-                    source = {{uri: item.photoURL}}
-                />
-            </TouchableOpacity>
+            <Image
+                style={{height: 60, width: 60, borderRadius: 30, marginLeft: 15, marginRight: 15}}
+                source = {{uri: item.photoURL}}
+            />
+
             {/** display Name or username of the player + his/her rating */}
             <Text style={{
                 alignSelf: 'center',

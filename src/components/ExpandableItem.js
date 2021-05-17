@@ -59,13 +59,11 @@ const ExpandableItem = (props) => {
                 setExpanded(!isExpanded);
             }} >
                 <ListItem containerStyle={styles.listItemOne}>
-                    <TouchableOpacity> {/**onPress should open the personal page of the user clicking on the avatar */}
-                        <Avatar
-                            size={50}
-                            rounded
-                            source={image}
-                        />
-                    </TouchableOpacity>
+                    <Avatar
+                        size={50}
+                        rounded
+                        source={image}
+                    />
                     <ListItem.Content>
                         <ListItem.Title
                             style={[styles.title, {paddingTop: 25}]}
