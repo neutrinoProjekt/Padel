@@ -8,7 +8,7 @@ import {Avatar} from 'react-native-elements';
 import MainButton from '../../components/MainButton';
 import MainFormInput from '../../components/MainFormInput';
 import {useAuth} from '../../contexts/auth';
-import {getUser, updateUser} from '../../models/User';
+import {getUser, subscribeUser, updateUser} from '../../models/User';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Directions} from 'react-native-gesture-handler';
@@ -22,7 +22,7 @@ import {findFlagUrlByCountryName} from 'country-flags-svg';
 import {SvgUri} from 'react-native-svg';
 
 // function that displays screen under the header
-export default function PersonPageScreen({navigation}) {
+export default function Profile({navigation}) {
     const [phoneNumber, setPhoneNumber] = useState('-');
     const [image, setImage] = useState({uri: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullName});
     const [description, setDescription] = useState('-');
@@ -37,7 +37,6 @@ export default function PersonPageScreen({navigation}) {
     const [fullName, setFullName] = useState('-');
     const [matchesPlayed, setMatchesPlayed] = useState('-');
     const [city, setCity] = useState('-');
-    const [flag, setFlagUrl] = useState('');
 
     const updateProfile = () => {
         getUser(currentUser.uid)
@@ -46,7 +45,6 @@ export default function PersonPageScreen({navigation}) {
                 setDisplayName(data.displayName);
                 setRating(data.rating);
                 // setCountry(data.country);
-                setCountry('Sweden');
                 setMatchesPlayed(data.matchesPlayed);
                 setWins(data.wins);
                 setLosses(data.losses);
@@ -55,18 +53,21 @@ export default function PersonPageScreen({navigation}) {
                 setCity(data.city);
                 setPhoneNumber(data.phoneNumber);
                 setImage({uri: data.photoURL});
-                setFlagUrl(findFlagUrlByCountryName(country));
             });
     };
 
     useEffect(() => {
-        updateProfile();
-    }, [city, flag, matchesPlayed, wins, losses, rating, description]);
-
+        navigation.addListener(
+            'focus',
+            payload => {
+                updateProfile();
+            },
+        );
+    }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: 'My Account', // header title
+            title: 'My Profile', // header title
             headerTitleAlign: 'center',
             headerTitleStyle: {alignSelf: 'center'},
             headerLeft: () => (
@@ -139,12 +140,6 @@ export default function PersonPageScreen({navigation}) {
     return currentUser != null ? (
         <SafeAreaView style={{backgroundColor: 'white', height: '100%'}}>
             <View style={styles.container}>
-                <SvgUri
-                    height='20%'
-                    width='20%'
-                    uri={flag}
-                    style={{position: 'absolute', marginTop: 5}}
-                />
                 {/** Profile picture */}
                 <View style={{paddingTop: 50, alignSelf: 'center'}}>
                     <Avatar
@@ -161,7 +156,7 @@ export default function PersonPageScreen({navigation}) {
                 </View>
                 <View style={{paddingLeft: 10, marginTop: 30}}>
                     <SubHeader title='DESCRIPTION' dividerWidth={110}/>
-                    <Text style={{paddingTop: 3}}>{description}</Text>
+                    <Text style={{paddingTop: 3, color: '#bfbfbf'}}>{description}</Text>
                 </View>
                 <View style={{paddingLeft: 10, marginTop: 20}}>
                     <SubHeader title='CONTACT INFORMATION' dividerWidth={195}/>

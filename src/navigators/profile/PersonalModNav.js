@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import rankScreen from '../../screens/rank/Rank';
-import PersonPageScreen from '../../screens/profile/Profile';
+import Profile from '../../screens/profile/Profile';
 import History from '../../screens/history/History';
 import EditProfile from '../../screens/profile/EditProfile';
 
@@ -21,7 +21,7 @@ const PersonalModNav = () => {
         >
             <ModalNavigator.Screen
                 name='Profile'
-                component={PersonPageScreen}
+                component={Profile}
             />
             <ModalNavigator.Screen
                 name='RankView'
