@@ -11,6 +11,16 @@ export const PhoneIcon = () => {
     );
 };
 
+export const DescriptionIcon = () => {
+    return (
+        <MaterialCommunityIcons
+            name="pen"
+            size={16}
+            color='#B04D4D'
+        />
+    );
+};
+
 export const EmailIcon = () => {
     return (
         <MaterialCommunityIcons

@@ -3,23 +3,18 @@
 /* eslint-disable require-jsdoc */
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {Text, View, StyleSheet, TextInput, Image} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-elements';
-import MainButton from '../../components/MainButton';
-import MainFormInput from '../../components/MainFormInput';
 import {useAuth} from '../../contexts/auth';
-import {getUser, subscribeUser, updateUser} from '../../models/User';
+import {getUser, updateUser} from '../../models/User';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Directions} from 'react-native-gesture-handler';
 import BackButton from '../../components/BackButton';
 import {Divider} from 'react-native-elements';
 import {PhoneIcon, EmailIcon, CityIcon, NameIcon,
     CountryIcon, RankingIcon, MatchesPlayedIcon,
     RatingIcon, WinsIcon, LossesIcon, WinRateIcon} from '../../components/icons/Icons';
-import {setStatusBarNetworkActivityIndicatorVisible} from 'expo-status-bar';
-import {findFlagUrlByCountryName} from 'country-flags-svg';
-import {SvgUri} from 'react-native-svg';
+
 
 // function that displays screen under the header
 export default function Profile({navigation}) {
