@@ -21,7 +21,6 @@ export default function Profile({navigation}) {
     const [phoneNumber, setPhoneNumber] = useState('-');
     const [image, setImage] = useState({uri: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullName});
     const [description, setDescription] = useState('-');
-    const [deleteWarning, setDeleteWarning] = useState(false);
     const {currentUser, logout, deleteUser} = useAuth();
     const [displayName, setDisplayName] = useState('-');
     const [rating, setRating] = useState('-');
@@ -39,7 +38,7 @@ export default function Profile({navigation}) {
                 setDescription(data.description);
                 setDisplayName(data.displayName);
                 setRating(data.rating);
-                // setCountry(data.country);
+                setCountry(data.country);
                 setMatchesPlayed(data.matchesPlayed);
                 setWins(data.wins);
                 setLosses(data.losses);
@@ -93,24 +92,6 @@ export default function Profile({navigation}) {
             ),
         });
     }, [navigation]);
-
-    function handleDelete() {
-        if (deleteWarning) {
-            deleteUser();
-        } else {
-            alert('You are about to delete your account. Currently there is no way of restoring your account once it is deleted. \n Are you sure? If so, press DELETE ACCOUNT again');
-            setDeleteWarning(true);
-        }
-    }
-
-    function sendData(phonenr, description) {
-        if (phonenr != '') {
-            updateUser(currentUser.uid, {phoneNumber: phonenr});
-        }
-        if (description != '') {
-            updateUser(currentUser.uid, {description: description});
-        }
-    }
 
     // Local components
     const SubHeader = (props) => {
@@ -177,9 +158,6 @@ export default function Profile({navigation}) {
                 <View style={{position: 'absolute', alignSelf: 'center', bottom: -450}}>
                     <BackButton title='Sign Out' onPress={() => logout()}/>
                 </View>
-                {/* <View style={{marginTop: 10}}>
-                    <MainButton title='DELETE USER' onPress={() => handleDelete()}/>
-                </View>*/}
             </View>
         </SafeAreaView>
     ) : (<Text></Text>);

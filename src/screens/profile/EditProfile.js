@@ -5,30 +5,43 @@ import {useAuth} from '../../contexts/auth';
 import MainButton from '../../components/MainButton';
 import {Avatar} from 'react-native-elements';
 import MainFormInput from '../../components/MainFormInput';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import { CityIcon, CountryIcon, MatchesPlayedIcon, NameIcon, PhoneIcon, RankingIcon, DescriptionIcon} from '../../components/icons/Icons';
+import {CityIcon, CountryIcon, MatchesPlayedIcon, PhoneIcon, DescriptionIcon} from '../../components/icons/Icons';
+import BackButton from '../../components/BackButton';
 
-const EditProfile = () => {
-    const {currentUser, logout, deleteUser} = useAuth();
+const EditProfile = ({navigation}) => {
+    const {currentUser, deleteUser} = useAuth();
     const [image, setImage] = useState({uri: 'https://eu.ui-avatars.com/api/?background=random&name=' + fullName});
     const [rank, setRank] = useState('');
     const [fullName, setFullName] = useState('');
+    const [deleteWarning, setDeleteWarning] = useState(false);
 
-    // variabler som kan ändras
+    // Changable fields
     const [description, setDescription] = useState('Tjabba tjena');
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [displayName, setDisplayName] = useState('');
 
-    const updateProfile = () => {
-        updateUser(currentUser.uid, {
-            description: description,
-            country: country,
-            city: city,
-            phonenumber: phoneNumber,
-        },
-        );
+    const [f1, setF1] = useState('');
+    const [f2, setF2] = useState('');
+    const [f3, setF3] = useState('');
+    const [f4, setF4] = useState('');
+    const [f5, setF5] = useState('');
+
+    // error message
+    const [errorMsg, setErrorMsg] = useState('');
+
+    const saveIfValid = () => {
+        if (f2 != '' && f2.length < 2) {
+            setErrorMsg('Your displayname is too short');
+            return;
+        }
+
+        f1 != '' ? updateUser(currentUser.uid, {description: f1}) : '';
+        f2 != '' ? updateUser(currentUser.uid, {displayName: f2}) : '';
+        f3 != '' ? updateUser(currentUser.uid, {country: f3}) : '';
+        f4 != '' ? updateUser(currentUser.uid, {city: f4}) : '';
+        f5 != '' ? updateUser(currentUser.uid, {phonenumber: f5}) : '';
     };
 
     const setDefault = () => {
@@ -44,9 +57,19 @@ const EditProfile = () => {
         });
     };
 
+    function handleDelete() {
+        if (deleteWarning) {
+            deleteUser();
+        } else {
+            alert('You are about to delete your account. Currently there is no way of restoring your account once it is deleted. \n Are you sure? If so, press DELETE ACCOUNT again');
+            setDeleteWarning(true);
+        }
+    }
+
     useEffect(() => {
         setDefault();
     }, []);
+
 
     const EditFieldItem = (props) => {
         return (
@@ -60,13 +83,7 @@ const EditProfile = () => {
                         {props.icon}
                     </View>
                 </View>
-                <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                    <MainFormInput
-                        inputWidth={320}
-                        height={30}
-                        placeholder={props.placeholder}
-                    />
-                </View>
+
             </View>
         );
     };
@@ -85,13 +102,63 @@ const EditProfile = () => {
                     <Text style={styles.subTitle2}>{rank}</Text>
                 </View>
             </View>
-            <EditFieldItem placeholder={description} title='DESCRIPTION' icon={<DescriptionIcon/>}/>
-            <EditFieldItem placeholder={displayName} title='DISPLAY NAME' icon={<MatchesPlayedIcon/>}/>
-            <EditFieldItem placeholder={country} title='COUNTRY' icon={<CountryIcon/>}/>
-            <EditFieldItem placeholder={city} title='CITY' icon={<CityIcon/>}/>
-            <EditFieldItem placeholder={phoneNumber} title='PHONE NUMBER' icon={<PhoneIcon/>}/>
             <View style={{alignSelf: 'center'}}>
-                <MainButton title='Save' onPress={updateProfile}/>
+                <EditFieldItem title='DESCRIPTION' icon={<DescriptionIcon/>}/>
+                <MainFormInput
+                    inputWidth={320}
+                    height={30}
+                    placeholder={description}
+                    input={f1}
+                    setInput={(text) => setF1(text)}
+                />
+            </View>
+            <View style={{alignSelf: 'center'}}>
+                <EditFieldItem title='DISPLAY NAME' icon={<MatchesPlayedIcon/>}/>
+                <MainFormInput
+                    inputWidth={320}
+                    height={30}
+                    placeholder={displayName}
+                    input={f2}
+                    setInput={(text) => setF2(text)}
+                />
+            </View>
+            <View style={{alignSelf: 'center'}}>
+                <EditFieldItem title='COUNTRY' icon={<CountryIcon/>}/>
+                <MainFormInput
+                    inputWidth={320}
+                    height={30}
+                    placeholder={country}
+                    input={f3}
+                    setInput={(text) => setF3(text)}
+                />
+            </View>
+            <View style={{alignSelf: 'center'}}>
+                <EditFieldItem title='CITY' icon={<CityIcon/>}/>
+                <MainFormInput
+                    inputWidth={320}
+                    height={30}
+                    placeholder={city}
+                    input={f4}
+                    setInput={(text) => setF4(text)}
+                />
+            </View>
+            <View style={{alignSelf: 'center'}}>
+                <EditFieldItem title='PHONE NUMBER' icon={<PhoneIcon/>}/>
+                <MainFormInput
+                    inputWidth={320}
+                    height={30}
+                    placeholder={phoneNumber}
+                    input={f5}
+                    setInput={(text) => setF5(text)}
+                    keyboardType='number-pad'
+                />
+            </View>
+            <Text style={{alignSelf: 'center', marginTop: 3, marginBottom: -10}}>{errorMsg}</Text>
+            <View style={{alignSelf: 'center', paddingTop: 40}}>
+                <MainButton title='Save' onPress={saveIfValid}/>
+            </View>
+            <View style={{marginTop: 10, alignSelf: 'center'}}>
+                <BackButton title='DELETE USER' onPress={() => handleDelete()}/>
             </View>
         </View>
     );
