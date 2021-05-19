@@ -1,10 +1,12 @@
-import React, {useState, Component, useLayoutEffect} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import CardHeader from '../../components/CardHeader';
-import MainFormInput from '../../components/MainFormInput';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
+import {Text, View, TouchableOpacity, Modal} from 'react-native';
 import MainButton from '../../components/MainButton';
+import BackButton from '../../components/BackButton';
 import {styles} from '../styling/Styles';
+import {db} from '../../modules/firebase/firebase';
+import {updateUser} from '../../models/User';
+import {updateMatch} from '../../models/Match';
+import {elo_calc} from '../../Algorithms/RankAlgo';
 
 // FRONT-END:
 // header (DONE)
@@ -14,61 +16,139 @@ import {styles} from '../styling/Styles';
 // BACK-END
 
 
-const FinishMatchScreen = ({navigation}) => {
+const FinishMatchScreen = ({navigation, route}) => {
     // states for my and player2 results
-    const [myresults, setPlayer1] = useState('');
-    const [player2, setPlayer2] = useState('');
-    const [player3, setPlayer3] = useState('');
-    const [player4, setPlayer4] = useState('');
+    const [team1, setTeam1] = useState('');
+    const [team2, setTeam2] = useState('');
+    const [team1Results, setTeam1Results] = useState(0.5);
+    const [showModal, setModal] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const {id, result, mode, participants} = route.params;
 
+    useEffect(() => {
+        setErrorMsg('');
+    }, [team1, team2]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Finish Match', // header title
             headerTitleAlign: 'center',
             headerTitleStyle: {alignSelf: 'center'},
-        });
-    }, [navigation]);
+        })
+
+    }, [navigation])
+
+    // sets the score for the enemy depending on the input from the user
+    const setScore = (props) => {
+        setTeam1(props);
+        switch(props){
+            case 'Victory':
+                setTeam2('Defeat');
+                setTeam1Results(1);
+                break;
+            case 'Defeat':
+                setTeam2('Victory');
+                setTeam1Results(0);
+                break;
+            case 'Draw':
+                setTeam2('Draw');
+                setTeam1Results(0.5);
+                break;
+            default:
+                break;
+        }
+        setModal(false)
+    }
+
+    // sets the result in firebase
+    const setResult = async () => {
+        if(team1 == '' || team2 == ''){
+            setErrorMsg('Please select the score!');
+            return;
+        }
+
+        if(result == 'No result yet'){
+            await updateMatch(id, {isResult: true, ...(writeResult())});
+            let newRatings = elo_calc(participants.map(participant => participant.rating), team1Results, mode);
+            console.log(newRatings);
+            await Promise.all(participants.map((participant, index) => updateUser(participant.id, {rating: newRatings[index]})))
+        }
+
+        setModal(false);
+        navigation.navigate('Your Matches');
+    }
+
+    const writeResult = () => {
+        if(mode == 'Double' && team1 == 'Victory'){
+            return {result: 'Team 1 won' + ' with ' + participants[0].fullname + ' and ' + participants[1].fullname};
+        }else if(mode == 'Double' && team1 == 'Defeat'){
+            return {result: 'Team 2 won' + ' with ' + participants[2].fullname + ' and ' + participants[3].fullname};
+        }else if(mode == 'Single' && team1 == 'Victory'){
+            return {result: 'Team 1 won' + ' with ' + participants[0].fullname};
+        }else{
+            return {result: 'Team 2 won' + ' with ' + participants[2].fullname};
+        }
+    }
+
+    const pickerValue = [
+        {
+            title: 'Victory',
+            value: 'Victory'
+        },
+        {
+            title: 'Defeat',
+            value: 'Defeat'
+        },
+        {
+            title: 'Draw',
+            value: 'Draw'
+        }
+    ]
 
     return (
-        <SafeAreaProvider>
-
+        <Modal>
             <View style={styles.container}>
-                {/** 4 inputs to register results: my results and the oponent's */}
-                <MainFormInput
-                    inputWidth = {'30%'}
-                    inputTitle = {'Player 1 (me)'}
-                    placeholder = {'00'}
-                    input = {myresults}
-                    setInput = {(text) => setPlayer1(text)}
-                />
-
-                <MainFormInput
-                    inputWidth = {'30%'}
-                    inputTitle = {'Player 2 (username here)'}
-                    placeholder = {'00'}
-                    input = {player2}
-                    setInput = {(text) => setPlayer2(text)}/>
-
-                <MainFormInput
-                    inputWidth = {'30%'}
-                    inputTitle = {'Player 3 (username here)'}
-                    placeholder = {'00'}
-                    input = {player3}
-                    setInput = {(text) => setPlayer3(text)}/>
-                <MainFormInput
-                    inputWidth = {'30%'}
-                    inputTitle = {'Player 4 (username here)'}
-                    placeholder = {'00'}
-                    input = {player4}
-                    setInput = {(text) => setPlayer4(text)}/>
-
-                <View styles={{margin: 10}}>
-                    {/* Button to save the results*/}
-                    <MainButton title='Save' onPress={() => alert('hi bish')}/>
+                <View style={{bottom: 110, alignItems: 'center'}}>
+                    <Text style={styles.title}>Result</Text>
+                    <Text style={{paddingTop: 20}}>Please select the outcome of the match</Text>
+                    <Text style={{padding: 10}}>Team 1: {team1}</Text>
+                    <Text>Team 2: {team2}</Text>
+                    <Text style={[styles.error, {marginBottom: -30}]}>{errorMsg}</Text>
+                    <View style={{paddingTop: 30}}>
+                        <MainButton title='select' onPress={() => {setModal(true)}}/>
+                    </View>
+                    <View style={{paddingTop: 20}}>
+                        <MainButton title='save' onPress={() => setResult()}/>
+                    </View>
+                    <View style={{paddingTop: 20}}>
+                        <BackButton title='cancel' onPress={() => navigation.navigate('Your Matches')}/>
+                    </View>
                 </View>
+                <Modal visible={showModal} animationType={"slide"} transparent={true} onRequestClose={() => {setModal(false)}}>
+                    <View style={{
+                        margin: 20, 
+                        padding: 20,
+                        backgroundColor: '#cccaca',
+                        bottom: 50,
+                        left: 20,
+                        right: 20,
+                        alignItems: 'center',
+                        position: 'absolute'
+                        }}>
+                        <Text style={{fontWeight: 'bold', marginBottom: 10}}>How did it go?</Text>
+                        {pickerValue.map((value, index) => {
+                            return <TouchableOpacity key={index} onPress={() => setScore(value.value)} style={{paddingTop: 4, paddingBottom: 4}}>
+                                        <Text>{value.title}</Text>
+                                    </TouchableOpacity>
+                        })}
+                        <TouchableOpacity onPress={() => setModal(false)}>
+                            <Text style={{color: '#999', marginTop: 5}}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+            
+                </Modal>
             </View>
-        </SafeAreaProvider>
+        </Modal>
     );
 };
 

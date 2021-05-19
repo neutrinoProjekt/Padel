@@ -41,6 +41,7 @@ const BottomNavigation = () => {
             tabBarOptions={{
                 showLabel: false,
                 style: {height: 80},
+                keyboardHidesTabBar: true
             }}
             initialRouteName="HomeModNav"
         >
