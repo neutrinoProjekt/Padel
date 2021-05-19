@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Modal, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, Modal, ScrollView, TouchableOpacity} from 'react-native';
 import {Avatar} from 'react-native-elements/dist/avatar/Avatar';
 import {styles} from '../styling/Styles';
 import MainButton from '../../components/MainButton';
@@ -10,7 +10,6 @@ import CardHeader from '../../components/CardHeader';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import DateTimePicker from '../../components/DateTimePicker';
 import ParameterSlider from '../../components/ParameterSlider';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {validateDate, validateRankInterval} from '../../validators/Parameters';
 import {createTournament} from '../../models/Tournament';
 import {useAuth} from '../../contexts/auth';
