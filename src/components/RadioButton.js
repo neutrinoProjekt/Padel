@@ -1,8 +1,7 @@
 /* eslint-disable valid-jsdoc */
 /* eslint-disable max-len */
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 /** Radio button component
  * @property {function} onClick - Function called upon click

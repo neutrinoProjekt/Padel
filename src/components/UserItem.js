@@ -1,7 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Avatar, Divider} from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const UserItem = (props) => {
     const src = {uri: props.photoURL};

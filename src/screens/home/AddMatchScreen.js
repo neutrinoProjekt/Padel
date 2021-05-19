@@ -397,7 +397,7 @@ const AddMatchScreen = ({navigation}) => {
                                     </TouchableOpacity>
                                 </View>
                             </> :
-                            <View>
+                            <View style={{height: 550}}>
                                 <ScrollView style={{marginTop: 30, width: 305}}>
                                     {
                                         // filter så att endast spelare som ej är appendade displayas
@@ -420,7 +420,7 @@ const AddMatchScreen = ({navigation}) => {
                                         ))
                                     }
                                 </ScrollView>
-                                <View style={{position: 'absolute', marginTop: 430}}>
+                                <View style={{flex: 1, position: 'absolute', bottom: 50}}>
                                     <MainButton onPress={() => setShowSearch(false)}title={'Add users'}/>
                                     <View style={{marginTop: 10}}>
                                         <BackButton onPress={() => {

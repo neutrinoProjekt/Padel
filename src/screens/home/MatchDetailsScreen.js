@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {
     StyleSheet, View, Modal,
     TouchableOpacity, SafeAreaView, Text, ScrollView,
@@ -19,6 +19,14 @@ const SubHeader1 = ({text}) => (
 
 const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Match Details', // header title
+            headerTitleAlign: 'center',
+            headerTitleStyle: {alignSelf: 'center'},
+        });
+    }, [navigation]);
 
     const {owner, participants, location, date, id} = route.params;
     return (

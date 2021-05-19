@@ -21,7 +21,7 @@ const HomeModNav = () => {
             transparent={true}
         >
             <ModalNavigator.Screen
-                name='PaddlePal'
+                name='Matches'
                 component={HomeTopNav}
                 options={{
                     headerTitleAlign: 'center',
