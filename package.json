@@ -25,6 +25,7 @@
     "firebase": "8.2.3",
     "navigation": "^5.4.1",
     "react": "16.13.1",
+    "react-brackets": "^0.4.6",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",
@@ -46,7 +47,10 @@
     "react-native-tab-view": "^2.16.0",
     "react-native-unimodules": "~0.13.3",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "^0.16.2",
+    "react-swipeable-views": "^0.13.9",
+    "react-swipeable-views-native": "^0.13.2",
+    "styled-components": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
