@@ -71,7 +71,9 @@ export function createMatch({
     mode = null,
     contactinfo = null,
     minRank = null,
-    maxRank = null,}) {
+    maxRank = null,
+    result = null,
+    isResult = false}) {
     return db.collection(collectionName).add({
         owner: getUserReference(owner),
         participants: [getUserReference(owner)],
@@ -83,7 +85,13 @@ export function createMatch({
         contactinfo,
         minRank,
         maxRank,
+        result,
+        isResult,
     });
+}
+
+export async function updateMatch(id, data) {
+    return db.collection(collectionName).doc(id).update(data);
 }
 
 export async function getMatch(matchId) {

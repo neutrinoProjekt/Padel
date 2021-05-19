@@ -195,7 +195,7 @@ const AddMatchScreen = ({navigation}) => {
         const from = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test.getHours(), test.getMinutes());
         const to = new Date(dateIso.getFullYear(), dateIso.getMonth(), dateIso.getDate(), test2.getHours(), test2.getMinutes());
 
-        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode, contactinfo: contactinfo, minRank: rank1, maxRank: rank2})
+        createMatch({owner: currentUser.uid, city: city, court: court, from, to, mode: mode, contactinfo: contactinfo, minRank: rank1, maxRank: rank2, result: 'No result yet'})
             .then((match) => {
                 players.forEach((player) =>
                     createNotification({type: 'matchJoinRequest', header: 'New Match Invitation', owner: player.id, detailData: {id: match.id}}),

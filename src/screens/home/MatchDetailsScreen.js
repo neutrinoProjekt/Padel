@@ -1,25 +1,22 @@
+<<<<<<< HEAD
 import React, {useLayoutEffect} from 'react';
+=======
+import React, {useLayoutEffect, useState} from 'react';
+>>>>>>> origin/main
 import {
-    StyleSheet, View, Modal,
-    TouchableOpacity, SafeAreaView, Text, ScrollView,
+    StyleSheet, View,
+    Text, ScrollView,
 } from 'react-native';
-import {Divider, ListItem, Avatar} from 'react-native-elements';
 import MainButton from './../../components/MainButton';
 import {joinMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
-import CardHeader from '../../components/CardHeader';
-import {Ionicons} from '@expo/vector-icons';
-import UserListItem from '../../components/UserListItem';
-
-const SubHeader1 = ({text}) => (
-    <Text style={styles2.subheader1}>
-        {text}
-    </Text>
-);
+import {Ionicons, EvilIcons} from '@expo/vector-icons';
+import TeamSelector from '../../components/TeamSelector';
 
 const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
 
+<<<<<<< HEAD
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Match Details', // header title
@@ -29,10 +26,57 @@ const MatchDetailsScreen = ({route, navigation}) => {
     }, [navigation]);
 
     const {owner, participants, location, date, id} = route.params;
+=======
+    const {isParticipant, participants, location, date, id, result, user_edit, mode, isResult} = route.params;
+
+    const [teamParticipants, setTeamParticipants] = useState([participants.map(participant => ({...participant, team: 0})), [], []]);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Match Details',
+        });
+    }, [navigation]);
+
+    const buttonsretur = () => {
+        if(isParticipant && !isResult){
+            return(
+                <View style={{alignSelf: 'center', marginTop: 10}}>
+                        <MainButton
+                            title='Finish Match'
+                            onPress={async () => {
+                                if (teamParticipants[0].length == 0 && !isResult) {
+                                    if(mode == 'Single' || (mode == 'Double' && teamParticipants[1].length != 2)){
+                                        teamParticipants[1] = teamParticipants[1].concat(["rating: 0"]);
+                                    }
+                                    let orderedParticipants = teamParticipants[1].concat(teamParticipants[2]);
+                                    navigation.navigate('FinishMatchScreen', {id, result, user_edit, mode, participants: orderedParticipants });
+                                }
+                            }}
+                        />
+                    </View>
+            );
+        }else if((mode == 'Single' && participants.length < 2 || mode == 'Double' && participants.length < 4) && !isResult) {
+            return(
+                <View style={{alignSelf: 'center', paddingTop: 10}}>
+                    <MainButton
+                        title='Join Match'
+                        onPress={async () => {
+                            await joinMatch(id, currentUser.uid);
+                            navigation.goBack();
+                        }}
+                    />
+                </View>
+            );
+        }else{
+            return(<View></View>);
+        }
+    }
+
+>>>>>>> origin/main
     return (
         <View>
             <ScrollView style={styles2.scrollContainer}>
-                <View style={{paddingTop: 20, width: 305, flexDirection: 'column', height: 100, alignContent: 'center', justifyContent: 'space-around'}}>
+                <View style={{paddingTop: 20, width: 305, flexDirection: 'column', height: 140, alignContent: 'center', justifyContent: 'space-around'}}>
                     <View style={styles2.rowContainer}>
                         <View marginLeft={-1}>
                             <Ionicons
@@ -58,28 +102,23 @@ const MatchDetailsScreen = ({route, navigation}) => {
                             {date}
                         </Text>
                     </View>
+
+                    <View style={styles2.rowContainer}>
+                        <View marginLeft={-1}>
+                            <EvilIcons 
+                            name="check" 
+                            size={20} 
+                            color="black" />
+                        </View>
+                        <Text style={styles2.subheader1}>
+                            {result}
+                        </Text>
+                    </View>
                 </View>
-                <Text style={styles2.formTitle}> Players </Text>
-                {
-                    participants.map((participant) =>
-                        <UserListItem participant={participant}/>
-                    )
-                }
-                <View style={{alignSelf: 'center', marginTop: 380}}>
-                    <MainButton
-                        title='Finish Match'
-                        onPress={async () => alert('press')}
-                    />
-                </View>
-                <View style={{alignSelf: 'center', paddingTop: 10}}>
-                    <MainButton
-                        title='Join Match'
-                        onPress={async () => {
-                            await joinMatch(id, currentUser.uid);
-                            navigation.goBack();
-                        }}
-                    />
-                </View>
+
+                <TeamSelector teamParticipants={teamParticipants} setTeamParticipants={setTeamParticipants} mode={mode}/>
+
+                { buttonsretur() }
             </ScrollView>
         </View>
     );
@@ -111,6 +150,7 @@ const styles2 = StyleSheet.create({
     },
     actionButtonContainer: {
         flex: 1,
+        alignItems: 'center',
         position: 'absolute',
         bottom: 70,
     },
