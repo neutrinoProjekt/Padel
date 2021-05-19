@@ -420,7 +420,7 @@ const AddMatchScreen = ({navigation}) => {
                                         ))
                                     }
                                 </ScrollView>
-                                <View style={{position: 'absolute', marginTop: 60}}>
+                                <View style={{position: 'absolute', marginTop: 430}}>
                                     <MainButton onPress={() => setShowSearch(false)}title={'Add users'}/>
                                     <View style={{marginTop: 10}}>
                                         <BackButton onPress={() => {

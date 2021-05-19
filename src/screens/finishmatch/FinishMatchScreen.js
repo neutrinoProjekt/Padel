@@ -5,6 +5,7 @@ import BackButton from '../../components/BackButton';
 import {styles} from '../styling/Styles';
 import {db} from '../../modules/firebase/firebase';
 import {updateUser} from '../../models/User';
+import {updateMatch} from '../../models/Match';
 import {elo_calc} from '../../Algorithms/RankAlgo';
 
 // FRONT-END:
@@ -67,9 +68,9 @@ const FinishMatchScreen = ({navigation, route}) => {
         }
 
         if(result == 'No result yet'){
-            db.collection('matches').doc(id).update(writeResult());
-            db.collection('matches').doc(id).update({isResult: true});
+            await updateMatch(id, {isResult: true, ...(writeResult())});
             let newRatings = elo_calc(participants.map(participant => participant.rating), team1Results, mode);
+            console.log(newRatings);
             await Promise.all(participants.map((participant, index) => updateUser(participant.id, {rating: newRatings[index]})))
         }
 

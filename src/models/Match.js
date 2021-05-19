@@ -90,6 +90,10 @@ export function createMatch({
     });
 }
 
+export async function updateMatch(id, data) {
+    return db.collection(collectionName).doc(id).update(data);
+}
+
 export async function getMatch(matchId) {
     return db.collection(collectionName).doc(matchId).get().then((u) => u.data());
 }
