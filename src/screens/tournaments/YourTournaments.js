@@ -38,8 +38,6 @@ const TournamentsList = ({navigation}) => {
                             share={tournament.contactinfo} // share = false or true
                             phonenr={tournament.owner.phoneNumber}
                             participants={null}
-                            navigation={navigation}
-
                         />
                     ))
                 }

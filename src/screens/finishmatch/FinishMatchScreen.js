@@ -6,7 +6,7 @@ import {styles} from '../styling/Styles';
 import {db} from '../../modules/firebase/firebase';
 import {updateUser} from '../../models/User';
 import {updateMatch} from '../../models/Match';
-import {elo_calc} from '../../Algorithms/RankAlgo';
+import {elo_calc} from '../../algorithms/RankAlgo';
 
 // FRONT-END:
 // header (DONE)
