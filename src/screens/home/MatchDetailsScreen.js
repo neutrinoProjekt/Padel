@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, {useLayoutEffect} from 'react';
-=======
 import React, {useLayoutEffect, useState} from 'react';
->>>>>>> origin/main
 import {
     StyleSheet, View,
     Text, ScrollView,
@@ -16,17 +12,6 @@ import TeamSelector from '../../components/TeamSelector';
 const MatchDetailsScreen = ({route, navigation}) => {
     const {currentUser} = useAuth();
 
-<<<<<<< HEAD
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'Match Details', // header title
-            headerTitleAlign: 'center',
-            headerTitleStyle: {alignSelf: 'center'},
-        });
-    }, [navigation]);
-
-    const {owner, participants, location, date, id} = route.params;
-=======
     const {isParticipant, participants, location, date, id, result, user_edit, mode, isResult} = route.params;
 
     const [teamParticipants, setTeamParticipants] = useState([participants.map(participant => ({...participant, team: 0})), [], []]);
@@ -72,7 +57,6 @@ const MatchDetailsScreen = ({route, navigation}) => {
         }
     }
 
->>>>>>> origin/main
     return (
         <View>
             <ScrollView style={styles2.scrollContainer}>
