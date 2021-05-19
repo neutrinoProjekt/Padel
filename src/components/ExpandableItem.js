@@ -92,7 +92,7 @@ const ExpandableItem = (props) => {
                         open = {isOpen}
                         text1 = {props.t2 == 'Match' ? 'Forfeit Match' : 'Forfeit Tournament'}
                         text2 = {'More Details'}
-                        onPress2={props.t2 == 'Match' ? matchDetails: VictoryScreen}
+                        onPress2={() => {props.t2 == 'Match' ? matchDetails: ''}}
                     />
                 </ListItem>
             </TouchableHighlight>
