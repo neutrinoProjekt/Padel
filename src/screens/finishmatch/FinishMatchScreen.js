@@ -1,14 +1,10 @@
 import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {Text, View, TouchableOpacity, Modal} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import MainFormInput from '../../components/MainFormInput';
 import MainButton from '../../components/MainButton';
 import BackButton from '../../components/BackButton';
 import {styles} from '../styling/Styles';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import {db} from '../../modules/firebase/firebase';
-import {getUser, updateUser} from '../../models/User';
-import {useAuth} from '../../contexts/auth';
+import {updateUser} from '../../models/User';
 import {elo_calc} from '../../Algorithms/RankAlgo';
 
 // FRONT-END:

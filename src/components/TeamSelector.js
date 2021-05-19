@@ -47,7 +47,6 @@ export default function TeamSelector({teamParticipants, setTeamParticipants, mod
                 }}
                 onReceiveDragDrop={(event) => {
                     // cannot be more than 2 people
-                    console.log(mode);
                     if (teamParticipants[team].length > 1 && mode=='Double') return;
                     if (teamParticipants[team].length > 0 && mode=='Single') return;
 

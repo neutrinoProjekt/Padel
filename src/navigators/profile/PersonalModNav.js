@@ -1,7 +1,5 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import rankScreen from '../../screens/Rank/rankScreen';
-import PersonPageScreen from '../../screens/personPage/PersonPageScreen';
 import FinishMatchScreen from '../../screens/finishmatch/FinishMatchScreen';
 import rankScreen from '../../screens/rank/Rank';
 import Profile from '../../screens/profile/Profile';

@@ -6,8 +6,7 @@ import {
 import MainButton from './../../components/MainButton';
 import {joinMatch} from '../../models/Match';
 import {useAuth} from '../../contexts/auth';
-import {Ionicons} from '@expo/vector-icons';
-import { EvilIcons } from '@expo/vector-icons'; 
+import {Ionicons, EvilIcons} from '@expo/vector-icons';
 import TeamSelector from '../../components/TeamSelector';
 
 const MatchDetailsScreen = ({route, navigation}) => {
@@ -22,6 +21,41 @@ const MatchDetailsScreen = ({route, navigation}) => {
             title: 'Match Details',
         });
     }, [navigation]);
+
+    const buttonsretur = () => {
+        if(isParticipant && !isResult){
+            return(
+                <View style={{alignSelf: 'center', marginTop: 10}}>
+                        <MainButton
+                            title='Finish Match'
+                            onPress={async () => {
+                                if (teamParticipants[0].length == 0 && !isResult) {
+                                    if(mode == 'Single' || (mode == 'Double' && teamParticipants[1].length != 2)){
+                                        teamParticipants[1] = teamParticipants[1].concat(["rating: 0"]);
+                                    }
+                                    let orderedParticipants = teamParticipants[1].concat(teamParticipants[2]);
+                                    navigation.navigate('FinishMatchScreen', {id, result, user_edit, mode, participants: orderedParticipants });
+                                }
+                            }}
+                        />
+                    </View>
+            );
+        }else if((mode == 'Single' && participants.length < 2 || mode == 'Double' && participants.length < 4) && !isResult) {
+            return(
+                <View style={{alignSelf: 'center', paddingTop: 10}}>
+                    <MainButton
+                        title='Join Match'
+                        onPress={async () => {
+                            await joinMatch(id, currentUser.uid);
+                            navigation.goBack();
+                        }}
+                    />
+                </View>
+            );
+        }else{
+            return(<View></View>);
+        }
+    }
 
     return (
         <View>
@@ -68,33 +102,7 @@ const MatchDetailsScreen = ({route, navigation}) => {
 
                 <TeamSelector teamParticipants={teamParticipants} setTeamParticipants={setTeamParticipants} mode={mode}/>
 
-                { isParticipant ? 
-                    <View style={{alignSelf: 'center', marginTop: 10}}>
-                        <MainButton
-                            title='Finish Match'
-                            onPress={async () => {
-                                if (teamParticipants[0].length == 0 && !isResult) {
-                                    if(mode == 'Single' || (mode == 'Double' && teamParticipants[1].length != 2)){
-                                        teamParticipants[1] = teamParticipants[1].concat(["rating: 0"]);
-                                        console.log(teamParticipants[1]);
-                                    }
-                                    let orderedParticipants = teamParticipants[1].concat(teamParticipants[2]);
-                                    navigation.navigate('FinishMatchScreen', {id, result, user_edit, mode, participants: orderedParticipants });
-                                }
-                            }}
-                        />
-                    </View>
-                :
-                <View style={{alignSelf: 'center', paddingTop: 10}}>
-                    <MainButton
-                        title='Join Match'
-                        onPress={async () => {
-                            await joinMatch(id, currentUser.uid);
-                            navigation.goBack();
-                        }}
-                    />
-                </View>
-                }
+                { buttonsretur() }
             </ScrollView>
         </View>
     );
