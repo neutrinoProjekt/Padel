@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         borderRadius: 100,
+        elevation: 3,
         shadowRadius: 10,
         shadowColor: 'black',
         shadowOpacity: 0.3,
